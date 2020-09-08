@@ -1,17 +1,39 @@
 {
   "name": "api-rest",
   "version": "1.0.0",
+  "homepage": "https://github.com/quienmedebe/api-rest#readme",
   "description": "API REST from Quién Me Debe application",
   "main": "index.js",
-  "scripts": {},
+  "type": "commonjs",
+  "engines": {
+    "node": ">=12.16.1"
+  },
+  "author": "Raúl Contreras Rubio",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quienmedebe/api-rest.git"
   },
-  "author": "Raúl Contreras Rubio",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/quienmedebe/api-rest/issues"
   },
-  "homepage": "https://github.com/quienmedebe/api-rest#readme"
+  "scripts": {
+    "check-package-manager": "node -e \"!process.env.npm_config_user_agent.startsWith('npm/') && !console.log('---- USE NPM TO INSTALL DEPENDENCIES ----') && process.exit(1)\"",
+    "preinstall": "npm run check-package-manager --silent"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.1",
+    "pretty-quick": "^3.0.0"
+  }
 }
