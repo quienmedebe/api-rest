@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "homepage": "https://github.com/quienmedebe/api-rest#readme",
   "description": "API REST from Quién Me Debe application",
-  "main": "index.js",
+  "main": "./src/app.js",
   "type": "commonjs",
   "engines": {
     "node": ">=12.16.1"
@@ -20,12 +20,17 @@
   "scripts": {
     "check-package-manager": "node -e \"!process.env.npm_config_user_agent.startsWith('npm/') && !console.log('---- USE NPM TO INSTALL DEPENDENCIES ----') && process.exit(1)\"",
     "preinstall": "npm run check-package-manager --silent",
-    "test": "mocha --watch"
+    "test": "mocha --watch",
+    "start": "NODE_ENV=production node ./bin/www"
   },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
