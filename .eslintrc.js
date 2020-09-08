@@ -5,9 +5,9 @@ module.exports = {
     "es2020": true
   },
   "plugins": [
-
+    "prettier"
   ],
-  "extends": ["eslint:recommended", "plugin:node/recommended"],
+  "extends": ["eslint:recommended", "plugin:node/recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "ecmaFeatures": {
@@ -17,6 +17,7 @@ module.exports = {
   "settings": {},
   "rules": {
     "linebreak-style": ["error", "unix"],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "prettier/prettier": "off",
   }
 };
