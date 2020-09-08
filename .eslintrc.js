@@ -3,9 +3,10 @@ module.exports = {
     commonjs: true,
     node: true,
     es2020: true,
+    mocha: true,
   },
-  plugins: ['prettier', 'security'],
-  extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:prettier/recommended', 'plugin:security/recommended'],
+  plugins: ['prettier', 'mocha', 'security'],
+  extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:prettier/recommended', 'plugin:mocha/recommended', 'plugin:security/recommended'],
   parserOptions: {
     ecmaVersion: 2020,
     ecmaFeatures: {
