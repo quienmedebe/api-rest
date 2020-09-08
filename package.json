@@ -1,0 +1,17 @@
+{
+  "name": "api-rest",
+  "version": "1.0.0",
+  "description": "API REST from Quién Me Debe application",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quienmedebe/api-rest.git"
+  },
+  "author": "Raúl Contreras Rubio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quienmedebe/api-rest/issues"
+  },
+  "homepage": "https://github.com/quienmedebe/api-rest#readme"
+}
