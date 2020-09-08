@@ -21,11 +21,18 @@
     "check-package-manager": "node -e \"!process.env.npm_config_user_agent.startsWith('npm/') && !console.log('---- USE NPM TO INSTALL DEPENDENCIES ----') && process.exit(1)\"",
     "preinstall": "npm run check-package-manager --silent"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.1"
+    "husky": "^4.3.0",
+    "prettier": "^2.1.1",
+    "pretty-quick": "^3.0.0"
   }
 }
