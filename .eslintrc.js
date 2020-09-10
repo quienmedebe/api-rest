@@ -18,5 +18,6 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'no-unused-vars': 'warn',
     'prettier/prettier': 'off',
+    'node/no-unpublished-require': 'off',
   },
 };
