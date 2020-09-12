@@ -1,3 +1,4 @@
+require('dotenv').config()
 const http = require('http');
 const Environment = require('../env');
 const app = require('../app');
@@ -49,3 +50,10 @@ function onListening(server) {
     console.log('Listening on ' + bind);
   };
 }
+
+function close(cb){
+  server.close(cb);
+}
+
+server.close = close;
+module.exports = server;

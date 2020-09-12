@@ -1,10 +1,7 @@
-const path = require('path');
+const env = {
+  PORT: process.env.PORT || '5000',
+  APP_ENV: process.env.APP_ENV || 'development',
+  OVERALL_REQUESTS_LIMIT: +process.env.OVERALL_REQUESTS_LIMIT || 10,
+};
 
-const environmentVariables = require('dotenv-extended').load({
-  path: path.join(__dirname, '../.env'),
-  defaults: path.join(__dirname, '../.env.defaults'),
-  schema: path.join(__dirname, '../.env.schema'),
-  errorOnMissing: true,
-});
-
-module.exports = environmentVariables;
+module.exports = env;

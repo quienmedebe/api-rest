@@ -23,7 +23,7 @@
   "scripts": {
     "check-package-manager": "node -e \"!process.env.npm_config_user_agent.startsWith('npm/') && !console.log('---- USE NPM TO INSTALL DEPENDENCIES ----') && process.exit(1)\"",
     "preinstall": "npm run check-package-manager --silent",
-    "test": "mocha --watch",
+    "test": "mocha ./test/* --watch",
     "start": "NODE_ENV=production node ./src/bin/www",
     "dev": "NODE_ENV=development nodemon ./src/bin/www",
     "docs": "jsdoc ./src -r -c ./.jsdoc.json -R README.md -t ./node_modules/ink-docstrap/template -d ./docs/"
@@ -36,7 +36,7 @@
   "dependencies": {
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
-    "dotenv-extended": "^2.8.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.1.0",
     "rate-limiter-flexible": "^2.1.10",
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-mocha": "^8.0.0",
@@ -56,6 +57,7 @@
     "mocha": "^8.1.3",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
-    "pretty-quick": "^3.0.0"
+    "pretty-quick": "^3.0.0",
+    "sinon": "^9.0.3"
   }
 }
