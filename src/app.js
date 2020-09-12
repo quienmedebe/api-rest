@@ -30,16 +30,11 @@ app.use(
 );
 app.use('/', Main.router);
 
-app.use(function (req, res, next) {
-  res.status(req.status || 404);
-  if (req.accepts('json')) {
-    return res.json({
-      code: 404,
-      message: 'Page not found',
-    });
-  }
-
-  return res.type('txt').send('Page not found');
+app.use(function (req, res) {
+  return res.status(req.status || 404).json({
+    error: 'NOT_FOUND',
+    message: 'Resource not found',
+  });
 });
 
 module.exports = app;
