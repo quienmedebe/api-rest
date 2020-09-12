@@ -1,7 +1,8 @@
 const http = require('http');
+const Environment = require('../env');
 const app = require('../app');
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(Environment.PORT || console.log('Port not defined') || '5000');
 app.set('port', port);
 
 const server = http.createServer(app);

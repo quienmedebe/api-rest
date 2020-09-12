@@ -3,8 +3,8 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const redis = require('redis');
-const {RateLimiterRedis} = require('rate-limiter-flexible');
 
+const Config = require('./config');
 const Errors = require('./modules/error');
 const Main = require('./modules/main');
 const Middlewares = require('./middlewares');
@@ -19,20 +19,14 @@ app.use(cookieParser());
 
 const redisClient = redis.createClient();
 
-const RequestLimitBySecond = Middlewares.rateLimiterFactory({
-  Store: new RateLimiterRedis({
-    storeClient: redisClient,
-    keyPrefix: 'DoS',
-    points: 10,
-    duration: 1,
-  }),
-  responseOnError: Errors.API.TOO_MANY_REQUESTS,
-  limiterOptions: {
-    key: req => req.ip,
-  },
-});
-
-app.use(RequestLimitBySecond);
+app.use(
+  Middlewares.RateLimiter.RequestLimitBySecond({
+    redis: redisClient,
+    errorResponse: Errors.API.TOO_MANY_REQUESTS,
+    key: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
+    limit: Config.RATE_LIMITS.OVERALL_REQUESTS_LIMIT,
+  })
+);
 app.use('/', Main.router);
 
 module.exports = app;
