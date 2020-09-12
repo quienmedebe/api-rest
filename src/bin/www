@@ -1,5 +1,5 @@
-import http from 'http';
-import app from '../app'
+const http = require('http');
+const app = require('../app');
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -22,33 +22,29 @@ function normalizePort(val) {
   }
 
   return false;
-};
+}
 
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   switch (error.code) {
     case 'EACCES':
-      throw new Error(bind + ' requires elevated privileges')
+      throw new Error(bind + ' requires elevated privileges');
     case 'EADDRINUSE':
-      throw new Error(bind + ' is already in use')
+      throw new Error(bind + ' is already in use');
     default:
       throw error;
   }
-};
+}
 
 function onListening(server) {
   return () => {
     const addr = server.address();
-    const bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
+    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
-  }
+  };
 }
