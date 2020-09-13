@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const redis = require('redis');
+const cors = require('cors');
 
 const Config = require('./config');
 const Env = require('./env');
@@ -17,6 +18,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(cors());
 
 const redisClient = redis.createClient();
 
@@ -33,10 +35,7 @@ if (Env.OVERALL_REQUESTS_LIMIT > 0) {
 app.use('/', Main.router);
 
 app.use(function (req, res) {
-  return res.status(req.status || 404).json({
-    error: 'NOT_FOUND',
-    message: 'Resource not found',
-  });
+  return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
 });
 
 module.exports = app;
