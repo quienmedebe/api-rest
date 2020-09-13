@@ -24,7 +24,7 @@ describe('app.js test suite', function () {
     });
   });
 
-  it('should disable the reate limiter when the request limit is 0', async function () {
+  it('should disable the rate limiter when the request limit is 0', async function () {
     const rateLimit = 0;
     const newEnvironment = {
       OVERALL_REQUESTS_LIMIT: rateLimit,

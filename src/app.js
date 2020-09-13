@@ -20,14 +20,16 @@ app.use(cookieParser());
 
 const redisClient = redis.createClient();
 
-app.use(
-  Middlewares.RateLimiter.RequestLimitBySecond({
-    redis: redisClient,
-    errorResponse: Errors.API.TOO_MANY_REQUESTS,
-    key: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-    limit: Env.OVERALL_REQUESTS_LIMIT,
-  })
-);
+if (Env.OVERALL_REQUESTS_LIMIT > 0) {
+  app.use(
+    Middlewares.RateLimiter.RequestLimitBySecond({
+      redis: redisClient,
+      errorResponse: Errors.API.TOO_MANY_REQUESTS,
+      key: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
+      limit: Env.OVERALL_REQUESTS_LIMIT,
+    })
+  );
+}
 app.use('/', Main.router);
 
 app.use(function (req, res) {
