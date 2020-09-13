@@ -17,7 +17,7 @@ app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser(Env.COOKIES_SESSION_SECRET));
 app.use(cors());
 
 const redisClient = redis.createClient();
