@@ -1,10 +1,16 @@
 const express = require('express');
-const router = express.Router();
 
-router.get('/', function (_, res) {
-  res.status(200).json({
-    working: true,
+function createRouter({logger}) {
+  const router = express.Router();
+
+  router.get('/', function (_, res) {
+    logger.log('info', 'A message from the route');
+    res.status(200).json({
+      working: true,
+    });
   });
-});
 
-module.exports = router;
+  return router;
+}
+
+module.exports = createRouter;

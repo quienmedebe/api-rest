@@ -5,7 +5,10 @@ const rateLimiterFactory = ({Store, responseOnError, limiterOptions = {}}) => {
 
   return (req, res, next) => {
     const key = typeof options.key === 'function' ? options.key(req) : req.ip;
-    const points = options.points !== undefined ? options.points : 1;
+    const points = options.points;
+    if (!options.points) {
+      return next();
+    }
 
     rateLimiter
       .consume(key, points, options)
