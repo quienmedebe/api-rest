@@ -1,21 +1,25 @@
+const Env = require('../../src/env');
+const {createApplication} = require('../../src/app');
+
 const chai = require('chai');
 
-async function withEnvironment(Env, env = {}, callback) {
-  const originalEnv = {};
-  Object.entries(env).forEach(([key, value]) => {
-    originalEnv[key.toString()] = Env[key.toString()];
-    Env[key.toString()] = value;
+const withEnvironment = (env = {}) => {
+  const environment = {
+    ...Env,
+    APP_ENV: 'test',
+    ...env,
+  };
+  const app = createApplication({
+    env: environment,
   });
 
-  delete require.cache[require.resolve('../../src/app')];
-  const app = require('../../src/app');
-  const requester = chai.request.agent(app);
+  return async callback => {
+    const requester = chai.request.agent(app);
 
-  await callback(requester);
+    await callback(requester);
 
-  Object.keys(env).forEach(key => {
-    Env[key.toString()] = originalEnv[key.toString()];
-  });
-}
+    requester.close();
+  };
+};
 
 module.exports = withEnvironment;

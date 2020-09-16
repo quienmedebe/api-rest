@@ -1,19 +1,24 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const Env = require('../../src/env');
+const {createApplication} = require('../../src/app');
 
 chai.use(chaiHttp);
 
 let requester, app;
 
 function setup() {
-  process.env.APP_ENV = 'test';
-  app = require('../../src/app');
+  app = createApplication({
+    env: {
+      ...Env,
+      APP_ENV: 'test',
+    },
+  });
   requester = chai.request.agent(app);
 }
 
 function cleanUp() {
   requester.close();
-  delete require.cache[require.resolve('../../src/app')];
 }
 
 function getApp() {

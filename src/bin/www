@@ -1,9 +1,13 @@
-require('dotenv').config();
 const http = require('http');
-const Environment = require('../env');
-const app = require('../app');
 
-const port = normalizePort(Environment.PORT || console.log('Port not defined') || '5000');
+const Env = require('../env');
+const {createApplication} = require('../app');
+
+const port = normalizePort(Env.PORT || console.log('Port not defined') || '5000');
+const app = createApplication({
+  env: Env
+});
+
 app.set('port', port);
 
 const server = http.createServer(app);

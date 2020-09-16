@@ -6,41 +6,45 @@ const redis = require('redis');
 const cors = require('cors');
 
 const Config = require('./config');
-const Env = require('./env');
 const Errors = require('./modules/error');
 const Middlewares = require('./middlewares');
 
 const Main = require('./modules/main');
 const Logger = require('./modules/logger');
 
-const app = express();
+function createApplication({env}) {
+  const app = express();
 
-app.use(helmet());
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser(Env.COOKIES_SESSION_SECRET));
-app.use(cors());
+  app.use(helmet());
+  app.use(compression());
+  app.use(express.json());
+  app.use(express.urlencoded({extended: false}));
+  app.use(cookieParser(env.COOKIES_SESSION_SECRET));
+  app.use(cors());
 
-app.use(Middlewares.HttpContext.httpContext.middleware);
-app.use(Middlewares.HttpContext.requestIdMiddleware);
+  app.use(Middlewares.HttpContext.httpContext.middleware);
+  app.use(Middlewares.HttpContext.requestIdMiddleware);
 
-const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext);
+  const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext);
 
-const redisClient = redis.createClient();
+  const redisClient = redis.createClient();
 
-app.use(
-  Middlewares.RateLimiter.RequestLimitBySecond({
-    redis: redisClient,
-    errorResponse: Errors.API.TOO_MANY_REQUESTS,
-    key: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-    points: Env.OVERALL_REQUESTS_LIMIT,
-  })
-);
-app.use('/', Main.router({logger}));
+  app.use(
+    Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
+      name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
+      points: env.OVERALL_REQUESTS_LIMIT,
+      duration: 1,
+      errorResponse: Errors.API.TOO_MANY_REQUESTS,
+    })
+  );
+  app.use('/', Main.router({logger}));
 
-app.use(function (req, res) {
-  return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
-});
+  app.use(function (req, res) {
+    return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
+  });
 
-module.exports = app;
+  return app;
+}
+
+exports.createApplication = createApplication;
+module.exports = exports;
