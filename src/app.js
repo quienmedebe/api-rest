@@ -33,7 +33,7 @@ function createApplication({env}) {
     Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
       name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
       points: env.OVERALL_REQUESTS_LIMIT,
-      duration: 1,
+      duration: env.OVERALL_REQUESTS_DURATION,
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );

@@ -13,6 +13,7 @@ const environment = {
    * Rate limiter per second and ip configuration
    */
   OVERALL_REQUESTS_LIMIT: +process.env.OVERALL_REQUESTS_LIMIT >= 0 ? +process.env.OVERALL_REQUESTS_LIMIT : 0,
+  OVERALL_REQUESTS_DURATION: +process.env.OVERALL_REQUESTS_DURATION >= 0 ? +process.env.OVERALL_REQUESTS_DURATION : 1,
 };
 
 module.exports = environment;
