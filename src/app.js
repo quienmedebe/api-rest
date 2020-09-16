@@ -37,7 +37,7 @@ function createApplication({env}) {
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );
-  app.use('/', Main.router({logger}));
+  app.use('/', Main.createRouter({logger}));
 
   app.use(function (req, res) {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);

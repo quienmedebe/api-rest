@@ -89,7 +89,7 @@ describe('app.js test suite', function () {
     });
   });
 
-  describe('CORS test suite', function () {
+  describe('Headers test suite', function () {
     it('should return the Access-Control-Allow-Origin header', async function () {
       Utils.Server.setup();
 
@@ -97,6 +97,116 @@ describe('app.js test suite', function () {
       const request = await requester.get(Utils.INVALID_ROUTE);
 
       expect(request.headers['Access-Control-Allow-Origin'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the Content-Security-Policy header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['Content-Security-Policy'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the Expect-CT header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['Expect-CT'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the Referrer-Policy header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['Referrer-Policy'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the Strict-Transport-Security header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['Strict-Transport-Security'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-Content-Type-Options header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-Content-Type-Options'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-DNS-Prefetch-Control header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-DNS-Prefetch-Control'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-Download-Options header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-Download-Options'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-Frame-Options header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-Frame-Options'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-Permitted-Cross-Domain-Policies header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-Permitted-Cross-Domain-Policies'.toLowerCase()]).to.not.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should not return the X-Powered-By header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-Powered-By'.toLowerCase()]).to.be.undefined;
+      Utils.Server.cleanUp();
+    });
+
+    it('should return the X-XSS-Protection header', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+      const request = await requester.get(Utils.INVALID_ROUTE);
+
+      expect(request.headers['X-XSS-Protection'.toLowerCase()]).to.not.be.undefined;
       Utils.Server.cleanUp();
     });
   });
