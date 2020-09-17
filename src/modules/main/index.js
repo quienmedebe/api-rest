@@ -1,3 +1,3 @@
-exports.router = require('./main.router');
+exports.createRouter = require('./main.router');
 
 module.exports = exports;
