@@ -60,7 +60,7 @@ describe('app.js test suite', function () {
       });
     });
 
-    it('should include the next headers on a success response: RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset', async function () {
+    it('should include the next headers on a success response: RateLimit-Limit', async function () {
       Utils.Server.setup();
 
       const requester = Utils.Server.getRequester();
@@ -68,13 +68,34 @@ describe('app.js test suite', function () {
       const response = await requester.get(Utils.INVALID_ROUTE);
 
       expect(response.headers['RateLimit-Limit'.toLowerCase()]).to.not.be.undefined;
+
+      Utils.Server.cleanUp();
+    });
+    it('should include the next headers on a success response: RateLimit-Remaining', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+
+      const response = await requester.get(Utils.INVALID_ROUTE);
+
       expect(response.headers['RateLimit-Remaining'.toLowerCase()]).to.not.be.undefined;
+
+      Utils.Server.cleanUp();
+    });
+
+    it('should include the next headers on a success response: RateLimit-Reset', async function () {
+      Utils.Server.setup();
+
+      const requester = Utils.Server.getRequester();
+
+      const response = await requester.get(Utils.INVALID_ROUTE);
+
       expect(response.headers['RateLimit-Reset'.toLowerCase()]).to.not.be.undefined;
 
       Utils.Server.cleanUp();
     });
 
-    it('A Too Many Requests error should also include the next headers: Retry-After, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset', async function () {
+    it('A Too Many Requests error should also include the next headers: Retry-After', async function () {
       const REQUEST_LIMIT = 1;
 
       return (
@@ -90,8 +111,59 @@ describe('app.js test suite', function () {
         const lastResponse = responses[responses.length - 1];
 
         expect(lastResponse.headers['Retry-After'.toLowerCase()]).to.not.be.undefined;
+      });
+    });
+    it('A Too Many Requests error should also include the next headers: RateLimit-Limit', async function () {
+      const REQUEST_LIMIT = 1;
+
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async function (requester) {
+        const requests = new Array(REQUEST_LIMIT + 2).fill(0).map(async () => {
+          return await requester.get(Utils.INVALID_ROUTE);
+        });
+
+        const responses = await Promise.all(requests);
+        const lastResponse = responses[responses.length - 1];
+
         expect(lastResponse.headers['RateLimit-Limit'.toLowerCase()]).to.not.be.undefined;
+      });
+    });
+    it('A Too Many Requests error should also include the next headers: RateLimit-Remaining', async function () {
+      const REQUEST_LIMIT = 1;
+
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async function (requester) {
+        const requests = new Array(REQUEST_LIMIT + 2).fill(0).map(async () => {
+          return await requester.get(Utils.INVALID_ROUTE);
+        });
+
+        const responses = await Promise.all(requests);
+        const lastResponse = responses[responses.length - 1];
+
         expect(lastResponse.headers['RateLimit-Remaining'.toLowerCase()]).to.not.be.undefined;
+      });
+    });
+    it('A Too Many Requests error should also include the next headers: RateLimit-Reset', async function () {
+      const REQUEST_LIMIT = 1;
+
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async function (requester) {
+        const requests = new Array(REQUEST_LIMIT + 2).fill(0).map(async () => {
+          return await requester.get(Utils.INVALID_ROUTE);
+        });
+
+        const responses = await Promise.all(requests);
+        const lastResponse = responses[responses.length - 1];
+
         expect(lastResponse.headers['RateLimit-Reset'.toLowerCase()]).to.not.be.undefined;
       });
     });
