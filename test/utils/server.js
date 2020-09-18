@@ -18,7 +18,9 @@ function setup() {
 }
 
 function cleanUp() {
-  requester.close();
+  app.close(() => {
+    requester.close();
+  });
 }
 
 function getApp() {

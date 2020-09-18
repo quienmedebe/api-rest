@@ -43,6 +43,13 @@ function createApplication({env}) {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
   });
 
+  function close(cb) {
+    redisClient.quit(() => {
+      cb();
+    });
+  }
+  app.close = close;
+
   return app;
 }
 

@@ -4,12 +4,14 @@ const Utils = require('../utils');
 
 describe('app.js test suite', function () {
   describe('Rate limiting test suite', function () {
-    it('should fire a rate limiter when the requests per second and per ip are above the limit', function () {
+    it('should fire a rate limiter when the requests per second and per ip are above the limit', async function () {
       const REQUEST_LIMIT = 1;
 
-      return Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      })(async requester => {
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async requester => {
         const requests = new Array(REQUEST_LIMIT + 1).fill(0).map(async () => {
           return await requester.get(Utils.INVALID_ROUTE);
         });
@@ -20,13 +22,15 @@ describe('app.js test suite', function () {
       });
     });
 
-    it('should not fire a rate limiter when the requests per second and per ip limit are 0', function () {
+    it('should not fire a rate limiter when the requests per second and per ip limit are 0', async function () {
       const REQUEST_LIMIT = 0;
       const REQUESTS = 2;
 
-      return Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      })(async requester => {
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async requester => {
         const requests = new Array(REQUESTS).fill(0).map(async () => {
           return await requester.get(Utils.INVALID_ROUTE);
         });
@@ -37,13 +41,15 @@ describe('app.js test suite', function () {
       });
     });
 
-    it('should not have a limit if the rate limiter limit is below 0', function () {
+    it('should not have a limit if the rate limiter limit is below 0', async function () {
       const REQUEST_LIMIT = -1;
       const REQUESTS = 2;
 
-      return Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      })(async requester => {
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async requester => {
         const requests = new Array(REQUESTS).fill(0).map(async () => {
           return await requester.get(Utils.INVALID_ROUTE);
         });
@@ -71,9 +77,11 @@ describe('app.js test suite', function () {
     it('A Too Many Requests error should also include the next headers: Retry-After, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset', async function () {
       const REQUEST_LIMIT = 1;
 
-      return await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      })(async function (requester) {
+      return (
+        await Utils.withEnvironment({
+          OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        })
+      )(async function (requester) {
         const requests = new Array(REQUEST_LIMIT + 2).fill(0).map(async () => {
           return await requester.get(Utils.INVALID_ROUTE);
         });

@@ -3,7 +3,7 @@ const {createApplication} = require('../../src/app');
 
 const chai = require('chai');
 
-const withEnvironment = (env = {}) => {
+const withEnvironment = async (env = {}) => {
   const environment = {
     ...Env,
     APP_ENV: 'test',
@@ -17,8 +17,9 @@ const withEnvironment = (env = {}) => {
     const requester = chai.request.agent(app);
 
     await callback(requester);
-
-    requester.close();
+    app.close(() => {
+      requester.close();
+    });
   };
 };
 
