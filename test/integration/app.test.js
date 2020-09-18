@@ -71,12 +71,14 @@ describe('app.js test suite', function () {
 
       Utils.Server.cleanUp();
     });
+
     it('should include the next headers on a success response: RateLimit-Remaining', async function () {
       Utils.Server.setup();
 
       const requester = Utils.Server.getRequester();
 
       const response = await requester.get(Utils.INVALID_ROUTE);
+      console.log(response);
 
       expect(response.headers['RateLimit-Remaining'.toLowerCase()]).to.not.be.undefined;
 
