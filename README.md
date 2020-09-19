@@ -1,5 +1,7 @@
 # Quién Me Debe API REST
 
+[![Build Status](https://travis-ci.com/quienmedebe/api-rest.svg?branch=master)](https://travis-ci.com/quienmedebe/api-rest)
+
 Quién Me Debe is a web application to record all personal debts. Have you ever forgot your friend owed you some money? With this app this situation will not happen again.
 
 This repository is the API REST of the application. The intention is to keep the responsibilities isolated. With this API REST you can create your own client code and/or extend the original features.
