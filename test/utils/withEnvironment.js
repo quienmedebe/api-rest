@@ -1,10 +1,9 @@
 const chai = require('chai');
-const Env = require('../../src/env');
 const {createApplication} = require('../../src/app');
 
 const withEnvironment = async (env = {}) => {
   const environment = {
-    ...Env,
+    ...process.env,
     APP_ENV: 'test',
     ...env,
   };
