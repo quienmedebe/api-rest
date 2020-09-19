@@ -39,8 +39,14 @@ function createApplication({env}) {
   );
   app.use('/', Main.createRouter({logger}));
 
-  app.use(function (req, res) {
+  app.use((_, res) => {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
+  });
+
+  // eslint-disable-next-line --- The error handler requires four parameters even if some are unused
+  app.use(async (err, req, res, _) => {
+    await Errors.handleError(err, {logger});
+    return res.status(500).json(Errors.API.INTERNAL_SERVER_ERROR);
   });
 
   function close(cb, flush = false) {
