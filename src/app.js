@@ -43,12 +43,20 @@ function createApplication({env}) {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
   });
 
-  function close(cb) {
-    redisClient.quit(() => {
-      cb();
-    });
+  function close(cb, flush = false) {
+    const closeFn = () => {
+      const callback = cb;
+      redisClient.quit(() => {
+        callback();
+      });
+    };
+    if (flush) {
+      return redisClient.flushall('ASYNC', closeFn);
+    }
+    return closeFn();
   }
   app.close = close;
+  app.Redis = redisClient;
 
   return app;
 }

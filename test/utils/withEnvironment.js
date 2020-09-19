@@ -2,11 +2,17 @@ const chai = require('chai');
 const {createApplication} = require('../../src/app');
 
 const withEnvironment = async (env = {}) => {
+  const stringifiedValues = {};
+  Object.entries(env).forEach(([key, value]) => {
+    stringifiedValues[key.toString()] = value.toString();
+  });
+
   const environment = {
     ...process.env,
     APP_ENV: 'test',
-    ...env,
+    ...stringifiedValues,
   };
+
   const app = createApplication({
     env: environment,
   });
@@ -18,7 +24,7 @@ const withEnvironment = async (env = {}) => {
     } finally {
       app.close(() => {
         requester.close();
-      });
+      }, true);
     }
   };
 };

@@ -11,7 +11,7 @@ describe('app.js test suite', function () {
     it('should fire a rate limiter when the requests per second and per ip are above the limit', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -29,7 +29,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 0;
       const REQUESTS = 2;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -46,7 +46,7 @@ describe('app.js test suite', function () {
     it('should not add the RateLimit-Limit header to the response when the requests per second and per ip limit are 0', async function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -59,7 +59,7 @@ describe('app.js test suite', function () {
     it('should not add the RateLimit-Remaining header to the response when the requests per second and per ip limit are 0', async function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -72,7 +72,7 @@ describe('app.js test suite', function () {
     it('should not add the RateLimit-Reset header to the response when the requests per second and per ip limit are 0', async function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -86,7 +86,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = -1;
       const REQUESTS = 2;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -103,7 +103,7 @@ describe('app.js test suite', function () {
     it('should include the next headers on a success response: RateLimit-Limit', async function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -116,7 +116,7 @@ describe('app.js test suite', function () {
     it('should include the next headers on a success response: RateLimit-Remaining', async function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -129,7 +129,7 @@ describe('app.js test suite', function () {
     it('should include the next headers on a success response: RateLimit-Reset', async function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async requester => {
@@ -142,7 +142,7 @@ describe('app.js test suite', function () {
     it('A Too Many Requests error should also include the next headers: Retry-After', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async function (requester) {
@@ -159,7 +159,7 @@ describe('app.js test suite', function () {
     it('A Too Many Requests error should also include the next headers: RateLimit-Limit', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async function (requester) {
@@ -176,7 +176,7 @@ describe('app.js test suite', function () {
     it('A Too Many Requests error should also include the next headers: RateLimit-Remaining', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async function (requester) {
@@ -193,7 +193,7 @@ describe('app.js test suite', function () {
     it('A Too Many Requests error should also include the next headers: RateLimit-Reset', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT.toString(),
+        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
       });
 
       return doTest(async function (requester) {
