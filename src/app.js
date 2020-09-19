@@ -32,8 +32,8 @@ function createApplication({env}) {
   app.use(
     Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
       name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-      points: env.OVERALL_REQUESTS_LIMIT,
-      duration: env.OVERALL_REQUESTS_DURATION,
+      points: +env.OVERALL_REQUESTS_LIMIT,
+      duration: +env.OVERALL_REQUESTS_DURATION,
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );
@@ -42,6 +42,21 @@ function createApplication({env}) {
   app.use(function (req, res) {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
   });
+
+  function close(cb, flush = false) {
+    const closeFn = () => {
+      const callback = cb;
+      redisClient.quit(() => {
+        callback();
+      });
+    };
+    if (flush) {
+      return redisClient.flushall('ASYNC', closeFn);
+    }
+    return closeFn();
+  }
+  app.close = close;
+  app.Redis = redisClient;
 
   return app;
 }

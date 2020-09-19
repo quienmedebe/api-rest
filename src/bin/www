@@ -56,7 +56,9 @@ function onListening(server) {
 }
 
 function close(cb){
-  server.close(cb);
+  app.close(() => {
+    server.close(cb);
+  }, false);
 }
 
 server.close = close;
