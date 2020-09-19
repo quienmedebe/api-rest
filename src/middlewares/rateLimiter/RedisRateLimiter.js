@@ -21,6 +21,8 @@ function RedisRateLimiter(redis, {name, points, duration, errorResponse}) {
       res.set('RateLimit-Limit', String(limitPoints));
       res.set('RateLimit-Remaining', String(limiterResponse.remainingPoints));
       res.set('RateLimit-Reset', new Date(Date.now() + limiterResponse.msBeforeNext).toUTCString());
+      console.log('SET HEADERS');
+      console.log(res[Object.getOwnPropertySymbols(res)[3]]);
 
       return next();
     } catch (error) {

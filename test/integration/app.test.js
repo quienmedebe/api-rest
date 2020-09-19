@@ -60,13 +60,15 @@ describe('app.js test suite', function () {
       });
     });
 
-    it('should include the next headers on a success response: RateLimit-Limit', async function () {
+    it.only('should include the next headers on a success response: RateLimit-Limit', async function () {
       Utils.Server.setup();
 
       const requester = Utils.Server.getRequester();
 
       const response = await requester.get(Utils.INVALID_ROUTE);
 
+      console.log('RESPONSE');
+      console.log(response.headers);
       expect(response.headers['RateLimit-Limit'.toLowerCase()]).to.not.be.undefined;
 
       Utils.Server.cleanUp();
@@ -78,7 +80,6 @@ describe('app.js test suite', function () {
       const requester = Utils.Server.getRequester();
 
       const response = await requester.get(Utils.INVALID_ROUTE);
-      console.log(response);
 
       expect(response.headers['RateLimit-Remaining'.toLowerCase()]).to.not.be.undefined;
 
