@@ -12,6 +12,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -30,6 +31,7 @@ describe('app.js test suite', function () {
       const REQUESTS = 2;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -47,6 +49,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -60,6 +63,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -73,6 +77,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 0;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -87,6 +92,7 @@ describe('app.js test suite', function () {
       const REQUESTS = 2;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -104,6 +110,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -117,6 +124,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -130,6 +138,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 10;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async requester => {
@@ -143,6 +152,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async function (requester) {
@@ -160,6 +170,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async function (requester) {
@@ -177,6 +188,7 @@ describe('app.js test suite', function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({
         OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
+        OVERALL_REQUESTS_DURATION: 1,
       });
 
       return doTest(async function (requester) {
