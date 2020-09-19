@@ -211,10 +211,7 @@ describe('app.js test suite', function () {
 
   describe('Headers test suite', function () {
     it('should return the Access-Control-Allow-Origin header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -224,10 +221,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the Content-Security-Policy header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -237,10 +231,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the Expect-CT header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -250,10 +241,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the Referrer-Policy header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -263,10 +251,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the Strict-Transport-Security header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -276,10 +261,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the X-Content-Type-Options header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -289,10 +271,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the X-DNS-Prefetch-Control header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -315,10 +294,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the X-Frame-Options header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -328,10 +304,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the X-Permitted-Cross-Domain-Policies header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -341,10 +314,7 @@ describe('app.js test suite', function () {
     });
 
     it('should not return the X-Powered-By header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
@@ -354,10 +324,7 @@ describe('app.js test suite', function () {
     });
 
     it('should return the X-XSS-Protection header', async function () {
-      const REQUEST_LIMIT = 10;
-      const doTest = await Utils.withEnvironment({
-        OVERALL_REQUESTS_LIMIT: REQUEST_LIMIT,
-      });
+      const doTest = await Utils.withEnvironment();
 
       return doTest(async requester => {
         const request = await requester.get(Utils.INVALID_ROUTE);
