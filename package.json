@@ -26,7 +26,7 @@
     "check:update": "npx next-update",
     "release": "release-it",
     "test:dump": "mocha --require ./test/async-dump.js ./test/**/*.test.js",
-    "test": "mocha ./test/* --exit",
+    "test": "mocha ./test/*",
     "test:watch": "mocha ./test/* --watch",
     "test:coverage": "nyc --reporter=text mocha ./test/*",
     "start": "NODE_ENV=production node ./src/bin/www",
