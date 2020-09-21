@@ -52,3 +52,27 @@ Inside the documentation you will find the public API routes and different modul
 - Deploy to production process
 - Authentication system with JWT
 - CRUD of debts (Create debts, Read debts, Update debts, Delete Debts).
+
+## Workflow
+
+### Branches
+
+Permanent branches:
+
+- master: Production-ready changes
+- develop: New features for the next release
+
+Temporal branches:
+
+- feature/\*: New features or bugfixes (From develop to develop)
+- release/\*: New releases (From develop to master). Bump version with `npm version [major|patch|minor]`
+- hotfix/\*: Bugfix on production (From master to master and develop | release if exists)
+
+### Merge
+
+When merging back to develop run this command: `git merge --no-ff`
+
+### References
+
+- https://www.freecodecamp.org/news/how-i-established-a-good-release-process-in-javascript-b93e57e247e1/
+- https://nvie.com/posts/a-successful-git-branching-model/
