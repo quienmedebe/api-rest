@@ -7,11 +7,9 @@ EXPOSE 5000
 
 COPY "package.json" "./"
 COPY "package-lock.json" "./"
-RUN npm ci
+RUN npm install
 
 COPY . .
 
-RUN npm prune --production
 
-
-CMD [ "node", "src/bin/www" ]
+CMD [ "./node_modules/nodemon/bin/nodemon.js", "src/bin/www" ]
