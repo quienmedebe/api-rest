@@ -1,6 +1,6 @@
 {
   "name": "api-rest",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "homepage": "https://github.com/quienmedebe/api-rest#readme",
   "description": "API REST from Quién Me Debe application",
   "main": "./src/app.js",
