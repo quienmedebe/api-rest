@@ -114,3 +114,16 @@ dump.rdb
 
 # AWS
 .aws
+
+# https://github.com/goldbergyoni/nodebestpractices/blob/master/sections/docker/docker-ignore.md
+**/node_modules/
+**/.git
+**/README.md
+**/LICENSE
+**/.vscode
+**/npm-debug.log
+**/coverage
+**/.env
+**/.editorconfig
+**/.aws
+**/dist

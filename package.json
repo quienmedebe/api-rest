@@ -35,7 +35,9 @@
     "test:dump": "mocha --require ./test/utils/async-dump.js ./test/**/*.test.js",
     "start": "NODE_ENV=production node ./src/bin/www",
     "dev": "NODE_ENV=development nodemon ./src/bin/www",
-    "docs": "jsdoc ./src -r -c ./.jsdoc.json -R README.md -t ./node_modules/ink-docstrap/template -d ./docs/"
+    "docs": "jsdoc ./src -r -c ./.jsdoc.json -R README.md -t ./node_modules/ink-docstrap/template -d ./docs/",
+    "docker:build": "scripty",
+    "docker:run": "scripty"
   },
   "husky": {
     "hooks": {
@@ -52,6 +54,7 @@
     "helmet": "^4.1.1",
     "rate-limiter-flexible": "^2.1.10",
     "redis": "^3.0.2",
+    "stoppable": "^1.1.0",
     "uuid": "^8.3.0",
     "winston": "^3.3.3"
   },
@@ -73,6 +76,7 @@
     "prettier": "^2.1.2",
     "pretty-quick": "^3.0.2",
     "release-it": "^14.0.3",
+    "scripty": "^2.0.0",
     "sinon": "^9.0.3"
   }
 }
