@@ -38,9 +38,9 @@
     "docs": "jsdoc ./src -r -c ./.jsdoc.json -R README.md -t ./node_modules/ink-docstrap/template -d ./docs/",
     "docker:build": "scripty",
     "docker:run": "scripty",
-    "release:minor": "npm version minor",
-    "release:patch": "npm version patch",
-    "release:major": "npm version major"
+    "release:minor": "npm version --minor",
+    "release:patch": "npm version --patch",
+    "release:major": "npm version --major"
   },
   "husky": {
     "hooks": {
