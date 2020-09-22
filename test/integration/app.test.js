@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 const Utils = require('../utils');
 
 describe('app.js test suite', function () {
-  describe('Rate limiting test suite', function () {
+  describe.skip('Rate limiting test suite', function () {
     it('should fire a rate limiter when the requests per second and per ip are above the limit', async function () {
       const REQUEST_LIMIT = 1;
       const doTest = await Utils.withEnvironment({

@@ -40,8 +40,15 @@ Inside the documentation you will find the public API routes and different modul
 
 ### Developed
 
+- API Rate Limiter
+
 ### To do
 
 - Basic Walking Skeleton (CI/CD, Build process, Rate limiter...)
+- CI/CD flow
+- Release flow
+- Dockerization
+- Development environment with Docker
+- Deploy to production process
 - Authentication system with JWT
 - CRUD of debts (Create debts, Read debts, Update debts, Delete Debts).

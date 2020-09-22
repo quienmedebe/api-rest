@@ -27,16 +27,19 @@ function createApplication({env}) {
 
   const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext);
 
-  const redisClient = redis.createClient();
+  // const redisClient = redis.createClient({
+  //   host: env.REDIS_HOST,
+  //   port: env.REDIS_PORT,
+  // });
 
-  app.use(
-    Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
-      name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-      points: +env.OVERALL_REQUESTS_LIMIT,
-      duration: +env.OVERALL_REQUESTS_DURATION,
-      errorResponse: Errors.API.TOO_MANY_REQUESTS,
-    })
-  );
+  // app.use(
+  //   Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
+  //     name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
+  //     points: +env.OVERALL_REQUESTS_LIMIT,
+  //     duration: +env.OVERALL_REQUESTS_DURATION,
+  //     errorResponse: Errors.API.TOO_MANY_REQUESTS,
+  //   })
+  // );
   app.use('/', Main.createRouter({logger}));
 
   app.use((_, res) => {
@@ -52,17 +55,16 @@ function createApplication({env}) {
   function close(cb, flush = false) {
     const closeFn = () => {
       const callback = cb;
-      redisClient.quit(() => {
-        callback();
-      });
+      callback();
+      // redisClient.quit(() => {
+      // });
     };
     if (flush) {
-      return redisClient.flushall('ASYNC', closeFn);
+      // return redisClient.flushall('ASYNC', closeFn);
     }
     return closeFn();
   }
   app.close = close;
-  app.Redis = redisClient;
 
   return app;
 }
