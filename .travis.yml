@@ -4,12 +4,17 @@ node_js:
 branches:
   only:
     - master
+    - develop
 install: npm install
 services:
   - redis
 script: npm test
 deploy:
   provider: heroku
-  app: quienmedebe
+  app:
+    develop: quienmedebe-staged
+    master: quienmedebe
+  run:
+    - restart
   api_key:
     secure: DJNH58QZ+fUEkj5VFp+cCBO+JhjHPf2QpJGxsVlV6i/JFNZtLUIQ8NyOFcvqBfiWVb9TxGtlTAlVbGjSAONRiablvf93oxdSLxqT3EyO+l0BhkmfOBNklfmv8sjKpu7+Qu317Sib7l3Oiu8S4FplX2qYx4gHxjYAYJGdyVvzluZwSKHQ6NECYXRTuQYKG1K4hae+9ByTa99SwZ/6FyF21vkOlzjwUz3TZ7OopelATenhamXuKUNNfXlcZ17ddBEligNq6bLZAprUMJCKah2KxCK5gy0/N5FibnjCdXqt2G1AAYz7MzDSTpxl4wDpxNJZZtLix9L1oPKAS3jfQdIE311RijdwUob5TL6xz4ml3RhmjkEkrbQqK1vK0yNxpzYsYtshnRkdmiwdLTvqpqzjphGTPsdClUQEvEEj+JBMzsjqINUUa/QrXm872E1E4zoXeSVHGEutclbrhq6fWEULbdvDrnvz/5lkmIG1jQJ3YzeQo/bn4FgWBFuPCF0wXK7aQF276ypnEXFoHSAmyHXb9oaj/YmEE2A/e2c3sOuJdVt0AZDYIeB3WT8tgEiVL/MQ5w+2E434ZeHeyEiGW1DfTcYEGRv9IOstUOKRfba0CO/3vPGtxdQgFuj+yWYyQV6C6EMvhEj/ty0hocTHYBBrH8MPvLziERQ0wczUUeI2wsQ
