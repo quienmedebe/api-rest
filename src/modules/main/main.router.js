@@ -13,6 +13,8 @@ function createRouter({logger}) {
         // production: true,
         staged: true,
         develop: true,
+        from_feature: true,
+        with_pull_request: true,
       });
     })
   );
