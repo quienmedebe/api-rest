@@ -65,7 +65,6 @@ function createApplication({env}) {
     return closeFn();
   }
   app.close = close;
-  app.Redis = redisClient;
 
   return app;
 }
