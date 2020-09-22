@@ -10,8 +10,8 @@ function createRouter({logger}) {
       logger.log('info', 'A message from the route');
 
       res.status(200).json({
-        production: false,
-        staged: true,
+        production: true,
+        staged: false,
       });
     })
   );
