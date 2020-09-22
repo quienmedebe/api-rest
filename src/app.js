@@ -27,7 +27,10 @@ function createApplication({env}) {
 
   const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext);
 
-  const redisClient = redis.createClient();
+  const redisClient = redis.createClient({
+    host: env.REDIS_HOST,
+    port: env.REDIS_PORT,
+  });
 
   app.use(
     Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
