@@ -1,0 +1,16 @@
+version: '3'
+services:
+  redis-server:
+    image: 'redis'
+  api:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '5000:5000'
+    volumes:
+      - './:/home/quienmedebe-api-rest'
+    environment:
+      REDIS_HOST: redis-server
+      REDIS_PORT: 6379
