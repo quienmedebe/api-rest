@@ -12,6 +12,9 @@ function createRouter({logger}) {
       res.status(200).json({
         production: true,
         staged: false,
+        develop: false,
+        from_feature: false,
+        with_pull_request: true,
       });
     })
   );
