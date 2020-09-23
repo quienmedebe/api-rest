@@ -3,14 +3,14 @@ os: linux
 dist: xenial
 node_js:
   - 14
-install: npm install
-script: npm test
 branches:
   only:
     - master
     - stable
 services:
   - redis
+install: npm install
+script: npm test
 deploy:
   - provider: heroku
     skip_cleanup: true
