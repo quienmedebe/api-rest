@@ -2,7 +2,7 @@
 
 ## Merge flow with git and GitHub
 
-### New feature
+### How to add a new feature
 
 1. `git checkout develop`
 2. `git pull --rebase origin develop`
@@ -19,3 +19,5 @@ If you need to update your PR
 9. Make your changes
 10. `git pull --rebase origin develop`
 11. `git push --force-with-lease feature/[Feature name]`
+
+If there are any conflicts with the develop branch, you have to update your local branch with steps 10 and 11.
