@@ -9,8 +9,8 @@ install: npm install
 script: npm test
 deploy:
   provider: heroku
-  skip_cleanup: true
-  app: $HEROKU_APP_NAME
-  strategy: git
-  api_key: $HEROKU_KEY
-  if: branch = master
+  api_key:
+    secure: XCyZPChHCP6vUiEuKXJhz9z6jbVoRE5gTD5UqslnknTKTqmOVgW2s2bR2UucvBkD4i3HQPE9mJIIqER/rokCpiq5k1KKHyWLjhpAAA7DEtiz5Auhq27X1nR//+n8RFWz/D5hdKld1we0w8rwMh87ojvxueKo+FfCK+72gdBHOyJJyLnTxUp5AcL1/075ai3ciRXM3JYkqUx3XnAlN4KFHS9bHtdylymBUeDNpnO+Z114yNUOfXCHQy2hUgFCeDEwv2Iv/OE6ZLChLSoxf6NrtPbKIRNX5vHnCGOC+nkhzQdXHWNNIvEQi5CXdhFTJRkT5dn3z2aP8+YWL9V5qoXteZPL/j11qfXA+lqfV8Wbyk5GtoPlqXFsuP0SGugd5w4u3eIsXqocfNOCdauTsZuTwTPocVlXx8DYvRjR91/QjjJefXNSLHqaoyymbj5Vh2o1gXZa6bUJBsxhWEM74GFeFHkskjlFF85J/I1po9r9uyGdn9o+pcROwg5EEMlNrHLuKSfRZMk+UgMTh0niXJu8TOZvy4hjeXcT7r2x3A2WENjqJA//lVP07zjRVacG+vf55SlFpoqNXm8mez4PgsW47FCxy9s4G+vCJxl96s1Pzs+F2Rp572BMnGSpJAE7jMib+untW0x80kbLMUmPuT6Nm+i5uwwWDViPZAwWWvQ/ut8=
+  app: '$HEROKU_APP_NAME'
+  on:
+    branch: master
