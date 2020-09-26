@@ -3,10 +3,6 @@ os: linux
 dist: xenial
 node_js:
   - 14
-branches:
-  only:
-    - master
-    - stable
 services:
   - redis
 install: npm install
@@ -19,13 +15,4 @@ deploy:
     api_key:
       secure: $HEROKU_KEY
     on:
-      tags: true
-      branch: stable
-  - provider: heroku
-    skip_cleanup: true
-    app: quienmedebe-staged
-    strategy: git
-    api_key:
-      secure: $HEROKU_KEY
-    on:
-      branch: master
+      repo: quienmedebe/api-rest
