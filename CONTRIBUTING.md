@@ -11,6 +11,11 @@
 5. `git pull --rebase origin develop`
 6. `git push origin feature/[Feature name]`
 
-On GitHub: 7. Open pull request against develop (You have to change the base branch in case master is the default branch) 8. Squash and merge when the PR is approved. Add the ticket number and the description.
+On GitHub:
+7. Open pull request against develop (You have to change the base branch in case master is the default branch)
+8. Squash and merge when the PR is approved. Add the ticket number and the description.
 
-If you need to update your PR 9. Make your changes 10. `git pull --rebase origin develop` 11. `git push --force-with-lease feature/[Feature name]`
+If you need to update your PR
+9. Make your changes
+10. `git pull --rebase origin develop`
+11. `git push --force-with-lease feature/[Feature name]`
