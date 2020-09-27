@@ -1,8 +1,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const matchApiSchema = require('api-contract-validator').chaiPlugin;
+const path = require('path');
+const apiSpec = path.join(__dirname, '../../swagger.json');
 
 const expect = chai.expect;
 chai.use(chaiHttp);
+chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 const Utils = require('../utils');
 
@@ -342,6 +346,20 @@ describe('app.js test suite', function () {
         const request = await requester.get(Utils.INVALID_ROUTE);
 
         expect(request.headers['X-XSS-Protection'.toLowerCase()]).to.not.be.undefined;
+      });
+    });
+  });
+
+  describe('API documentation test suite', function () {
+    describe('Index module', function () {
+      it('GET /unauthorized', async function () {
+        const doTest = await Utils.withEnvironment();
+
+        return doTest(async requester => {
+          const response = await requester.get('/unauthorized');
+
+          expect(response).to.have.status(401).and.to.matchApiSchema();
+        });
       });
     });
   });

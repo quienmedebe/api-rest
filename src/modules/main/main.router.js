@@ -1,20 +1,12 @@
 const express = require('express');
-const {wrapAsync} = require('../shared');
+const ERRORS = require('../error');
 
-function createRouter({logger}) {
+function createRouter() {
   const router = express.Router();
 
-  router.get(
-    '/',
-    wrapAsync(async function (_, res) {
-      logger.log('info', 'A message from the route');
-
-      res.status(200).json({
-        production: false,
-        staged: true,
-      });
-    })
-  );
+  router.get('/unauthorized', (_, res) => {
+    return res.status(401).json(ERRORS.API.UNAUTHORIZED);
+  });
 
   return router;
 }
