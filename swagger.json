@@ -1,0 +1,40 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0.0",
+    "title": "Quién Me Debe API Rest",
+    "description": "API Rest of Quién Me Debe application.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/unauthorized": {
+      "get": {
+        "tags": ["Root"],
+        "produces": ["application/json"],
+        "responses": {
+          "401": {
+            "description": "Authorization information is missing or invalid.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error code"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error description"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

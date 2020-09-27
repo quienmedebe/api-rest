@@ -2,3 +2,5 @@ package-lock.json
 .next/
 node_modules/
 docs/
+docs-html/
+.commit
