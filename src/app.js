@@ -5,6 +5,9 @@ const helmet = require('helmet');
 const redis = require('redis');
 const cors = require('cors');
 
+const apiUI = require('swagger-ui-express');
+const apiSpec = require('../swagger.json');
+
 const Config = require('./config');
 const Errors = require('./modules/error');
 const Middlewares = require('./middlewares');
@@ -41,6 +44,10 @@ function createApplication({env}) {
     })
   );
   app.use('/', Main.createRouter({logger}));
+
+  if (app.get('env') === 'development') {
+    app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));
+  }
 
   app.use((_, res) => {
     return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
