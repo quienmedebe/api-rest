@@ -111,3 +111,6 @@ dump.rdb
 
 # AWS
 .aws
+
+# Add generated files on commit
+.commit

@@ -32,7 +32,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run docs && pretty-quick --staged"
+      "pre-commit": "touch .commit && pretty-quick --staged",
+      "post-commit": "./scripts/post-commit.sh"
     }
   },
   "dependencies": {

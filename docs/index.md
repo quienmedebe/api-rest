@@ -1,8 +1,8 @@
-### /index
+### /unauthorized
 
 #### GET
 ##### Responses
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | OK |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 401 | Authorization information is missing or invalid. | object |
