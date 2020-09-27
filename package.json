@@ -43,6 +43,7 @@
     "rate-limiter-flexible": "^2.1.10",
     "redis": "^3.0.2",
     "stoppable": "^1.1.0",
+    "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.0",
     "winston": "^3.3.3"
   },
