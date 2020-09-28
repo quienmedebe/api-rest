@@ -12,6 +12,14 @@ const environment = {
   REDIS_PORT: process.env.REDIS_PORT || '6379',
 
   /***
+   * Database
+   */
+  DB_HOST: process.env.DB_HOST || '127.0.0.1',
+  DB_NAME: process.env.DB_NAME,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD || null,
+
+  /***
    * Rate limiter per second and ip configuration
    */
   OVERALL_REQUESTS_LIMIT: process.env.OVERALL_REQUESTS_LIMIT,
