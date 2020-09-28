@@ -10,8 +10,12 @@ This repository is the API REST of the application. The intention is to keep the
 
 - [Technologies](#technologies)
 - [Getting started](#getting-started)
+- [Test scripts](#test-scripts)
 - [Documentation](#documentation)
-- [Features](#features)
+- [Code format](#code-format)
+- [Lint](#lint)
+- [CI/CD configuration](#cicd-configuration)
+- [Rate limiter](#rate-limiter)
 
 ## Technologies
 
@@ -23,32 +27,29 @@ This repository is the API REST of the application. The intention is to keep the
 1. Clone the repository: `git clone https://github.com/quienmedebe/api-rest.git`
 2. Enter into the folder: `cd api-rest`
 3. Install the dependencies: `npm install`
-4. Run in production mode: `npm start`
+4. Run in development mode: `npm run dev`
+
+## Test scripts
+All tests are located inside the `test` folder. Inside, there are unit and integration tests. You can use these scripts:
+- `npm run test` Run all tests. Any command line argument can be passed appending `-- --arg1`
+- `npm run test:watch` Watch all files and run the tests again when a file changes
+- `npm run test:coverage` Returns a coverage report
+- `npm run test:dump` Debug tool to detect infinite tests. It is better to solve the test root issue rather than to add the command line argument `--exit`. If the tests are not finishing it is because there is an issue there.
 
 ## Documentation
+The API uses Swagger to document itself. The documentation is regenerated after each commit inside `docs` (Markdown documentation) and `docs-html` (HTML documentation). You can also access the documentation running the application in development mode and navigating with the browser to `/docs`.
 
-To generate the documentation:
+Some tests require the documentation to be up-to-date with the API. The details of the API documentation are inside the `swagger.json` file.
 
-1. Clone the repository `git clone https://github.com/quienmedebe/api-rest.git`
-2. Enter into the repository folder `cd api-rest`
-3. Generate the documentation `npm run docs`. The documentation will appear inside the docs folder.
-4. With your browser open the `docs/index.html` file.
+## Code format
+The code is formatted automatically after each commit according to `.prettierrc.js` file
 
-Inside the documentation you will find the public API routes and different module documentation.
+## Lint
+The code linter is ESLint.
 
-## Features
+## CI\/CD configuration
+After each Pull Request is created a build is triggered and all the command `npm run test` is executed. If a test fails, the entire build will fail.
+After each commit to master (PR merged), a build is triggered and the application is deployed to Heroku.
 
-### Developed
-
-- API Rate Limiter
-
-### To do
-
-- Basic Walking Skeleton (CI/CD, Build process, Rate limiter...)
-- CI/CD flow
-- Release flow
-- Dockerization
-- Development environment with Docker
-- Deploy to production process
-- Authentication system with JWT
-- CRUD of debts (Create debts, Read debts, Update debts, Delete Debts).
+## Rate limiter
+All requests must pass the root rate limiter. This limiter is fired when there are more than 10 requests per second from the same ip address. Additional rate limiters can be implemented.
