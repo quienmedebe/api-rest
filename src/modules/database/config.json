@@ -1,0 +1,20 @@
+{
+  "development": {
+    "host": "127.0.0.1",
+    "database": "quienmedebe_dev",
+    "username": "root",
+    "password": "",
+    "dialect": "postgres"
+  },
+  "test": {
+    "host": "127.0.0.1",
+    "database": "quienmedebe_test",
+    "username": "root",
+    "password": "",
+    "dialect": "postgres"
+  },
+  "production": {
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
