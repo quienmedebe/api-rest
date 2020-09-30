@@ -2,17 +2,17 @@
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Account extends Model {
+  class EmailProvider extends Model {
     static associate(models) {
-      Account.hasMany(models.EmailProvider, {
+      EmailProvider.belongsTo(models.Account, {
         foreignKey: 'account_id',
-        as: 'email_providers',
+        as: 'account',
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       });
     }
   }
-  Account.init(
+  EmailProvider.init(
     {
       id: {
         type: DataTypes.BIGINT,
@@ -21,10 +21,28 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
+      account_id: {
+        type: DataTypes.BIGINT,
+        references: {
+          model: 'accounts',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
-      modelName: 'Account',
+      modelName: 'EmailProvider',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -33,5 +51,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  return Account;
+  return EmailProvider;
 };

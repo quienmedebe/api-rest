@@ -4,9 +4,10 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface.createTable('accounts', {
       id: {
-        type: Sequelize.BIGINT.UNSIGNED,
+        type: Sequelize.BIGINT,
         primaryKey: true,
         autoIncrement: true,
+        unique: true,
       },
       created_at: {
         type: Sequelize.DATE,
