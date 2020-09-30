@@ -2,15 +2,15 @@
   "development": {
     "host": "127.0.0.1",
     "database": "quienmedebe_dev",
-    "username": "root",
-    "password": "",
+    "username": "quienmedebe",
+    "password": "Passw0rd",
     "dialect": "postgres"
   },
   "test": {
     "host": "127.0.0.1",
     "database": "quienmedebe_test",
-    "username": "root",
-    "password": "",
+    "username": "quienmedebe",
+    "password": "Passw0rd",
     "dialect": "postgres"
   },
   "production": {
