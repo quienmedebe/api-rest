@@ -2,8 +2,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const {functions} = require('../../../database');
 
-const localStrategy = name =>
-  new LocalStrategy(
+const localStrategy = name => {
+  return new LocalStrategy(
     name,
     {
       usernameField: 'email',
@@ -11,8 +11,13 @@ const localStrategy = name =>
       session: false,
     },
     async (email, password, done) => {
-      const provider = await functions.getAccountFromEmail(email);
+      const account = await functions.getAccountFromEmail(email);
 
+      if (!account) {
+        return done(null, false);
+      }
+
+      const provider = account.email_providers && account.email_providers.find(provider => provider.email === email);
       if (!provider) {
         return done(null, false);
       }
@@ -22,11 +27,14 @@ const localStrategy = name =>
         return done(null, false);
       }
 
-      const parsedProvider = {...provider};
-      delete parsedProvider.password;
+      // The unique interesting part for the next requests is the account. I do not care about how the user logged in.
+      // Also, it is a method to standarize all the strategies.
+      const parsedAccount = {...account};
+      delete parsedAccount.email_providers;
 
-      return done(null, parsedProvider);
+      return done(null, parsedAccount);
     }
   );
+};
 
 module.exports = localStrategy;

@@ -8,6 +8,11 @@ const environment = {
   PORT: process.env.PORT || '5000',
   APP_ENV: process.env.APP_ENV || 'development',
   COOKIES_SESSION_SECRET: process.env.COOKIES_SESSION_SECRET || 'SCRT_{C0oki3Sup3rS3Cr3t}',
+  TOKEN_SECRET: process.env.TOKEN_SECRET || 'T0k3N*{S3CrEt_MAx1M-m_sECUR1T1}{',
+
+  /***
+   * REDIS CONFIGURATION
+   */
   REDIS_HOST: process.env.REDIS_HOST || '127.0.0.1',
   REDIS_PORT: process.env.REDIS_PORT || '6379',
 

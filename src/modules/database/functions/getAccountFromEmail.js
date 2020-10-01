@@ -3,18 +3,18 @@ const {Account, EmailProvider} = require('../models');
 
 async function getAccountFromEmail(email) {
   if (!Shared.isString(email, {strict: true})) {
-    throw new Error('The email is required');
+    throw new Error('The email must be a string');
   }
 
-  await EmailProvider.findOne({
-    where: {
-      email,
-    },
+  await Account.findOne({
     include: [
       {
-        model: Account,
-        as: 'account',
+        model: EmailProvider,
+        as: 'email_providers',
         required: true,
+        where: {
+          email,
+        },
       },
     ],
   });
