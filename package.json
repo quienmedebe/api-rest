@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "ajv": "^6.12.5",
+    "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -45,6 +46,10 @@
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
     "helmet": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "rate-limiter-flexible": "^2.1.10",

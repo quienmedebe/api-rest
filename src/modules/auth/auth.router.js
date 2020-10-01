@@ -12,7 +12,8 @@ function createRouter({logger}) {
     const ajv = new Ajv({coerceTypes: true, removeAdditional: true});
     const requestSchema = {
       type: 'object',
-      properties: {
+      required: ['email', 'password'],
+      items: {
         email: {
           type: 'string',
           format: 'email',

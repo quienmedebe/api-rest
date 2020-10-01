@@ -1,17 +1,21 @@
 const Sequelize = require('sequelize');
 
-module.exports = function Database({dbName, user, password}) {
+let sequelize, models, functions;
+function init({dbName, user, password, host}) {
   const dbConfig = {
     dbName,
     user,
     password,
+    host,
   };
-  const sequelize = require('./sequelize')(dbConfig);
-  const models = require('./models')(sequelize, Sequelize.DataTypes);
 
-  return {
-    Sequelize,
-    sequelize,
-    models,
-  };
-};
+  functions = require('./functions');
+  sequelize = require('./sequelize')(dbConfig);
+  models = require('./models')(sequelize, Sequelize.DataTypes);
+}
+
+exports.init = init;
+exports.sequelize = sequelize;
+exports.models = models;
+exports.functions = functions;
+module.exports = exports;
