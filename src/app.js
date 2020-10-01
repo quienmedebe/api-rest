@@ -11,9 +11,10 @@ const apiSpec = require('../swagger.json');
 const Config = require('./config');
 const Errors = require('./modules/error');
 const Middlewares = require('./middlewares');
+const Logger = require('./modules/logger');
 
 const Main = require('./modules/main');
-const Logger = require('./modules/logger');
+const Auth = require('./modules/auth');
 
 function createApplication({env}) {
   const app = express();
@@ -28,7 +29,11 @@ function createApplication({env}) {
   app.use(Middlewares.HttpContext.httpContext.middleware);
   app.use(Middlewares.HttpContext.requestIdMiddleware);
 
-  const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext);
+  const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext, {
+    console: {
+      silent: env.APP_ENV === 'test',
+    },
+  });
 
   const redisClient = redis.createClient({
     host: env.REDIS_HOST,
@@ -43,7 +48,11 @@ function createApplication({env}) {
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );
+  /***
+   * ROUTES
+   */
   app.use('/', Main.createRouter({logger}));
+  app.use('/auth', Auth.createRouter({logger}));
 
   if (app.get('env') === 'development') {
     app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));

@@ -7,12 +7,14 @@ const addRequestId = context => {
   });
 };
 
-function createHttpLogger(httpContext) {
+function createHttpLogger(httpContext, {console = {}}) {
   return winston.createLogger({
     format: winston.format.combine(addRequestId(httpContext)(), winston.format.timestamp(), winston.format.json()),
     transports: [
       new winston.transports.Console({
+        name: 'console',
         timestamp: true,
+        ...console,
       }),
     ],
   });
