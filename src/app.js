@@ -4,6 +4,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const redis = require('redis');
 const cors = require('cors');
+const passport = require('passport');
 
 const apiUI = require('swagger-ui-express');
 const apiSpec = require('../swagger.json');
@@ -12,6 +13,7 @@ const Config = require('./config');
 const Errors = require('./modules/error');
 const Middlewares = require('./middlewares');
 const Logger = require('./modules/logger');
+const Database = require('./modules/database');
 
 const Main = require('./modules/main');
 const Auth = require('./modules/auth');
@@ -35,6 +37,13 @@ function createApplication({env}) {
     },
   });
 
+  Database.init({
+    host: env.DB_HOST,
+    dbName: env.DB_NAME,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
+  });
+
   const redisClient = redis.createClient({
     host: env.REDIS_HOST,
     port: env.REDIS_PORT,
@@ -48,6 +57,13 @@ function createApplication({env}) {
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );
+
+  /***
+   * PASSPORT
+   */
+  app.use(Auth.auth.passport.initialize());
+  Auth.auth.passport.use(Auth.auth.Strategies.LocalStrategy('local'));
+
   /***
    * ROUTES
    */
