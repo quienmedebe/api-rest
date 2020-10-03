@@ -1,5 +1,3 @@
-exports.getAccountFromEmail = require('./getAccountFromEmail');
-exports.getAccountFromId = require('./getAccountFromId');
-exports.createAccountFromEmailAndPassword = require('./createAccountFromEmailAndPassword');
+exports.auth = require('./auth');
 
 module.exports = exports;

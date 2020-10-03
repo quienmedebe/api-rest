@@ -6,7 +6,7 @@ module.exports = {
 
     try {
       await queryInterface.createTable(
-        'email_provider',
+        'email_providers',
         {
           id: {
             type: Sequelize.BIGINT,
@@ -48,7 +48,7 @@ module.exports = {
         {transaction}
       );
 
-      await queryInterface.addIndex('email_provider', ['account_id', 'email'], {transaction});
+      await queryInterface.addIndex('email_providers', ['account_id', 'email'], {transaction});
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
@@ -57,6 +57,6 @@ module.exports = {
   },
 
   down: async queryInterface => {
-    return await queryInterface.dropTable('email_provider');
+    return await queryInterface.dropTable('email_providers');
   },
 };

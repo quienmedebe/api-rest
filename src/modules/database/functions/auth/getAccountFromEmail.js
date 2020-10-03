@@ -1,5 +1,5 @@
-const Shared = require('../../shared');
-const {Account, EmailProvider} = require('../models');
+const Shared = require('../../../shared');
+const {Account, EmailProvider} = require('../../models');
 
 async function getAccountFromEmail(email) {
   if (!Shared.isString(email, {strict: true})) {
