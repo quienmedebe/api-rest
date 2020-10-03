@@ -1,11 +1,11 @@
-const isEmailUnique = require('./isEmailUnique');
+const emailExists = require('./emailExists');
 const {Account, EmailProvider, sequelize} = require('../../models');
 
 const createAccountFromEmailAndPassword = async (email, password, accountAttributes = {}) => {
   const response = await sequelize.transaction(async t => {
-    const canCreateAccount = await isEmailUnique(email, {transaction: t});
+    const doesEmailExist = await emailExists(email, {transaction: t});
 
-    if (!canCreateAccount) {
+    if (doesEmailExist) {
       return null;
     }
 

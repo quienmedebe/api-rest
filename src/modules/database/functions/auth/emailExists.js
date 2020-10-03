@@ -1,6 +1,6 @@
 const {EmailProvider} = require('../../models');
 
-const isEmailUnique = async (email, options = {}) => {
+const emailExists = async (email, options = {}) => {
   const provider = await EmailProvider.findOne({
     where: {
       email,
@@ -8,7 +8,7 @@ const isEmailUnique = async (email, options = {}) => {
     ...options,
   });
 
-  return !provider;
+  return Boolean(provider);
 };
 
-module.exports = isEmailUnique;
+module.exports = emailExists;
