@@ -3,21 +3,24 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const {Database} = require('../../../database');
 
-const jwtStrategy = (name, secret) => {
+const jwtStrategy = secret => {
   return new JWTStrategy(
-    name,
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       secretOrKey: secret,
     },
     async function (payload, done) {
-      const account = await Database.functions.getAccountFromId(payload.id);
+      try {
+        const account = await Database.functions.getAccountFromId(payload.id);
 
-      if (!account) {
-        return done(null, false);
+        if (!account) {
+          return done(null, false);
+        }
+
+        return done(null, account);
+      } catch (err) {
+        return done(err, false);
       }
-
-      return done(null, account);
     }
   );
 };

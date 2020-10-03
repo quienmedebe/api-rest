@@ -62,8 +62,8 @@ function createApplication({env}) {
    * PASSPORT
    */
   app.use(Auth.auth.passport.initialize());
-  Auth.auth.passport.use(Auth.auth.Strategies.LocalStrategy('local'));
-  Auth.auth.passport.use(Auth.auth.Strategies.JWTStrategy('jwt', env.TOKEN_SECRET));
+  Auth.auth.passport.use(Auth.auth.Strategies.LocalStrategy());
+  Auth.auth.passport.use(Auth.auth.Strategies.JWTStrategy(env.TOKEN_SECRET));
 
   /***
    * ROUTES
