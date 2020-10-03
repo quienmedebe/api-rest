@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const {functions} = require('../../../database');
+const Database = require('../../../database');
 
 const localStrategy = () => {
   return new LocalStrategy(
@@ -11,7 +11,7 @@ const localStrategy = () => {
     },
     async (email, password, done) => {
       try {
-        const account = await functions.getAccountFromEmail(email);
+        const account = await Database.functions.auth.getAccountFromEmail(email);
 
         if (!account) {
           return done(null, false);

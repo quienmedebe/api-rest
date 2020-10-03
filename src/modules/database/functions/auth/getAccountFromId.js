@@ -1,5 +1,5 @@
-const Shared = require('../../shared');
-const {Account} = require('../models');
+const Shared = require('../../../shared');
+const {Account} = require('../../models');
 
 async function getAccountFromId(id) {
   if (!Shared.isNumber(id)) {

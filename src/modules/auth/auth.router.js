@@ -1,38 +1,48 @@
 const express = require('express');
 const Ajv = require('ajv');
-const ERRORS = require('../error');
 const validation = require('./validation');
 const functions = require('./auth.functions');
+const errors = require('./auth.errors');
+const Errors = require('../error');
+const Shared = require('../shared');
 
 function createRouter({logger, env}) {
   const router = express.Router();
 
-  router.post('/signup', async (req, res) => {
-    logger.info('Start signup');
+  router.post(
+    '/signup',
+    Shared.wrapAsync(async (req, res) => {
+      logger.info('Start signup');
 
-    const ajv = new Ajv({coerceTypes: true, removeAdditional: true, logger: logger});
-    const requestSchema = {
-      type: 'object',
-      required: ['email', 'password'],
-      properties: {
-        ...validation.emailPasswordSchema,
-      },
-    };
-    const isValidRequest = ajv.validate(requestSchema, req.body);
+      const {email, password} = req.body;
 
-    if (!isValidRequest) {
-      return res.status(400).json(ERRORS.API.BAD_REQUEST);
-    }
+      const ajv = new Ajv({logger: logger});
+      const isValidEmail = ajv.validate(validation.emailSchema, email);
+      const isValidPassword = ajv.validate(validation.passwordSchema, password);
 
-    const {email, password} = req.body;
-    const options = {
-      salt: env.SALT_NUMBER,
-    };
+      if (!isValidEmail || !isValidPassword) {
+        return res.status(400).json(Errors.API.BAD_REQUEST);
+      }
 
-    const response = await functions.createAccountFromEmailAndPassword(email, password, {}, options);
+      const options = {
+        salt: env.SALT_NUMBER,
+      };
 
-    return res.status(200).json(response);
-  });
+      const account = await functions.createAccountFromEmailAndPassword(email, password, {}, options);
+      if (account.error) {
+        switch (account.error) {
+          case errors.DUPLICATE_EMAIL:
+            return res.status(400).json(Errors.sendApiError(errors.DUPLICATE_EMAIL, 'The email already exists', 400));
+          default:
+            return res.status(400).json(Errors.API.BAD_REQUEST);
+        }
+      }
+
+      const response = account.data;
+
+      return res.status(200).json(response);
+    })
+  );
 
   return router;
 }
