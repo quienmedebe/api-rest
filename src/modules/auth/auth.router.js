@@ -1,8 +1,11 @@
 const express = require('express');
 const Ajv = require('ajv');
+const jwt = require('jsonwebtoken');
 const validation = require('./validation');
 const functions = require('./auth.functions');
+const passport = require('./passport');
 const errors = require('./auth.errors');
+
 const Errors = require('../error');
 const Shared = require('../shared');
 
@@ -46,6 +49,36 @@ function createRouter({logger, env}) {
       const response = account.data;
 
       return res.status(200).json(response);
+    })
+  );
+
+  router.post(
+    '/login',
+    Shared.wrapAsync((req, res) => {
+      const noSession = {session: false};
+      return passport.client.authenticate('local', {...noSession}, (err, account) => {
+        if (err || !account) {
+          return res.status(401).json(Errors.API.UNAUTHORIZED);
+        }
+
+        const payload = {
+          id: account.id,
+          expires: Date.now() + parseInt(env.JWT_EXPIRATION_MS, 10),
+        };
+
+        return req.login(payload, {...noSession}, err => {
+          if (err) {
+            return res.status(401).json(Errors.API.UNAUTHORIZED);
+          }
+
+          const token = jwt.sign(JSON.stringify(payload), env.TOKEN_SECRET);
+
+          const response = {
+            access_token: token,
+          };
+          return res.status(200).json(response);
+        });
+      })(req, res);
     })
   );
 

@@ -11,6 +11,9 @@ const jwtStrategy = secret => {
     },
     async function (payload, done) {
       try {
+        if (Date.now() > payload.expires) {
+          return done(null, false);
+        }
         const account = await Database.functions.auth.getAccountFromId(payload.id);
 
         if (!account) {

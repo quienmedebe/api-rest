@@ -1,7 +1,7 @@
 const createErrorMessage = require('./internals/createErrorMessage');
 
-function sendApiError(code, message, status) {
-  return createErrorMessage(code, message, {status});
+function sendApiError(error, message, status) {
+  return createErrorMessage(error, message, {status});
 }
 
 module.exports = sendApiError;

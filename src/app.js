@@ -52,7 +52,6 @@ function createApplication({env}) {
   /***
    * PASSPORT
    */
-  app.use(Auth.passport.client.initialize());
   Auth.passport.client.use(Auth.passport.Strategies.LocalStrategy());
   Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(env.TOKEN_SECRET));
 
@@ -83,6 +82,7 @@ function createApplication({env}) {
         callback();
       });
     };
+
     if (flush) {
       return redisClient.flushall('ASYNC', closeFn);
     }
