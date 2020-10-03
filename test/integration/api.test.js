@@ -12,7 +12,7 @@ const Utils = require('../utils');
 
 describe('API test suite', function () {
   describe('API tests', function () {
-    describe('/auth - Auth module', function () {
+    describe.only('/auth - Auth module', function () {
       it('should return a 200 status when a user signups with email and password when all parameters are correct', async function () {
         const doTest = await Utils.withEnvironment();
 
@@ -21,7 +21,7 @@ describe('API test suite', function () {
             email: 'test@example.com',
             password: 'P4ssW0rD!',
           };
-          const response = await requester.post('/auth/signup', signupBody);
+          const response = await requester.post('/auth/signup').send(signupBody);
 
           expect(response).to.have.status(200);
         });
@@ -36,15 +36,45 @@ describe('API test suite', function () {
             password: '',
           };
           const wrongEmailBody = {
-            email: 'test@example.com',
-            password: '',
+            email: 'test@',
+            password: '123456',
           };
 
-          const wrongPasswordResponse = await requester.post('/auth/signup', wrongPasswordBody);
-          const wrongEmailResponse = await requester.post('/auth/signup', wrongEmailBody);
+          const wrongPasswordResponse = await requester.post('/auth/signup').send(wrongPasswordBody);
+          const wrongEmailResponse = await requester.post('/auth/signup').send(wrongEmailBody);
 
           expect(wrongPasswordResponse).to.have.status(400);
           expect(wrongEmailResponse).to.have.status(400);
+        });
+      });
+
+      it('should return a 400 status if the password length is below the minimum required', async function () {
+        const doTest = await Utils.withEnvironment();
+
+        return doTest(async requester => {
+          const signupBody = {
+            email: 'test@example.com',
+            password: '12345',
+          };
+
+          const wrongPasswordResponse = await requester.post('/auth/signup').send(signupBody);
+
+          expect(wrongPasswordResponse).to.have.status(400);
+        });
+      });
+
+      it('should return a 400 status if the password length is above the maximum limit', async function () {
+        const doTest = await Utils.withEnvironment();
+
+        return doTest(async requester => {
+          const signupBody = {
+            email: 'test@example.com',
+            password: '1'.repeat(256),
+          };
+
+          const wrongPasswordResponse = await requester.post('/auth/signup').send(signupBody);
+
+          expect(wrongPasswordResponse).to.have.status(400);
         });
       });
     });
