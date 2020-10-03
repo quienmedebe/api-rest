@@ -1,18 +1,17 @@
 const chai = require('chai');
 const {createApplication} = require('../../src/app');
-const Env = require('../../src/env');
+const defaultEnv = require('../../src/env.default');
+const truncateDB = require('./truncateDB');
 
 const withEnvironment = async (env = {}) => {
-  const stringifiedValues = {};
-  Object.entries(env).forEach(([key, value]) => {
-    stringifiedValues[key.toString()] = value.toString();
-  });
-
   const environment = {
     ...process.env,
-    ...Env,
+    ...defaultEnv,
+    NODE_ENV: 'test',
     APP_ENV: 'test',
-    ...stringifiedValues,
+    ACTIVE_TEST_CONSOLE: false,
+    SALT_NUMBER: 1,
+    ...env,
   };
 
   const app = createApplication({
@@ -24,6 +23,7 @@ const withEnvironment = async (env = {}) => {
     try {
       await callback(requester);
     } finally {
+      await truncateDB();
       app.close(() => {
         requester.close();
       }, true);

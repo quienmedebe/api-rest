@@ -1,6 +1,6 @@
-function createErrorMessage(code, message, options = {}) {
+function createErrorMessage(error, message, options = {}) {
   return {
-    code,
+    error,
     message,
     ...options,
   };

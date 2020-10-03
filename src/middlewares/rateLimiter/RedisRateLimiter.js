@@ -10,7 +10,7 @@ function RedisRateLimiter(redis, {name, points, duration, errorResponse}) {
   });
 
   return async (req, res, next) => {
-    const limitPoints = points;
+    const limitPoints = +points;
 
     if (!limitPoints) {
       return next();

@@ -12,7 +12,7 @@ const Utils = require('../utils');
 
 describe('API test suite', function () {
   describe('API tests', function () {
-    describe.only('/auth - Auth module', function () {
+    describe.only('/auth - Auth module @slow', function () {
       it('should return a 200 status when a user signups with email and password when all parameters are correct', async function () {
         const doTest = await Utils.withEnvironment();
 
