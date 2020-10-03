@@ -28,7 +28,10 @@ function createRouter({logger, env}) {
         salt: env.SALT_NUMBER,
       };
 
+      logger.info('Valid input data');
+
       const account = await functions.createAccountFromEmailAndPassword(email, password, {}, options);
+
       if (account.error) {
         switch (account.error) {
           case errors.DUPLICATE_EMAIL:
@@ -37,6 +40,8 @@ function createRouter({logger, env}) {
             return res.status(400).json(Errors.API.BAD_REQUEST);
         }
       }
+
+      logger.info('Account creation success');
 
       const response = account.data;
 
