@@ -4,7 +4,6 @@ const compression = require('compression');
 const helmet = require('helmet');
 const redis = require('redis');
 const cors = require('cors');
-const passport = require('passport');
 
 const apiUI = require('swagger-ui-express');
 const apiSpec = require('../swagger.json');
@@ -13,7 +12,6 @@ const Config = require('./config');
 const Errors = require('./modules/error');
 const Middlewares = require('./middlewares');
 const Logger = require('./modules/logger');
-const Database = require('./modules/database');
 
 const Main = require('./modules/main');
 const Auth = require('./modules/auth');
@@ -33,15 +31,8 @@ function createApplication({env}) {
 
   const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext, {
     console: {
-      silent: env.APP_ENV === 'test',
+      silent: env.DISABLE_CONSOLE || (env.APP_ENV === 'test' && !env.ACTIVE_TEST_CONSOLE),
     },
-  });
-
-  Database.init({
-    host: env.DB_HOST,
-    dbName: env.DB_NAME,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
   });
 
   const redisClient = redis.createClient({
@@ -52,8 +43,8 @@ function createApplication({env}) {
   app.use(
     Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
       name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-      points: +env.OVERALL_REQUESTS_LIMIT,
-      duration: +env.OVERALL_REQUESTS_DURATION,
+      points: env.OVERALL_REQUESTS_LIMIT,
+      duration: env.OVERALL_REQUESTS_DURATION,
       errorResponse: Errors.API.TOO_MANY_REQUESTS,
     })
   );
@@ -61,15 +52,15 @@ function createApplication({env}) {
   /***
    * PASSPORT
    */
-  app.use(Auth.auth.passport.initialize());
-  Auth.auth.passport.use(Auth.auth.Strategies.LocalStrategy());
-  Auth.auth.passport.use(Auth.auth.Strategies.JWTStrategy(env.TOKEN_SECRET));
+  app.use(Auth.passport.client.initialize());
+  Auth.passport.client.use(Auth.passport.Strategies.LocalStrategy());
+  Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(env.TOKEN_SECRET));
 
   /***
    * ROUTES
    */
   app.use('/', Main.createRouter({logger}));
-  app.use('/auth', Auth.createRouter({logger}));
+  app.use('/auth', Auth.createRouter({logger, env}));
 
   if (app.get('env') === 'development') {
     app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));

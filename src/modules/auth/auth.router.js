@@ -1,30 +1,21 @@
 const express = require('express');
 const Ajv = require('ajv');
 const ERRORS = require('../error');
-const Shared = require('../shared');
+const validation = require('./validation');
+const functions = require('./auth.functions');
 
-function createRouter({logger}) {
+function createRouter({logger, env}) {
   const router = express.Router();
 
-  router.post('/signup', (req, res) => {
+  router.post('/signup', async (req, res) => {
     logger.info('Start signup');
 
-    const ajv = new Ajv({coerceTypes: true, removeAdditional: true});
+    const ajv = new Ajv({coerceTypes: true, removeAdditional: true, logger: logger});
     const requestSchema = {
       type: 'object',
       required: ['email', 'password'],
-      items: {
-        email: {
-          type: 'string',
-          format: 'email',
-          minLength: Shared.defs.AUTH.email.minLength,
-          maxLength: Shared.defs.AUTH.email.maxLength,
-        },
-        password: {
-          type: 'string',
-          minLength: Shared.defs.AUTH.password.minLength,
-          maxLength: Shared.defs.AUTH.password.maxLength,
-        },
+      properties: {
+        ...validation.emailPasswordSchema,
       },
     };
     const isValidRequest = ajv.validate(requestSchema, req.body);
@@ -33,7 +24,12 @@ function createRouter({logger}) {
       return res.status(400).json(ERRORS.API.BAD_REQUEST);
     }
 
-    const response = {};
+    const {email, password} = req.body;
+    const options = {
+      salt: env.SALT_NUMBER,
+    };
+
+    const response = await functions.createAccountFromEmailAndPassword(email, password, {}, options);
 
     return res.status(200).json(response);
   });
