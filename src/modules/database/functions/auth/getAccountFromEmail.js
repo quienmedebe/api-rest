@@ -6,7 +6,7 @@ async function getAccountFromEmail(email) {
     throw new Error('The email must be a string');
   }
 
-  await Account.findOne({
+  const account = await Account.findOne({
     include: [
       {
         model: EmailProvider,
@@ -18,6 +18,8 @@ async function getAccountFromEmail(email) {
       },
     ],
   });
+
+  return account;
 }
 
 module.exports = getAccountFromEmail;
