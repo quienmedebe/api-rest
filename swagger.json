@@ -71,7 +71,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth", "Signup"],
+        "tags": ["Auth", "Login"],
         "produces": ["application/json"],
         "responses": {
           "200": {
