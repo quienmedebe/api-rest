@@ -36,6 +36,7 @@ function createRouter({logger, env}) {
       const account = await functions.createAccountFromEmailAndPassword(email, password, {}, options);
 
       if (account.error) {
+        logger.info('Create account error');
         switch (account.error) {
           case errors.DUPLICATE_EMAIL:
             return res.status(400).json(Errors.sendApiError(errors.DUPLICATE_EMAIL, 'The email already exists', 400));
@@ -46,9 +47,26 @@ function createRouter({logger, env}) {
 
       logger.info('Account creation success');
 
-      const response = account.data;
+      const payload = {
+        id: account.data.id,
+        expires: Date.now() + parseInt(env.JWT_EXPIRATION_MS, 10),
+      };
+      const noSession = {session: false};
 
-      return res.status(200).json(response);
+      return req.login(payload, {...noSession}, err => {
+        if (err) {
+          logger.info('Error after signup', err);
+          return res.status(401).json(Errors.API.UNAUTHORIZED);
+        }
+
+        const token = functions.signToken(payload, {secret: env.TOKEN_SECRET});
+
+        const response = {
+          access_token: token,
+        };
+        logger.info('Returned access token');
+        return res.status(200).json(response);
+      });
     })
   );
 
@@ -71,7 +89,7 @@ function createRouter({logger, env}) {
             return res.status(401).json(Errors.API.UNAUTHORIZED);
           }
 
-          const token = jwt.sign(JSON.stringify(payload), env.TOKEN_SECRET);
+          const token = functions.signToken(payload, {secret: env.TOKEN_SECRET});
 
           const response = {
             access_token: token,

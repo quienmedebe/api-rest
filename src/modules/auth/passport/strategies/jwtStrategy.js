@@ -20,7 +20,7 @@ const jwtStrategy = secret => {
           return done(null, false);
         }
 
-        return done(null, account);
+        return done(null, account.toJSON());
       } catch (err) {
         return done(err, false);
       }
