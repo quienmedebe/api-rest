@@ -17,7 +17,9 @@ const localStrategy = () => {
           return done(null, false);
         }
 
-        const provider = account.email_providers && account.email_providers.find(provider => provider.email === email);
+        const parsedAccount = account.toJSON();
+
+        const provider = parsedAccount.email_providers && parsedAccount.email_providers.find(provider => provider.email === email);
         if (!provider) {
           return done(null, false);
         }
@@ -29,10 +31,10 @@ const localStrategy = () => {
 
         // The interesting part for the next requests is the account. I do not care about how the user logged in.
         // Also, it is a method to standarize the result of all the strategies.
-        const parsedAccount = {...account};
-        delete parsedAccount.email_providers;
+        const response = {...parsedAccount};
+        delete response.email_providers;
 
-        return done(null, parsedAccount);
+        return done(null, response);
       } catch (err) {
         return done(err, false);
       }
