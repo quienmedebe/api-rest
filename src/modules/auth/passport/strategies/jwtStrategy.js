@@ -1,7 +1,7 @@
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-const {Database} = require('../../../database');
+const {Database} = require('../../../../services/database');
 
 const jwtStrategy = secret => {
   return new JWTStrategy(

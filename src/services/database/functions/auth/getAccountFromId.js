@@ -1,4 +1,4 @@
-const Shared = require('../../../shared');
+const Shared = require('../../../../modules/shared');
 const {Account} = require('../../models');
 
 async function getAccountFromId(id) {
