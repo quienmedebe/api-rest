@@ -2,7 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
-const redis = require('redis');
 const cors = require('cors');
 
 const apiUI = require('swagger-ui-express');
@@ -15,6 +14,8 @@ const Logger = require('./modules/logger');
 
 const Main = require('./modules/main');
 const Auth = require('./modules/auth');
+
+const Redis = require('./services/redis');
 
 function createApplication({env}) {
   const app = express();
@@ -35,13 +36,14 @@ function createApplication({env}) {
     },
   });
 
-  const redisClient = redis.createClient({
+  Redis.connect({
     host: env.REDIS_HOST,
     port: env.REDIS_PORT,
   });
+  const redis = Redis.getClient();
 
   app.use(
-    Middlewares.RateLimiter.RedisRateLimiter(redisClient, {
+    Middlewares.RateLimiter.RedisRateLimiter(redis, {
       name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
       points: env.OVERALL_REQUESTS_LIMIT,
       duration: env.OVERALL_REQUESTS_DURATION,
@@ -75,18 +77,13 @@ function createApplication({env}) {
     return res.status(500).json(Errors.API.INTERNAL_SERVER_ERROR);
   });
 
-  function close(cb, flush = false) {
-    const closeFn = () => {
-      const callback = cb;
-      redisClient.quit(() => {
-        callback();
-      });
-    };
-
+  async function close(cb, flush = false) {
     if (flush) {
-      return redisClient.flushall('ASYNC', closeFn);
+      return redis.end(true);
     }
-    return closeFn();
+    await redis.quitAsync();
+
+    return cb();
   }
   app.close = close;
 
