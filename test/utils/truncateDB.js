@@ -1,4 +1,4 @@
-const {models} = require('../../src/modules/database');
+const {models} = require('../../src/services/database');
 
 async function truncateDB() {
   const destroyModel = async key => {

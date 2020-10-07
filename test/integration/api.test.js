@@ -31,7 +31,7 @@ describe('API test suite', function () {
           });
         });
 
-        it('should return a 400 status if the password or the email are invalid @api @auth @signup @slow', async function () {
+        it('should return a 400 status on a invalid request @api @auth @signup @slow', async function () {
           const doTest = await Utils.withEnvironment();
 
           return doTest(async requester => {
@@ -69,7 +69,7 @@ describe('API test suite', function () {
             expect(wrongPasswordMaximumLengthResponse, 'The password length above maximum length status is not correct').to.have.status(400);
             expect(wrongPasswordMaximumLengthResponse.body, 'Should have an error property (password length above maximum length)').to.have.property('error');
 
-            expect(wrongPasswordResponse).to.matchApiSchema();
+            expect(wrongPasswordResponse, 'Wrong API documentation').to.matchApiSchema();
           });
         });
 
@@ -89,7 +89,7 @@ describe('API test suite', function () {
               expect(loginResponse, 'The status code is incorrect').to.have.status(200);
               expect(loginResponse.body, 'access_token not found on body response').to.have.property('access_token');
 
-              expect(loginResponse).to.matchApiSchema();
+              expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
             });
           });
 
@@ -104,9 +104,9 @@ describe('API test suite', function () {
 
               const loginResponse = await requester.post('/auth/login').send(body);
 
-              expect(loginResponse).to.have.status(401);
+              expect(loginResponse, 'The status code is incorrect').to.have.status(401);
 
-              expect(loginResponse).to.matchApiSchema();
+              expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
             });
           });
         });
