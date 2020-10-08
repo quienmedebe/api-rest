@@ -7,15 +7,15 @@ const cors = require('cors');
 const apiUI = require('swagger-ui-express');
 const apiSpec = require('../swagger.json');
 
-const Config = require('./config');
-const Errors = require('./modules/error');
-const Middlewares = require('./middlewares');
-const Logger = require('./modules/logger');
+const Redis = require('./services/redis');
+const Logger = require('./services/logger');
 
+const Config = require('./config');
+const Middlewares = require('./middlewares');
+
+const Errors = require('./modules/error');
 const Main = require('./modules/main');
 const Auth = require('./modules/auth');
-
-const Redis = require('./services/redis');
 
 function createApplication({env}) {
   const app = express();
@@ -30,8 +30,9 @@ function createApplication({env}) {
   app.use(Middlewares.HttpContext.httpContext.middleware);
   app.use(Middlewares.HttpContext.requestIdMiddleware);
 
-  const logger = Logger.createHttpLogger(Middlewares.HttpContext.httpContext, {
-    console: {
+  const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.get('reqId'), {
+    consoleOptions: {
+      name: 'console',
       silent: env.DISABLE_CONSOLE || (env.APP_ENV === 'test' && !env.ACTIVE_TEST_CONSOLE),
     },
   });
@@ -42,14 +43,14 @@ function createApplication({env}) {
   });
   const redis = Redis.getClient();
 
-  app.use(
-    Middlewares.RateLimiter.RedisRateLimiter(redis, {
-      name: Config.RATE_LIMITS.OVERALL_REQUESTS_KEY,
-      points: env.OVERALL_REQUESTS_LIMIT,
-      duration: env.OVERALL_REQUESTS_DURATION,
-      errorResponse: Errors.API.TOO_MANY_REQUESTS,
-    })
-  );
+  const generalRateLimiter = Middlewares.RateLimiter.RedisRateLimiter(redis, {
+    name: Config.RATE_LIMITS.GENERAL_REQUESTS_KEY,
+    points: env.GENERAL_REQUESTS_LIMIT,
+    duration: env.GENERAL_REQUESTS_DURATION,
+    errorResponse: Errors.API.TOO_MANY_REQUESTS,
+  });
+
+  app.use(generalRateLimiter);
 
   /***
    * PASSPORT

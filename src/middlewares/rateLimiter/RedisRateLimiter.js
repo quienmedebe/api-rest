@@ -1,12 +1,13 @@
 const {RateLimiterRedis} = require('rate-limiter-flexible');
 
-function RedisRateLimiter(redis, {name, points, duration, errorResponse}) {
+function RedisRateLimiter(redis, {name, points, duration, errorResponse, ...options}) {
   const rateLimiter = new RateLimiterRedis({
     storeClient: redis,
     keyPrefix: name,
     points: points,
     duration: duration,
     errorResponse: errorResponse,
+    ...options,
   });
 
   return async (req, res, next) => {
