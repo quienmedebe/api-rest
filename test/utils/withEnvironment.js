@@ -11,7 +11,7 @@ const withEnvironment = async (env = {}) => {
     APP_ENV: 'test',
     ACTIVE_TEST_CONSOLE: false,
     SALT_NUMBER: 1,
-    OVERALL_REQUESTS_LIMIT: 0,
+    GENERAL_REQUESTS_LIMIT: 0,
     ...env,
   };
 
