@@ -18,15 +18,7 @@ const environment = {
   /***
    * Database
    */
-  DB_HOST: process.env.DB_HOST || defaults.DB_HOST,
-  DB_NAME: process.env.DB_NAME || defaults.DB_NAME,
-  DB_USER: process.env.DB_USER || defaults.DB_USER,
-  DB_PASSWORD: process.env.DB_PASSWORD || defaults.DB_PASSWORD,
-
-  DB_TEST_HOST: process.env.DB_TEST_HOST || defaults.DB_TEST_HOST,
-  DB_TEST_NAME: process.env.DB_TEST_NAME || defaults.DB_TEST_NAME,
-  DB_TEST_USER: process.env.DB_TEST_USER || defaults.DB_TEST_USER,
-  DB_TEST_PASSWORD: process.env.DB_TEST_PASSWORD || defaults.DB_TEST_PASSWORD,
+  DB_URL: (['test'].includes(process.env.NODE_ENV) ? process.env.DB_URL_TEST : process.env.DB_URL) || defaults.DB_URL,
 
   /***
    * LOGGER CONFIGURATION

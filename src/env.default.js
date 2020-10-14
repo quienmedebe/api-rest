@@ -7,10 +7,7 @@ module.exports = {
   SALT_NUMBER: 16,
   JWT_EXPIRATION_MS: 15 * 60 * 1000, // 15 minutes by default
 
-  DB_HOST: 'localhost',
-  DB_NAME: 'db_dev',
-  DB_USER: 'root',
-  DB_PASSWORD: '',
+  DB_URL: 'postgresql://root@localhost:5432/db_dev',
 
   DB_TEST_HOST: 'localhost',
   DB_TEST_NAME: 'db_dev',
