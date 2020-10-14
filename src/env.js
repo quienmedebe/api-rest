@@ -16,12 +16,6 @@ const environment = {
   JWT_EXPIRATION_MS: +process.env.JWT_EXPIRATION_MS || defaults.JWT_EXPIRATION_MS,
 
   /***
-   * REDIS CONFIGURATION
-   */
-  REDIS_HOST: process.env.REDIS_HOST || defaults.REDIS_HOST,
-  REDIS_PORT: process.env.REDIS_PORT || defaults.REDIS_PORT,
-
-  /***
    * Database
    */
   DB_HOST: process.env.DB_HOST || defaults.DB_HOST,
@@ -38,13 +32,6 @@ const environment = {
    * LOGGER CONFIGURATION
    */
   DISABLE_CONSOLE: Boolean(+process.env.DISABLE_CONSOLE) || defaults.DISABLE_CONSOLE,
-  ACTIVE_TEST_CONSOLE: Boolean(+process.env.ACTIVE_TEST_CONSOLE) || defaults.ACTIVE_TEST_CONSOLE,
-
-  /***
-   * Rate limiter per second and ip configuration
-   */
-  GENERAL_REQUESTS_LIMIT: +process.env.GENERAL_REQUESTS_LIMIT || defaults.GENERAL_REQUESTS_LIMIT,
-  GENERAL_REQUESTS_DURATION: +process.env.GENERAL_REQUESTS_DURATION || defaults.GENERAL_REQUESTS_DURATION,
 };
 
 module.exports = environment;

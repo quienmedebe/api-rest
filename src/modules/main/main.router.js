@@ -1,5 +1,5 @@
 const express = require('express');
-const ERRORS = require('../error');
+const Error = require('../error');
 
 function createRouter({logger}) {
   const router = express.Router();
@@ -7,7 +7,7 @@ function createRouter({logger}) {
   router.get('/unauthorized', (_, res) => {
     logger.info('Not authorized');
 
-    return res.status(401).json(ERRORS.API.UNAUTHORIZED);
+    return Error.sendApiError(res, Error.API.UNAUTHORIZED);
   });
 
   return router;
