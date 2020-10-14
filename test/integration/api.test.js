@@ -10,11 +10,11 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 const Utils = require('../utils');
 
-describe('API test suite', function () {
+describe('Integration test suite', function () {
   describe('API tests', function () {
     describe('/auth - Auth module', function () {
       describe('/signup', function () {
-        it('should return a 200 status when a user signups with email and password when all parameters are correct @api @auth @signup @slow', async function () {
+        it('should return a 200 status when a user signups with email and password when all parameters are correct @integration @auth @signup', async function () {
           const doTest = await Utils.withEnvironment();
 
           return doTest(async requester => {
@@ -31,7 +31,7 @@ describe('API test suite', function () {
           });
         });
 
-        it('should return a 400 status on a invalid request @api @auth @signup @slow', async function () {
+        it('should return a 400 status on a invalid request @integration @auth @signup', async function () {
           const doTest = await Utils.withEnvironment();
 
           return doTest(async requester => {
@@ -72,42 +72,42 @@ describe('API test suite', function () {
             expect(wrongPasswordResponse, 'Wrong API documentation').to.matchApiSchema();
           });
         });
+      });
 
-        describe('/login', function () {
-          it('should return 200 and return the access_token if the user authenticates successfully @api @auth @login @slow', async function () {
-            const doTest = await Utils.withEnvironment();
+      describe('/login', function () {
+        it('should return 200 and return the access_token if the user authenticates successfully @integration @auth @login', async function () {
+          const doTest = await Utils.withEnvironment();
 
-            return doTest(async requester => {
-              const body = {
-                email: 'test@example.com',
-                password: '123456',
-              };
+          return doTest(async requester => {
+            const body = {
+              email: 'test@example.com',
+              password: '123456',
+            };
 
-              await requester.post('/auth/signup').send(body);
-              const loginResponse = await requester.post('/auth/login').send(body);
+            await requester.post('/auth/signup').send(body);
+            const loginResponse = await requester.post('/auth/login').send(body);
 
-              expect(loginResponse, 'The status code is incorrect').to.have.status(200);
-              expect(loginResponse.body, 'access_token not found on body response').to.have.property('access_token');
+            expect(loginResponse, 'The status code is incorrect').to.have.status(200);
+            expect(loginResponse.body, 'access_token not found on body response').to.have.property('access_token');
 
-              expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
-            });
+            expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
           });
+        });
 
-          it('should return 401 if the user does not exist on the database', async function () {
-            const doTest = await Utils.withEnvironment();
+        it('should return 401 if the user does not exist on the database @integration @auth @login', async function () {
+          const doTest = await Utils.withEnvironment();
 
-            return doTest(async requester => {
-              const body = {
-                email: 'test@example.com',
-                password: '123456',
-              };
+          return doTest(async requester => {
+            const body = {
+              email: 'test@example.com',
+              password: '123456',
+            };
 
-              const loginResponse = await requester.post('/auth/login').send(body);
+            const loginResponse = await requester.post('/auth/login').send(body);
 
-              expect(loginResponse, 'The status code is incorrect').to.have.status(401);
+            expect(loginResponse, 'The status code is incorrect').to.have.status(401);
 
-              expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
-            });
+            expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
           });
         });
       });

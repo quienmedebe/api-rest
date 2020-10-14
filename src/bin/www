@@ -1,13 +1,9 @@
 const http = require('http');
 const stoppable = require('stoppable');
 
-const Env = require('../env');
-const {createApplication} = require('../app');
+const app = require('../app');
 
-const port = normalizePort(Env.PORT || console.log('Port not defined') || '5000');
-const app = createApplication({
-  env: Env
-});
+const port = normalizePort(process.env.PORT || console.log('Port not defined') || '5000');
 
 app.set('port', port);
 
@@ -57,9 +53,7 @@ function onListening(server) {
 }
 
 function close(cb){
-  app.close(() => {
-    server.stop(cb);
-  }, false);
+  server.stop(cb);
 }
 
 server.close = close;

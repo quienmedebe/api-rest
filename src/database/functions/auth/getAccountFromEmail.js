@@ -1,4 +1,4 @@
-const Shared = require('../../../../modules/shared');
+const Shared = require('../../../modules/shared');
 const {Account, EmailProvider} = require('../../models');
 
 async function getAccountFromEmail(email) {

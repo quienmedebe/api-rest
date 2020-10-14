@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const Database = require('../../../../services/database');
+const Database = require('../../../../database');
 
 const localStrategy = () => {
   return new LocalStrategy(
