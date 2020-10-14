@@ -13,7 +13,6 @@ const signToken = (payload = {}, options = {}) => {
 
   const token = jwt.sign(JSON.stringify(payload), secret);
 
-  logger('info', 'Return token');
   return token;
 };
 
