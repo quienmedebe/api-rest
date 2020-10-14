@@ -7,9 +7,6 @@ module.exports = {
   SALT_NUMBER: 16,
   JWT_EXPIRATION_MS: 15 * 60 * 1000, // 15 minutes by default
 
-  REDIS_HOST: '127.0.0.1',
-  REDIS_PORT: '6379',
-
   DB_HOST: 'localhost',
   DB_NAME: 'db_dev',
   DB_USER: 'root',
@@ -21,8 +18,4 @@ module.exports = {
   DB_TEST_PASSWORD: '',
 
   DISABLE_CONSOLE: false,
-  ACTIVE_TEST_CONSOLE: false,
-
-  GENERAL_REQUESTS_LIMIT: 10,
-  GENERAL_REQUESTS_DURATION: 1,
 };

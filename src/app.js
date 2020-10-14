@@ -12,7 +12,7 @@ const Logger = require('./services/logger');
 
 const Middlewares = require('./middlewares');
 
-const Errors = require('./modules/error');
+const Error = require('./modules/error');
 const Main = require('./modules/main');
 const Auth = require('./modules/auth');
 
@@ -55,13 +55,13 @@ if (app.get('env') === 'development') {
 }
 
 app.use((_, res) => {
-  return res.status(404).json(Errors.API.RESOURCE_NOT_FOUND);
+  return Error.sendApiError(res, Error.API.RESOURCE_NOT_FOUND);
 });
 
 // eslint-disable-next-line --- The error handler requires four parameters even if some are unused
 app.use(async (err, req, res, _) => {
-  await Errors.handleError(err, {logger});
-  return res.status(500).json(Errors.API.INTERNAL_SERVER_ERROR);
+  await Error.handleError(err, {logger});
+  return Error.sendApiError(res, Error.API.INTERNAL_SERVER_ERROR);
 });
 
 module.exports = app;
