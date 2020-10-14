@@ -25,9 +25,8 @@ const withEnvironment = async (env = {}) => {
       await callback(requester);
     } finally {
       await truncateDB();
-      app.close(() => {
-        requester.close();
-      }, true);
+      await app.closeRedisConnection;
+      await requester.close();
     }
   };
 };

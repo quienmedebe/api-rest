@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const Ajv = require('ajv');
-const Database = require('../../../services/database');
+const Database = require('../../../database');
 const validation = require('../validation');
 const errors = require('../auth.errors');
 
