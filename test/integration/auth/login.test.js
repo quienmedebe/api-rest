@@ -4,7 +4,7 @@ const matchApiSchema = require('api-contract-validator').chaiPlugin;
 const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const {setup, tearDown, getRequester} = require('../../utils/integration');
-const Stubs = require('../../utils/stubs');
+const Utils = require('../../utils');
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -14,7 +14,7 @@ let SALT_NUMBER;
 
 describe('/auth/login', function () {
   beforeEach(async function () {
-    SALT_NUMBER = Stubs.Config.SALT_NUMBER(1);
+    SALT_NUMBER = Utils.Stubs.Config.SALT_NUMBER(Utils.constants.SALT_NUMBER);
     // eslint-disable-next-line mocha/no-nested-tests
     await setup();
   });
@@ -26,9 +26,11 @@ describe('/auth/login', function () {
 
   it('should return 200 and return the access_token if the user authenticates successfully @integration @auth @login', async function () {
     const requester = getRequester();
+    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+
     const body = {
-      email: 'test@example.com',
-      password: '123456',
+      email: user.email_providers[0].email,
+      password: Utils.constants.PASSWORD,
     };
 
     await requester.post('/auth/signup').send(body);
@@ -42,6 +44,7 @@ describe('/auth/login', function () {
 
   it('should return 401 if the user does not exist on the database @integration @auth @login', async function () {
     const requester = getRequester();
+
     const body = {
       email: 'test@example.com',
       password: '123456',
