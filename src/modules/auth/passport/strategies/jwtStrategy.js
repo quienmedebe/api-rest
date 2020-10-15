@@ -1,7 +1,7 @@
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-const {Database} = require('../../../../database');
+const Database = require('../../../../database');
 
 const jwtStrategy = secret => {
   return new JWTStrategy(
@@ -14,7 +14,8 @@ const jwtStrategy = secret => {
         if (Date.now() > payload.expires) {
           return done(null, false);
         }
-        const account = await Database.functions.auth.getAccountFromId(payload.id);
+        const parsedId = parseInt(payload.id, 10);
+        const account = await Database.functions.auth.getAccountFromId(parsedId);
 
         if (!account) {
           return done(null, false);
@@ -22,6 +23,7 @@ const jwtStrategy = secret => {
 
         return done(null, account.toJSON());
       } catch (err) {
+        console.log(err);
         return done(err, false);
       }
     }

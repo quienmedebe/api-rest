@@ -42,7 +42,9 @@ async function _createEmailProvidersToAccount(emailConfig, accountId) {
         email,
         password,
       };
-      return await requester.post(`/auth/login`).send(credentials);
+      const response = await requester.post(`/auth/login`).send(credentials);
+
+      return response.body;
     };
 
     return provider;
