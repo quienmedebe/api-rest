@@ -1,33 +1,28 @@
 const {Account} = require('../../../src/database/models');
-const _getEmailProviderCreator = require('./internals/_getEmailProviderCreator');
-const _includeEmailProvider = require('./internals/_includeEmailProvider');
+const _createEmailProvidersToAccount = require('./internals/_createEmailProvidersToAccount');
 
-const createProperties = async (props = {}, options = {}) => {
-  const withEmail = await _getEmailProviderCreator(options.withEmail);
-
+const createProperties = async (props = {}) => {
   return {
-    ...withEmail,
     ...props,
   };
 };
 
 async function AccountFactory(props = {}, json = true, options = {}) {
-  const withEmail = _includeEmailProvider(options.withEmail);
+  const properties = await createProperties(props);
+  const instance = await Account.create(properties);
 
-  const includeDetails = [...withEmail];
-
-  const creationOptions = {};
-  if (includeDetails.length) {
-    creationOptions.include = includeDetails;
+  let emailProviders;
+  if (options.withEmail) {
+    emailProviders = await _createEmailProvidersToAccount(options.withEmail, instance.id);
   }
-
-  const properties = await createProperties(props, options);
-  const instance = await Account.create(properties, creationOptions);
 
   if (json) {
-    return instance.toJSON();
+    const jsonModel = instance.toJSON();
+    jsonModel.email_providers = emailProviders;
+    return jsonModel;
   }
 
+  instance.email_providers = emailProviders;
   return instance;
 }
 

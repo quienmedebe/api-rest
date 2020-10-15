@@ -3,24 +3,20 @@ const chaiHttp = require('chai-http');
 const matchApiSchema = require('api-contract-validator').chaiPlugin;
 const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
-const {setup, tearDown, getRequester} = require('../../utils/integration');
 const Utils = require('../../utils');
+
+const {setup, tearDown, getRequester} = Utils.integration;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
-let SALT_NUMBER;
-
 describe('/auth/login', function () {
   beforeEach(async function () {
-    SALT_NUMBER = Utils.Stubs.Config.SALT_NUMBER(Utils.constants.SALT_NUMBER);
     // eslint-disable-next-line mocha/no-nested-tests
     await setup();
   });
   afterEach(function () {
-    SALT_NUMBER.restore();
-
     tearDown();
   });
 
@@ -33,7 +29,6 @@ describe('/auth/login', function () {
       password: Utils.constants.PASSWORD,
     };
 
-    await requester.post('/auth/signup').send(body);
     const loginResponse = await requester.post('/auth/login').send(body);
 
     expect(loginResponse, 'The status code is incorrect').to.have.status(200);
