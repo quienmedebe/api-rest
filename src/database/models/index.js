@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 // eslint-disable-next-line security/detect-object-injection, security/detect-non-literal-require
-const config = require(__dirname + '/../config.js')[env];
+const config = require(`${__dirname}/../config.js`)[env];
 const db = {};
 
 let sequelize;
@@ -15,6 +15,17 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log(sequelize.config);
+    console.log('DB connected successfully');
+  })
+  .catch(err => {
+    console.error(err);
+    console.log('DB connection has failed');
+  });
 
 // eslint-disable-next-line security/detect-non-literal-fs-filename
 fs.readdirSync(__dirname)
