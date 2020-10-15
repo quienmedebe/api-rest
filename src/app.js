@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser(Config.COOKIES_SESSION_SECRET));
 app.use(cors());
+app.use(Auth.passport.client.initialize());
 
 app.use(Middlewares.HttpContext.httpContext.middleware);
 app.use(Middlewares.HttpContext.requestIdMiddleware);
