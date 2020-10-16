@@ -38,6 +38,7 @@
     },
     "/auth/signup": {
       "post": {
+        "description": "Creates an account with an email and a password and returns an access token to make authenticated requests",
         "tags": ["Auth", "Signup"],
         "produces": ["application/json"],
         "responses": {
@@ -71,6 +72,7 @@
     },
     "/auth/login": {
       "post": {
+        "description": "Returns the access token to make authenticated requests",
         "tags": ["Auth", "Login"],
         "produces": ["application/json"],
         "responses": {
@@ -81,6 +83,40 @@
               "properties": {
                 "access_token": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/check": {
+      "get": {
+        "description": "Checks if a token is valid and returns the account information",
+        "tags": ["Auth", "Check"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
                 }
               }
             }
