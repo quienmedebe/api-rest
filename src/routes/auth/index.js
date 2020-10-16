@@ -11,7 +11,7 @@ function AuthRouter({logger, config}) {
 
   Router.post('/signup', wrapAsync(Signup({logger, config})));
   Router.post('/login', wrapAsync(Login({config})));
-  Router.post('/check', Middleware.JWT.requireAccessToken, wrapAsync(Check()));
+  Router.get('/check', Middleware.JWT.requireAccessToken, wrapAsync(Check()));
 
   return Router;
 }
