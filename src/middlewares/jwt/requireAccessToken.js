@@ -1,3 +1,4 @@
+const {useFakeXMLHttpRequest} = require('sinon');
 const Auth = require('../../modules/auth');
 const Error = require('../../modules/error');
 

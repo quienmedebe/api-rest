@@ -23,15 +23,6 @@ async function EmailProviderFactory(props = {}, json = true) {
   const properties = await createProperties(props);
   const instance = await EmailProvider.create(properties);
 
-  const password = props.password || Constants.PASSWORD;
-  instance.getToken = async requester => {
-    const credentials = {
-      email: instance.email,
-      password,
-    };
-    return await requester.post(`/auth/login`).send(credentials);
-  };
-
   if (json) {
     return instance.toJSON();
   }
