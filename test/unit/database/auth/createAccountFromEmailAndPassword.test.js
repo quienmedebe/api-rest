@@ -19,7 +19,7 @@ const mockModels = makeMockModels({
 
 const createAccountFromEmailAndPassword = proxyquire('../../../../src/database/functions/auth/createAccountFromEmailAndPassword.js', {
   '../../models': mockModels,
-  './emailExists': async email => await Promise.resolve(email === 'duplicatedEmail@example.com'),
+  './emailExists': email => Promise.resolve(email === 'duplicatedEmail@example.com'),
 });
 
 const resetStubs = () => {
@@ -44,7 +44,7 @@ const createdAccountWithAttributes = {
   ...createdAccount,
 };
 
-describe.only('createAccountFromEmailAndPassword', function () {
+describe('createAccountFromEmailAndPassword', function () {
   it('should create an account from an email and a password', async function () {
     mockModels.Account.create.resolves(createdAccount);
 
