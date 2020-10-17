@@ -2,6 +2,7 @@ const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const Database = require('../../../../database');
+const Shared = require('../../../shared');
 
 const jwtStrategy = secret => {
   return new JWTStrategy(
@@ -12,13 +13,13 @@ const jwtStrategy = secret => {
     async function (payload, done) {
       try {
         const parsedId = parseInt(payload.id, 10);
-        const account = await Database.functions.auth.getAccountFromId(parsedId);
+        const accountResponse = await Database.functions.auth.getAccountFromId(parsedId);
 
-        if (!account) {
+        if (Shared.sendResponse.isError(accountResponse)) {
           return done(null, false);
         }
 
-        return done(null, account.toJSON());
+        return done(null, accountResponse.value.toJSON());
       } catch (err) {
         return done(err, false);
       }

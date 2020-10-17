@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const Database = require('../../../../database');
+const Shared = require('../../../shared');
 
 const localStrategy = () => {
   return new LocalStrategy(
@@ -11,13 +12,13 @@ const localStrategy = () => {
     },
     async (email, password, done) => {
       try {
-        const account = await Database.functions.auth.getAccountFromEmail(email);
+        const accountResponse = await Database.functions.auth.getAccountFromEmail(email);
 
-        if (!account) {
+        if (Shared.sendResponse.isError(accountResponse)) {
           return done(null, false);
         }
 
-        const {id, ...parsedAccount} = account.toJSON();
+        const {id, ...parsedAccount} = accountResponse.value.toJSON();
 
         const provider = parsedAccount.email_providers && parsedAccount.email_providers.find(provider => provider.email === email);
         if (!provider) {

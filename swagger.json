@@ -24,7 +24,8 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "description": "Error code"
+                  "description": "Error code",
+                  "enum": ["UNAUTHORIZED"]
                 },
                 "message": {
                   "type": "string",
@@ -59,7 +60,8 @@
               "type": "object",
               "properties": {
                 "error": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": ["BAD_REQUEST", "DUPLICATE_EMAIL"]
                 },
                 "message": {
                   "type": "string"
@@ -93,7 +95,8 @@
               "type": "object",
               "properties": {
                 "error": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
                 },
                 "message": {
                   "type": "string"
@@ -127,7 +130,8 @@
               "type": "object",
               "properties": {
                 "error": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
                 },
                 "message": {
                   "type": "string"
