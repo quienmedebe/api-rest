@@ -27,7 +27,7 @@ describe('/auth/check', function () {
 
   it('should return 200 and the deserialized user of the valid token @integration @auth @check', async function () {
     const requester = getRequester();
-    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+    const user = await Utils.factories.AccountFactory();
 
     const access_token = await user.email_providers[0].getToken({id: user.id});
 
@@ -52,7 +52,7 @@ describe('/auth/check', function () {
 
   it('should return a 401 error if the token has expired @integration @auth @check', async function () {
     const requester = getRequester();
-    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+    const user = await Utils.factories.AccountFactory();
 
     const access_token = await user.email_providers[0].getToken(null, {expiresIn: 1000 * 60 * 5});
 

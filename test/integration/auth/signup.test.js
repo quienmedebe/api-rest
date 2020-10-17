@@ -81,7 +81,7 @@ describe('/auth/signup', function () {
 
   it('should return a 400 status if the email already exists @integration @auth @signup', async function () {
     const requester = getRequester();
-    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+    const user = await Utils.factories.AccountFactory();
 
     const body = {
       email: user.email_providers[0].email,
