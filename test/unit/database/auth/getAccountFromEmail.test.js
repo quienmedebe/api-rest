@@ -19,17 +19,17 @@ const savedAccount = {
 
 const mockModels = makeMockModels({
   Account: {
-    findOne: sinon.stub(({where}) => Promise.resolve(where.id === 1 ? savedAccount : null)),
+    findOne: sinon.stub(({include}) => Promise.resolve(include[0].where.email === 'account@example.com' ? savedAccount : null)),
   },
 });
 
-const getAccountFromId = proxyquire('../../../../src/database/functions/auth/getAccountFromId.js', {
+const getAccountFromEmail = proxyquire('../../../../src/database/functions/auth/getAccountFromEmail.js', {
   '../../models': mockModels,
 });
 
-describe('getAccountFromId', function () {
+describe('getAccountFromEmail', function () {
   it('should return a success response with the account if it exists', async function () {
-    const account = await getAccountFromId(1);
+    const account = await getAccountFromEmail('account@example.com');
 
     const expectedResponse = Utils.Functions.parseResponse('OK', savedAccount);
 
@@ -37,15 +37,15 @@ describe('getAccountFromId', function () {
   });
 
   it('should return an error response if the account does not exist', async function () {
-    const account = await getAccountFromId(2);
+    const account = await getAccountFromEmail('doesnotexist@example.com');
 
     const expectedResponse = Utils.Functions.parseResponse('ERROR', 'ACCOUNT_NOT_FOUND');
 
     expect(account).to.deep.equal(expectedResponse);
   });
 
-  it('should throw an error if the id is not a number', async function () {
-    const result = getAccountFromId('abc');
+  it('should throw an error if the email is not a string', async function () {
+    const result = getAccountFromEmail(4);
     expect(result).to.be.rejectedWith(Error);
   });
 });
