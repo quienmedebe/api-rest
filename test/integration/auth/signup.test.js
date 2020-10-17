@@ -92,5 +92,7 @@ describe('/auth/signup', function () {
 
     expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'Invalid error code').to.have.property('error', 'DUPLICATE_EMAIL');
+
+    expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
 });

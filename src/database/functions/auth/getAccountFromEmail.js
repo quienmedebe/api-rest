@@ -1,3 +1,4 @@
+const ERRORS = require('./errors');
 const Shared = require('../../../modules/shared');
 const {Account, EmailProvider} = require('../../models');
 
@@ -19,7 +20,11 @@ async function getAccountFromEmail(email) {
     ],
   });
 
-  return account;
+  if (!account) {
+    return Shared.sendResponse(Shared.sendResponse.ERROR, ERRORS.ACCOUNT_NOT_FOUND);
+  }
+
+  return Shared.sendResponse(Shared.sendResponse.OK, account);
 }
 
 module.exports = getAccountFromEmail;
