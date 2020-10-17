@@ -33,7 +33,7 @@ describe('/auth/login', function () {
 
     expect(loginResponse, 'The status code is incorrect').to.have.status(200);
     expect(loginResponse.body, 'access_token not found on body response').to.have.property('access_token');
-    expect(loginResponse.body, 'refresh_token not found on body response').to.have.property('refresh_token');
+    // expect(loginResponse.body, 'refresh_token not found on body response').to.have.property('refresh_token');
 
     expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
   });
