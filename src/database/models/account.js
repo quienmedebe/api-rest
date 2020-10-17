@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       });
+      Account.hasMany(models.RefreshToken, {
+        foreignKey: 'account_id',
+        as: 'refresh_tokens',
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      });
     }
   }
   Account.init(

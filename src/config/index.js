@@ -9,6 +9,7 @@ const configuration = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   COOKIES_SESSION_SECRET: process.env.COOKIES_SESSION_SECRET || 'SCRT_{C0oki3Sup3rS3Cr3t}',
   TOKEN_SECRET: process.env.TOKEN_SECRET || 'T0k3N*{S3CrEt_MAx1M-m_sECUR1T1}{',
+  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'MyRefre5h_T0k3nSeCrET_fjnk',
   SALT_NUMBER: +process.env.SALT_NUMBER || 16,
   JWT_EXPIRATION_MS: +process.env.JWT_EXPIRATION_MS || 15 * 60 * 1000, // 15 minutes by default
 

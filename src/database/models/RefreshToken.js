@@ -1,10 +1,11 @@
 'use strict';
 const {Model} = require('sequelize');
+const randomToken = require('rand-token');
 
 module.exports = (sequelize, DataTypes) => {
-  class EmailProvider extends Model {
+  class RefreshToken extends Model {
     static associate(models) {
-      EmailProvider.belongsTo(models.Account, {
+      RefreshToken.belongsTo(models.Account, {
         foreignKey: 'account_id',
         as: 'account',
         onUpdate: 'CASCADE',
@@ -12,14 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  EmailProvider.init(
+  RefreshToken.init(
     {
       id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING(255),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
-        unique: true,
+        defaultValue: randomToken(255),
       },
       account_id: {
         type: DataTypes.BIGINT,
@@ -31,19 +31,24 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+      expiration_date: {
+        type: DataTypes.TIME,
+        allowNull: true,
       },
-      password: {
-        type: DataTypes.STRING,
+      valid: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
+      },
+      tokens_issued: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
       },
     },
     {
       sequelize,
-      modelName: 'EmailProvider',
+      modelName: 'RefreshToken',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -52,5 +57,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  return EmailProvider;
+  return RefreshToken;
 };
