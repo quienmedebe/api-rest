@@ -1,15 +1,23 @@
+const jwt = require('jsonwebtoken');
 const Constants = require('../../constants');
-const Functions = require('../../functions');
 
 function _getSignedToken(accountId) {
   return async (payload = {}, options = {}) => {
-    options.secret = options.secret || Constants.JWT_SECRET;
+    const {secret = Constants.JWT_SECRET, expiresIn = 1000 * 60 * 5, ...jwtOptions} = options;
 
-    const token = Functions.createSignedToken(accountId, payload, options);
-
-    return {
-      access_token: token,
+    const jwtPayload = {
+      id: +accountId,
+      ...payload,
     };
+
+    const signOptions = {
+      expiresIn: +expiresIn,
+      ...jwtOptions,
+    };
+
+    const token = jwt.sign(jwtPayload, secret, signOptions);
+
+    return token;
   };
 }
 

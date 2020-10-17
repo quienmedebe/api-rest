@@ -19,7 +19,9 @@ if (config.use_env_variable) {
 sequelize
   .authenticate()
   .then(() => {
-    console.log('DB connected successfully');
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('DB connected successfully');
+    }
   })
   .catch(err => {
     console.error(err);

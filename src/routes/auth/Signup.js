@@ -14,11 +14,11 @@ const Signup = ({logger, config}) =>
       return Error.sendApiError(res, Error.API.BAD_REQUEST);
     }
 
-    const options = {
+    const signupOptions = {
       salt: config.SALT_NUMBER,
     };
 
-    const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, options);
+    const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
 
     if (account.error) {
       switch (account.error) {
@@ -30,24 +30,15 @@ const Signup = ({logger, config}) =>
     }
 
     const payload = {
-      id: account.data.id,
-      expires: Date.now() + parseInt(config.JWT_EXPIRATION_MS, 10),
+      id: parseInt(account.data.id, 10),
     };
-    const noSession = {session: false};
 
-    return req.login(payload, {...noSession}, err => {
-      if (err) {
-        return Error.sendApiError(res, Error.API.UNAUTHORIZED);
-      }
+    const loginOptions = {
+      secret: config.TOKEN_SECRET,
+      expiresIn: config.JWT_EXPIRATION_MS,
+    };
 
-      const token = Auth.functions.signToken(payload, {secret: config.TOKEN_SECRET});
-
-      const response = {
-        access_token: token,
-      };
-
-      return res.status(200).json(response);
-    });
+    return Auth.functions.getAccessToken(req, res, payload, loginOptions);
   };
 
 module.exports = Signup;

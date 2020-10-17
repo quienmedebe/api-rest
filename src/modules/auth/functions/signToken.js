@@ -1,17 +1,29 @@
 const jwt = require('jsonwebtoken');
 const noop = () => {};
 
-const signToken = (payload = {}, options = {}) => {
-  const logger = options.logger || noop;
-  const secret = options.secret;
-  const {id, expires} = payload;
+const signToken = (payload = {}, options = {}, config = {}) => {
+  const logger = config.logger || noop;
+  const secret = config.secret;
 
-  if (!id || !expires || !secret) {
-    logger('error', `Id: ${!!id}. Expires: ${!!expires}. Secret: ${!!secret}`);
+  const {id, ...jwtFields} = payload;
+  const {expiresIn = 1000 * 60 * 5, ...jwtOptions} = options;
+
+  if (!id || !secret) {
+    logger('error', `Id: ${!!id}. Secret: ${!!secret}`);
     throw new Error('Invalid arguments');
   }
 
-  const token = jwt.sign(JSON.stringify(payload), secret);
+  const jwtPayload = {
+    id: +id,
+    ...jwtFields,
+  };
+
+  const signOptions = {
+    expiresIn: +expiresIn,
+    ...jwtOptions,
+  };
+
+  const token = jwt.sign(jwtPayload, secret, signOptions);
 
   return token;
 };

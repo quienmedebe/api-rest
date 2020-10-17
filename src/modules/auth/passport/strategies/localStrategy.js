@@ -17,7 +17,7 @@ const localStrategy = () => {
           return done(null, false);
         }
 
-        const parsedAccount = account.toJSON();
+        const {id, ...parsedAccount} = account.toJSON();
 
         const provider = parsedAccount.email_providers && parsedAccount.email_providers.find(provider => provider.email === email);
         if (!provider) {
@@ -31,7 +31,10 @@ const localStrategy = () => {
 
         // The interesting part for the next requests is the account. I do not care about how the user logged in.
         // Also, it is a method to standarize the result of all the strategies.
-        const response = {...parsedAccount};
+        const response = {
+          id: parseInt(id, 10),
+          ...parsedAccount,
+        };
         delete response.email_providers;
 
         return done(null, response);

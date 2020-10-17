@@ -10,7 +10,7 @@ function AuthRouter({logger, config}) {
   const wrapAsync = Shared.wrapAsync;
 
   Router.post('/signup', wrapAsync(Signup({logger, config})));
-  Router.post('/login', wrapAsync(Login({config})));
+  Router.post('/login', wrapAsync(Login({logger, config})));
   Router.get('/check', Middleware.JWT.requireAccessToken, wrapAsync(Check()));
 
   return Router;
