@@ -1,6 +1,7 @@
 const Ajv = require('ajv');
 const Auth = require('../../modules/auth');
 const Error = require('../../modules/error');
+const Shared = require('../../modules/shared');
 
 const Signup = ({logger, config}) =>
   async function Signup(req, res) {
@@ -18,10 +19,10 @@ const Signup = ({logger, config}) =>
       salt: config.SALT_NUMBER,
     };
 
-    const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
+    const response = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
 
-    if (account.error) {
-      switch (account.error) {
+    if (Shared.sendResponse.isError(response)) {
+      switch (response.value) {
         case Auth.errors.DUPLICATE_EMAIL.error:
           return Error.sendApiError(res, Auth.errors.DUPLICATE_EMAIL);
         default:
@@ -29,8 +30,10 @@ const Signup = ({logger, config}) =>
       }
     }
 
+    const account = response.value;
+
     const payload = {
-      id: parseInt(account.data.id, 10),
+      id: parseInt(account.id, 10),
     };
 
     const loginOptions = {

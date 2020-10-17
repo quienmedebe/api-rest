@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const Ajv = require('ajv');
 const Database = require('../../../database');
 const validation = require('../validation');
-const errors = require('../errors');
 
 const createAccountFromEmailAndPassword = async (email, password, accountAttributes = {}, options = {}) => {
   const salt = options.salt || 16;
@@ -17,16 +16,8 @@ const createAccountFromEmailAndPassword = async (email, password, accountAttribu
 
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const account = await Database.functions.auth.createAccountFromEmailAndPassword(email, hashedPassword, accountAttributes);
-  if (!account) {
-    return {
-      error: errors.DUPLICATE_EMAIL,
-    };
-  }
-
-  return {
-    data: account,
-  };
+  const response = await Database.functions.auth.createAccountFromEmailAndPassword(email, hashedPassword, accountAttributes);
+  return response;
 };
 
 module.exports = createAccountFromEmailAndPassword;
