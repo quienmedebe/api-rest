@@ -35,7 +35,7 @@ describe('/auth/signup', function () {
 
     expect(response, 'Wrong status code').to.have.status(200);
     expect(response.body, 'access_token property not found').to.have.property('access_token');
-    expect(response.body, 'refresh_token property not found').to.have.property('refresh_token');
+    // expect(response.body, 'refresh_token property not found').to.have.property('refresh_token');
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -77,5 +77,20 @@ describe('/auth/signup', function () {
     expect(wrongPasswordMaximumLengthResponse.body, 'Should have an error property (password length above maximum length)').to.have.property('error');
 
     expect(wrongPasswordResponse, 'Wrong API documentation').to.matchApiSchema();
+  });
+
+  it('should return a 400 status if the email already exists @integration @auth @signup', async function () {
+    const requester = getRequester();
+    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+
+    const body = {
+      email: user.email_providers[0].email,
+      password: '123456',
+    };
+
+    const response = await requester.post('/auth/signup').send(body);
+
+    expect(response, 'Invalid status code').to.have.status(400);
+    expect(response.body, 'Invalid error code').to.have.property('error', 'DUPLICATE_EMAIL');
   });
 });

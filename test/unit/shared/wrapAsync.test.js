@@ -1,5 +1,4 @@
 const sinon = require('sinon');
-const expect = require('chai').expect;
 const Shared = require('../../../src/modules/shared');
 
 describe('wrapAsync test suite', function () {
