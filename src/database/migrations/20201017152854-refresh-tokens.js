@@ -6,11 +6,10 @@ module.exports = {
 
     try {
       await queryInterface.createTable(
-        'email_providers',
+        'refresh_tokens',
         {
           id: {
-            type: Sequelize.BIGINT,
-            autoIncrement: true,
+            type: Sequelize.STRING(255),
             primaryKey: true,
             unique: true,
           },
@@ -24,14 +23,19 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL',
           },
-          email: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true,
+          expiration_date: {
+            type: Sequelize.TIME,
+            allowNull: true,
           },
-          password: {
-            type: Sequelize.STRING,
+          valid: {
+            type: Sequelize.BOOLEAN,
             allowNull: false,
+            defaultValue: true,
+          },
+          tokens_issued: {
+            type: Sequelize.BIGINT,
+            allowNull: false,
+            defaultValue: 0,
           },
           created_at: {
             type: Sequelize.DATE,
@@ -48,7 +52,6 @@ module.exports = {
         {transaction}
       );
 
-      await queryInterface.addIndex('email_providers', ['account_id', 'email'], {transaction});
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
@@ -57,6 +60,6 @@ module.exports = {
   },
 
   down: async queryInterface => {
-    return await queryInterface.dropTable('email_providers');
+    await queryInterface.dropTable('refresh_tokens');
   },
 };

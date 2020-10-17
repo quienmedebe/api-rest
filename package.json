@@ -29,7 +29,15 @@
     "test:dump": "cross-env NODE_ENV=test mocha --require ./test/utils/scripts/asyncDump.js \"./test/**/*.test.js\"",
     "docs": "npm run docs:md && npm run docs:html",
     "docs:md": "swagger-markdown -i ./swagger.json -o ./docs/index.md --skip-info",
-    "docs:html": "redoc-cli bundle ./swagger.json --output ./docs-html/index.html"
+    "docs:html": "redoc-cli bundle ./swagger.json --output ./docs-html/index.html",
+    "dev:db:migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
+    "dev:db:migrate:undo": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo",
+    "dev:db:migrate:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo:all",
+    "test:db:migrate": "cross-env NODE_ENV=test npx sequelize-cli db:migrate",
+    "test:db:migrate:undo": "cross-env NODE_ENV=test npx sequelize-cli db:migrate:undo",
+    "test:db:migrate:undo:all": "cross-env NODE_ENV=test npx sequelize-cli db:migrate:undo:all",
+    "prod:db:migrate": "cross-env NODE_ENV=production npx sequelize-cli db:migrate",
+    "prod:db:migrate:undo": "cross-env NODE_ENV=production npx sequelize-cli db:migrate:undo"
   },
   "husky": {
     "hooks": {
@@ -56,6 +64,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
+    "rand-token": "^1.0.1",
     "rate-limiter-flexible": "^2.1.10",
     "redis": "^3.0.2",
     "sequelize": "^6.3.5",
