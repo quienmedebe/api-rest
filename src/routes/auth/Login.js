@@ -1,31 +1,24 @@
 const Auth = require('../../modules/auth');
 const Error = require('../../modules/error');
 
-const Login = ({config}) =>
+const Login = ({logger, config}) =>
   async function Login(req, res) {
-    const noSession = {session: false};
-    return Auth.passport.client.authenticate('local', noSession, (err, account) => {
+    return Auth.passport.client.authenticate('local', {session: false}, (err, account) => {
       if (err || !account) {
         return Error.sendApiError(res, Error.API.UNAUTHORIZED);
       }
 
       const payload = {
-        id: account.id,
-        expires: Date.now() + parseInt(config.JWT_EXPIRATION_MS, 10),
+        id: +account.id,
       };
 
-      return req.login(payload, noSession, err => {
-        if (err) {
-          return Error.sendApiError(res, Error.API.UNAUTHORIZED);
-        }
+      const options = {
+        secret: config.TOKEN_SECRET,
+        expiresIn: config.JWT_EXPIRATION_MS,
+        logger: logger,
+      };
 
-        const token = Auth.functions.signToken(payload, {secret: config.TOKEN_SECRET});
-
-        const response = {
-          access_token: token,
-        };
-        return res.status(200).json(response);
-      });
+      return Auth.functions.getAccessToken(req, res, payload, options);
     })(req, res);
   };
 
