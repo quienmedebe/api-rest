@@ -7,7 +7,7 @@ const createProperties = async (props = {}) => {
   };
 };
 
-async function AccountFactory(props = {}, json = true, options = {}) {
+async function AccountFactory(props = {}, json = true, options = {withEmail: true}) {
   const properties = await createProperties(props);
   const instance = await Account.create(properties);
 

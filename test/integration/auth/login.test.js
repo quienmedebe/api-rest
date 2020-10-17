@@ -22,7 +22,7 @@ describe('/auth/login', function () {
 
   it('should return 200 and return the access_token if the user authenticates successfully @integration @auth @login', async function () {
     const requester = getRequester();
-    const user = await Utils.factories.AccountFactory({}, true, {withEmail: true});
+    const user = await Utils.factories.AccountFactory();
 
     const body = {
       email: user.email_providers[0].email,
