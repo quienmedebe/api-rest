@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const Ajv = require('ajv');
 const Database = require('../../../database');
 const validation = require('../validation');
-const errors = require('../auth.errors');
+const errors = require('../errors');
 
 const createAccountFromEmailAndPassword = async (email, password, accountAttributes = {}, options = {}) => {
   const salt = options.salt || 16;

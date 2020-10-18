@@ -7,14 +7,14 @@ const cors = require('cors');
 const apiUI = require('swagger-ui-express');
 const apiSpec = require('../swagger.json');
 
-const Env = require('./env');
+const Config = require('./config');
 const Logger = require('./services/logger');
 
 const Middlewares = require('./middlewares');
 
 const Error = require('./modules/error');
-const Main = require('./modules/main');
 const Auth = require('./modules/auth');
+const Routes = require('./routes');
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser(Env.COOKIES_SESSION_SECRET));
+app.use(cookieParser(Config.COOKIES_SESSION_SECRET));
 app.use(cors());
 
 app.use(Middlewares.HttpContext.httpContext.middleware);
@@ -34,7 +34,7 @@ app.use(Middlewares.HttpContext.requestIdMiddleware);
 const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.get('reqId'), {
   consoleOptions: {
     name: 'console',
-    silent: Env.DISABLE_CONSOLE || (Env.APP_ENV === 'test' && !Env.ACTIVE_TEST_CONSOLE),
+    silent: Config.DISABLE_CONSOLE || (Config.APP_ENV === 'test' && !Config.ACTIVE_TEST_CONSOLE),
   },
 });
 
@@ -42,13 +42,13 @@ const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.
  * PASSPORT
  */
 Auth.passport.client.use(Auth.passport.Strategies.LocalStrategy());
-Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Env.TOKEN_SECRET));
+Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.TOKEN_SECRET));
 
 /***
  * ROUTES
  */
-app.use('/', Main.createRouter({logger}));
-app.use('/auth', Auth.createRouter({logger, env: Env}));
+app.use('/', Routes.main({logger}));
+app.use('/auth', Routes.auth({logger, config: Config}));
 
 if (app.get('env') === 'development') {
   app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));

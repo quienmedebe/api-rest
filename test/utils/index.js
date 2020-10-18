@@ -2,10 +2,12 @@
 exports.INVALID_ROUTE = '/invalid-route';
 
 // Sub-modules
-exports.withEnvironment = require('./withEnvironment');
-exports.truncateDB = require('./truncateDB');
+exports.scripts = require('./scripts');
 
-// Debug
-exports.dump = require('./async-dump');
+// Factories
+exports.factories = require('./factories');
+
+// Others
+exports.integration = require('./integration');
 
 module.exports = exports;

@@ -20,13 +20,13 @@
   "scripts": {
     "check-package-manager": "node -e \"!process.env.npm_config_user_agent.startsWith('npm/') && !console.log('---- USE NPM TO INSTALL DEPENDENCIES ----') && process.exit(1)\"",
     "preinstall": "npm run check-package-manager --silent",
-    "test": "cross-env NODE_ENV=test mocha ./test/*",
-    "test:unit": "cross-env NODE_ENV=test mocha ./test/unit/*",
-    "test:integration": "cross-env NODE_ENV=test mocha ./test/integration/*",
-    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text mocha ./test/* --exit",
-    "test:dump": "cross-env NODE_ENV=test mocha --require ./test/utils/async-dump.js ./test/**/*.test.js",
     "start": "NODE_ENV=production node ./src/bin/www",
     "dev": "NODE_ENV=development nodemon ./src/bin/www",
+    "test": "cross-env NODE_ENV=test mocha \"./test/**/*.test.js\"",
+    "test:unit": "cross-env NODE_ENV=test mocha ./test/unit/**/*.test.js",
+    "test:integration": "cross-env NODE_ENV=test mocha ./test/integration/**/*.test.js",
+    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text mocha ./test/**/*.test.js --exit",
+    "test:dump": "cross-env NODE_ENV=test mocha --require ./test/utils/scripts/asyncDump.js ./test/**/*.test.js",
     "docs": "npm run docs:md && npm run docs:html",
     "docs:md": "swagger-markdown -i ./swagger.json -o ./docs/index.md --skip-info",
     "docs:html": "redoc-cli bundle ./swagger.json --output ./docs-html/index.html"
@@ -81,6 +81,7 @@
     "pretty-quick": "^3.1.0",
     "redoc-cli": "^0.9.12",
     "sinon": "^9.2.0",
-    "swagger-markdown": "^1.4.3"
+    "swagger-markdown": "^1.4.3",
+    "rewire": "^5.0.0"
   }
 }
