@@ -5,7 +5,6 @@ const sinonChai = require('sinon-chai');
 const chaiAsPromised = require('chai-as-promised');
 const proxyquire = require('proxyquire');
 const {makeMockModels} = require('sequelize-test-helpers');
-const Utils = require('../../../utils');
 
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
@@ -31,17 +30,13 @@ describe('getAccountFromEmail', function () {
   it('should return a success response with the account if it exists', async function () {
     const account = await getAccountFromEmail('account@example.com');
 
-    const expectedResponse = Utils.Functions.parseResponse('OK', savedAccount);
-
-    expect(account).to.deep.equal(expectedResponse);
+    expect(account).to.deep.equal(savedAccount);
   });
 
   it('should return an error response if the account does not exist', async function () {
     const account = await getAccountFromEmail('doesnotexist@example.com');
 
-    const expectedResponse = Utils.Functions.parseResponse('ERROR', 'ACCOUNT_NOT_FOUND');
-
-    expect(account).to.deep.equal(expectedResponse);
+    expect(account).to.be.null;
   });
 
   it('should throw an error if the email is not a string', async function () {
