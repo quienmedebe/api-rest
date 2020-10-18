@@ -11,17 +11,13 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
-let REFRESH_TOKEN_SECRET;
-
-describe.only('/auth/refresh', function () {
+describe('/auth/refresh', function () {
   beforeEach(async function () {
-    REFRESH_TOKEN_SECRET = Utils.Stubs.Config.REFRESH_TOKEN_SECRET(Utils.constants.REFRESH_TOKEN_SECRET);
     // eslint-disable-next-line mocha/no-nested-tests
     await setup();
   });
 
   afterEach(function () {
-    REFRESH_TOKEN_SECRET.restore();
     tearDown();
   });
 
@@ -32,7 +28,7 @@ describe.only('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id}, false);
 
     const body = {
-      accountId: account.id,
+      accountId: +account.id,
       refreshToken: refreshToken.id,
     };
 
@@ -42,7 +38,7 @@ describe.only('/auth/refresh', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'Access token not found').to.have.property('access_token');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(1);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(1);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -55,7 +51,7 @@ describe.only('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: accountA.id}, false);
 
     const body = {
-      accountId: accountB.id,
+      accountId: +accountB.id,
       refreshToken: refreshToken.id,
     };
 
@@ -65,7 +61,7 @@ describe.only('/auth/refresh', function () {
 
     expect(response, 'Invalid status code').to.have.status(401);
     expect(response.body, 'Invalid error code').to.have.property('error');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -77,7 +73,7 @@ describe.only('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id, valid: false}, false);
 
     const body = {
-      accountId: account.id,
+      accountId: +account.id,
       refreshToken: refreshToken.id,
     };
 
@@ -87,7 +83,7 @@ describe.only('/auth/refresh', function () {
 
     expect(response, 'Invalid status code').to.have.status(401);
     expect(response.body, 'Invalid error code').to.have.property('error');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -99,7 +95,7 @@ describe.only('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id, expiration_datetime: Date.now() - 1000 * 30}, false);
 
     const body = {
-      accountId: account.id,
+      accountId: +account.id,
       refreshToken: refreshToken.id,
     };
 
@@ -109,7 +105,7 @@ describe.only('/auth/refresh', function () {
 
     expect(response, 'Invalid status code').to.have.status(401);
     expect(response.body, 'Invalid error code').to.have.property('error');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -120,8 +116,8 @@ describe.only('/auth/refresh', function () {
     const account = await Utils.factories.AccountFactory();
 
     const body = {
-      accountId: account.id,
-      refreshToken: 'random_refresh_token',
+      accountId: +account.id,
+      refreshToken: '1'.repeat(255),
     };
 
     const response = await requester.post('/auth/refresh').send(body);
@@ -146,9 +142,9 @@ describe.only('/auth/refresh', function () {
 
     const response = await requester.post('/auth/refresh').send(body);
 
-    expect(response, 'Invalid status code').to.have.status(401);
+    expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'Invalid error code').to.have.property('error');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
@@ -160,16 +156,16 @@ describe.only('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id}, false);
 
     const body = {
-      accountId: account.id,
+      accountId: +account.id,
     };
 
     await refreshToken.reload();
 
     const response = await requester.post('/auth/refresh').send(body);
 
-    expect(response, 'Invalid status code').to.have.status(401);
+    expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'Invalid error code').to.have.property('error');
-    expect(refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
+    expect(+refreshToken.issued_tokens, 'Number of issued tokens not updated').to.equal(0);
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });

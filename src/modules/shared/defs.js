@@ -7,6 +7,17 @@ exports.AUTH = {
     maxLength: 255,
     minLength: 6,
   },
+  refreshToken: {
+    maxLength: 255,
+    minLength: 255,
+  },
+};
+
+exports.ACCOUNT = {
+  id: {
+    minimum: 1,
+    maximum: 9223372036854775807,
+  },
 };
 
 module.exports = exports;

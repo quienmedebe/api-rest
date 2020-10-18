@@ -1,8 +1,7 @@
 const Shared = require('../../../modules/shared');
 const {Account} = require('../../models');
-const ERRORS = require('./errors');
 
-async function getAccountFromId(id) {
+async function getAccountFromId(id, options = {}) {
   if (!Shared.isNumber(id)) {
     throw new Error('The id must be a number');
   }
@@ -11,13 +10,10 @@ async function getAccountFromId(id) {
     where: {
       id: id,
     },
+    ...options,
   });
 
-  if (!account) {
-    return Shared.sendResponse(Shared.sendResponse.ERROR, ERRORS.ACCOUNT_NOT_FOUND);
-  }
-
-  return Shared.sendResponse(Shared.sendResponse.OK, account);
+  return account;
 }
 
 module.exports = getAccountFromId;

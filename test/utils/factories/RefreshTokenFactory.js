@@ -4,7 +4,7 @@ const createProperties = async (props = {}) => {
   return {
     expiration_datetime: Date.now() + 1000 * 60 * 60 * 24 * 7,
     valid: true,
-    tokens_issued: 0,
+    issued_tokens: 0,
     ...props,
   };
 };
