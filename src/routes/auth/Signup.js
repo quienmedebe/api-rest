@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const Auth = require('../../modules/auth');
-const Errors = require('../../modules/error');
+const Errors = require('../../modules/errors');
 
 const Signup = ({logger, config}) =>
   async function Signup(req, res) {

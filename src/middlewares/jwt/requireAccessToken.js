@@ -1,5 +1,5 @@
 const Auth = require('../../modules/auth');
-const Error = require('../../modules/error');
+const Error = require('../../modules/errors');
 
 const requireAccessToken = (req, res, next) => {
   return Auth.passport.client.authenticate(
