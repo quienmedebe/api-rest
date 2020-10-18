@@ -43,7 +43,7 @@ const createdAccountWithAttributes = {
   ...createdAccount,
 };
 
-describe('createAccountFromEmailAndPassword', function () {
+describe('Database -> createAccountFromEmailAndPassword', function () {
   it('should create an account from an email and a password', async function () {
     mockModels.Account.create.resolves(createdAccount);
 

@@ -26,7 +26,7 @@ const getAccountFromEmail = proxyquire('../../../../src/database/functions/auth/
   '../../models': mockModels,
 });
 
-describe('getAccountFromEmail', function () {
+describe('Database -> getAccountFromEmail', function () {
   it('should return a success response with the account if it exists', async function () {
     const account = await getAccountFromEmail('account@example.com');
 

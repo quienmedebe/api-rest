@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const Shared = require('../../../src/modules/shared');
 
-describe('wrapAsync test suite', function () {
+describe('Shared -> wrapAsync', function () {
   it('given a failed promise, should execute the parameter next with the error', async function () {
     const fn = sinon.stub().rejects();
     const next = sinon.stub();

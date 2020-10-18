@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const Shared = require('../../../src/modules/shared');
 
-describe('isNumber test suite', function () {
+describe('Shared -> isNumber', function () {
   it('should return true if the argument is a number', function () {
     const num = 42;
 

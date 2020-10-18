@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const Errors = require('../../../src/modules/error');
 
-describe('handleError test suite', function () {
+describe('Errors -> handleError', function () {
   it('should call the logger', async function () {
     const consoleStub = sinon.stub(console, 'log').callsFake();
     const logger = {

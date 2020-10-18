@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const Shared = require('../../../src/modules/shared');
 
-describe('isString test suite', function () {
+describe('Shared -> isString', function () {
   it('should return true if the argument is a string', function () {
     const str = 'testString';
 

@@ -26,7 +26,7 @@ const getAccountFromId = proxyquire('../../../../src/database/functions/auth/get
   '../../models': mockModels,
 });
 
-describe('getAccountFromId', function () {
+describe('Database -> getAccountFromId', function () {
   it('should return a success response with the account if it exists', async function () {
     const account = await getAccountFromId(1);
 
