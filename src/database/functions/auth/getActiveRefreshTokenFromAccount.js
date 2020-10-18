@@ -8,7 +8,7 @@ async function getActiveRefreshTokenFromAccount(accountId, options = {}) {
 
   const refreshToken = await RefreshToken.findOne({
     where: {
-      accountId: accountId,
+      account_id: accountId,
       [Sequelize.Op.or]: [
         {
           expiration_datetime: {

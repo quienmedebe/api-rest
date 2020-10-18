@@ -43,7 +43,7 @@ const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.
  * PASSPORT
  */
 Auth.passport.client.use(Auth.passport.Strategies.LocalStrategy());
-Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.TOKEN_SECRET));
+Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKEN_SECRET));
 
 /***
  * ROUTES
