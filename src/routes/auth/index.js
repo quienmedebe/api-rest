@@ -1,9 +1,10 @@
 const express = require('express');
 const Shared = require('../../modules/shared');
+const Middleware = require('../../middlewares');
 const Signup = require('./Signup');
 const Login = require('./Login');
 const Check = require('./Check');
-const Middleware = require('../../middlewares');
+const Refresh = require('./Refresh');
 
 function AuthRouter({logger, config}) {
   const Router = express.Router();
@@ -12,6 +13,7 @@ function AuthRouter({logger, config}) {
   Router.post('/signup', wrapAsync(Signup({logger, config})));
   Router.post('/login', wrapAsync(Login({logger, config})));
   Router.get('/check', Middleware.JWT.requireAccessToken, wrapAsync(Check()));
+  Router.post('/refresh', wrapAsync(Refresh({logger, config})));
 
   return Router;
 }

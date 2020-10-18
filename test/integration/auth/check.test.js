@@ -11,16 +11,16 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
-let JWT_SECRET;
+let ACCESS_TOKEN_SECRET;
 
 describe('/auth/check', function () {
   beforeEach(async function () {
-    JWT_SECRET = Utils.Stubs.Config.JWT_SECRET(Utils.constants.JWT_SECRET);
+    ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     // eslint-disable-next-line mocha/no-nested-tests
     await setup();
   });
   afterEach(function () {
-    JWT_SECRET.restore();
+    ACCESS_TOKEN_SECRET.restore();
 
     tearDown();
   });

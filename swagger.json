@@ -42,6 +42,22 @@
         "description": "Creates an account with an email and a password and returns an access token to make authenticated requests",
         "tags": ["Auth", "Signup"],
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -77,6 +93,22 @@
         "description": "Returns the access token to make authenticated requests",
         "tags": ["Auth", "Login"],
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -120,6 +152,77 @@
               "properties": {
                 "id": {
                   "type": "number"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "description": "Returns a new access token",
+        "tags": ["Auth", "Refresh"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "accountId",
+            "description": "Id of the account which requests a new access token",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "body",
+            "name": "refreshToken",
+            "description": "refreshToken to get the new access token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string"
+                },
+                "refresh_token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["BAD_REQUEST"]
+                },
+                "message": {
+                  "type": "string"
                 }
               }
             }

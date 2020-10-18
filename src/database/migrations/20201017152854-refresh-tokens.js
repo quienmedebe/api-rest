@@ -23,8 +23,8 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'SET NULL',
           },
-          expiration_date: {
-            type: Sequelize.TIME,
+          expiration_datetime: {
+            type: Sequelize.BIGINT,
             allowNull: true,
           },
           valid: {
@@ -32,7 +32,7 @@ module.exports = {
             allowNull: false,
             defaultValue: true,
           },
-          tokens_issued: {
+          issued_tokens: {
             type: Sequelize.BIGINT,
             allowNull: false,
             defaultValue: 0,

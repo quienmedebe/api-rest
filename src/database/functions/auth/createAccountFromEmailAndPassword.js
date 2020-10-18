@@ -1,14 +1,12 @@
 const emailExists = require('./emailExists');
-const ERRORS = require('./errors');
 const {Account, EmailProvider, sequelize} = require('../../models');
-const Shared = require('../../../modules/shared');
 
 const createAccountFromEmailAndPassword = async (email, password, accountAttributes = {}) => {
   const response = await sequelize.transaction(async t => {
     const doesEmailExist = await emailExists(email, {transaction: t});
 
     if (doesEmailExist) {
-      return Shared.sendResponse(Shared.sendResponse.ERROR, ERRORS.DUPLICATE_EMAIL);
+      return null;
     }
 
     const account = await Account.create(
@@ -32,7 +30,7 @@ const createAccountFromEmailAndPassword = async (email, password, accountAttribu
       }
     );
 
-    return Shared.sendResponse(Shared.sendResponse.OK, account);
+    return account;
   });
 
   return response;

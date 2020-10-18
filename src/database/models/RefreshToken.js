@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         primaryKey: true,
         allowNull: false,
-        defaultValue: randomToken(255),
+        defaultValue: randomToken.uid(255),
       },
       account_id: {
         type: DataTypes.BIGINT,
@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      expiration_date: {
-        type: DataTypes.TIME,
+      expiration_datetime: {
+        type: DataTypes.BIGINT,
         allowNull: true,
       },
       valid: {
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: true,
       },
-      tokens_issued: {
+      issued_tokens: {
         type: DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
