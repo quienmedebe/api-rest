@@ -1,11 +1,11 @@
 const Auth = require('../../modules/auth');
-const Error = require('../../modules/error');
+const Errors = require('../../modules/error');
 
 const Login = ({logger, config}) =>
   async function Login(req, res) {
     return await Auth.passport.client.authenticate('local', {session: false}, async (err, account) => {
       if (err || !account) {
-        return Error.sendApiError(res, Error.API.UNAUTHORIZED);
+        return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
       }
 
       const credentialOptions = {
@@ -16,6 +16,9 @@ const Login = ({logger, config}) =>
       };
 
       const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
+      if (credentials.error) {
+        return Errors.sendApiError(res, credentials);
+      }
 
       const response = {
         access_token: credentials.accessToken,

@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const Auth = require('../../modules/auth');
-const Error = require('../../modules/error');
+const Errors = require('../../modules/error');
 
 const Signup = ({logger, config}) =>
   async function Signup(req, res) {
@@ -11,7 +11,7 @@ const Signup = ({logger, config}) =>
     const isValidPassword = ajv.validate(Auth.validation.passwordSchema, password);
 
     if (!isValidEmail || !isValidPassword) {
-      return Error.sendApiError(res, Error.API.BAD_REQUEST);
+      return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
     const signupOptions = {
@@ -21,7 +21,7 @@ const Signup = ({logger, config}) =>
     const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
 
     if (account.error) {
-      return Error.sendApiError(res, account);
+      return Errors.sendApiError(res, account);
     }
 
     const credentialOptions = {
@@ -31,6 +31,10 @@ const Signup = ({logger, config}) =>
       refreshTokenExpirationTime: config.REFRESH_TOKEN_EXPIRATION_MS,
     };
     const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
+
+    if (credentials.error) {
+      return Errors.sendApiError(res, credentials);
+    }
 
     const response = {
       access_token: credentials.accessToken,
