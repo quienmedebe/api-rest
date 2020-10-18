@@ -9,6 +9,7 @@ const Errors = require('../../../src/modules/error');
 
 describe('handleError test suite', function () {
   it('should call the logger', async function () {
+    const consoleStub = sinon.stub(console, 'log').callsFake();
     const logger = {
       log: sinon.stub(),
     };
@@ -16,5 +17,6 @@ describe('handleError test suite', function () {
     await Errors.handleError(new Error('Some error happened'), {logger});
 
     expect(logger.log).to.have.been.calledOnce;
+    consoleStub.restore();
   });
 });

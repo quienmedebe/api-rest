@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const noop = () => {};
 
-const signToken = (payload = {}, options = {}, config = {}) => {
+function signToken(payload = {}, options = {}, config = {}) {
   const logger = config.logger || noop;
   const secret = config.secret;
 
@@ -26,6 +26,6 @@ const signToken = (payload = {}, options = {}, config = {}) => {
   const token = jwt.sign(jwtPayload, secret, signOptions);
 
   return token;
-};
+}
 
 module.exports = signToken;
