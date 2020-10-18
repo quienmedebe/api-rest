@@ -13,7 +13,7 @@ async function createRefreshToken(accountId, refreshTokenOptions = {}, options =
   const refreshToken = await RefreshToken.create(
     {
       account_id: accountId,
-      expiration_datetime: refreshTokenOptions.expiration_datetime,
+      expiration_datetime: Date.now() + refreshTokenOptions.expiration_datetime,
     },
     options
   );
