@@ -12,7 +12,7 @@ const Logger = require('./services/logger');
 
 const Middlewares = require('./middlewares');
 
-const Error = require('./modules/error');
+const Error = require('./modules/errors');
 const Auth = require('./modules/auth');
 const Routes = require('./routes');
 

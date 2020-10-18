@@ -1,5 +1,5 @@
 const Auth = require('../../modules/auth');
-const Errors = require('../../modules/error');
+const Errors = require('../../modules/errors');
 
 const Login = ({logger, config}) =>
   async function Login(req, res) {

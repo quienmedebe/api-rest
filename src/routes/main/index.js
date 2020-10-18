@@ -1,5 +1,5 @@
 const express = require('express');
-const Error = require('../../modules/error');
+const Error = require('../../modules/errors');
 
 function MainRouter() {
   const Router = express.Router();

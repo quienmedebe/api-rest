@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const Auth = require('../../modules/auth');
-const Errors = require('../../modules/error');
+const Errors = require('../../modules/errors');
 
 const Refresh = ({logger, config}) =>
   async function Refresh(req, res) {
