@@ -17,7 +17,7 @@ const emailExists = proxyquire('../../../../src/database/functions/auth/emailExi
   '../../models': mockModels,
 });
 
-describe('emailExists', function () {
+describe('Database -> emailExists', function () {
   it('should return true if the email already exists', async function () {
     const response = await emailExists('duplicated@example.com');
 

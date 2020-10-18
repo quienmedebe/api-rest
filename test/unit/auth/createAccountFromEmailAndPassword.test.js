@@ -10,7 +10,7 @@ const Database = require('../../../src/database');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-describe('createAccountFromEmailAndPassword', function () {
+describe('Auth -> createAccountFromEmailAndPassword', function () {
   it('should throw an error if the email or the password are not valid', function () {
     const resultWrongEmail = Auth.functions.createAccountFromEmailAndPassword(34, '123456');
     const resultWrongPassword = Auth.functions.createAccountFromEmailAndPassword('test@example.com', '');

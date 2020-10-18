@@ -9,7 +9,7 @@ const Auth = require('../../../src/modules/auth');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-describe('signToken', function () {
+describe('Auth -> signToken', function () {
   it('should throw an error if the id or the secret are missing', function () {
     const resultWithoutId = () => Auth.functions.signToken({}, {}, {secret: '123'});
     const resultWithoutSecret = () => Auth.functions.signToken({id: 4}, {}, {});
