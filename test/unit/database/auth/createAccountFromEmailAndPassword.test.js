@@ -55,7 +55,7 @@ describe('Database -> createAccountFromEmailAndPassword', function () {
     resetStubs();
   });
 
-  it('should return an error response if the user already exists', async function () {
+  it('should return null if the user already exists', async function () {
     const account = await createAccountFromEmailAndPassword('duplicatedEmail@example.com', 'hashed_password');
 
     expect(mockModels.Account.create).to.have.been.callCount(0);
