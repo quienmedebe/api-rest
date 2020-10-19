@@ -33,13 +33,13 @@ describe('Database -> getAccountFromEmail', function () {
     expect(account).to.deep.equal(savedAccount);
   });
 
-  it('should return an error response if the account does not exist', async function () {
+  it('should return null if the account does not exist', async function () {
     const account = await getAccountFromEmail('doesnotexist@example.com');
 
     expect(account).to.be.null;
   });
 
-  it('should throw an error if the email is not a string', async function () {
+  it('should reject if the email is not a string', function () {
     const result = getAccountFromEmail(4);
     expect(result).to.be.rejectedWith(Error);
   });
