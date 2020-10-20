@@ -9,11 +9,16 @@ const Utils = require('../../../utils');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-const mockDate = sinon.stub(Date, 'now').returns(1000);
+let mockDate;
 
 describe('Database -> createRefreshToken', function () {
   beforeEach(async function () {
+    mockDate = sinon.stub(Date, 'now').returns(1000);
     await Utils.scripts.truncateDB();
+  });
+
+  afterEach(function () {
+    mockDate.restore();
   });
 
   it('should create a refresh token', async function () {
@@ -27,8 +32,6 @@ describe('Database -> createRefreshToken', function () {
 
     expect(token).not.to.be.undefined;
     expect(token).to.have.property('expiration_datetime', '2000');
-
-    mockDate.restore();
   });
 
   it('should create the token if the expiration datetime is null', async function () {
@@ -42,8 +45,6 @@ describe('Database -> createRefreshToken', function () {
 
     expect(token).not.to.be.undefined;
     expect(token).to.have.property('expiration_datetime', null);
-
-    mockDate.restore();
   });
 
   it('should reject if the expiration datetime is not a number', function () {

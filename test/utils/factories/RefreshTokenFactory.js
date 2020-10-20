@@ -1,7 +1,9 @@
+const randomToken = require('rand-token');
 const {RefreshToken} = require('../../../src/database/models');
 
 const createProperties = async (props = {}) => {
   return {
+    id: randomToken.uid(255),
     expiration_datetime: !props.expiration_datetime ? null : Date.now() + 1000 * 60 * 60 * 24 * 7,
     valid: true,
     issued_tokens: 0,
@@ -28,7 +30,7 @@ RefreshTokenFactory.findByAccountId = async (accountId, json = true) => {
   });
 
   if (instance && json) {
-    instance.toJSON();
+    return instance.toJSON();
   }
 
   return instance;
