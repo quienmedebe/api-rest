@@ -23,11 +23,25 @@ async function EmailProviderFactory(props = {}, json = true) {
   const properties = await createProperties(props);
   const instance = await EmailProvider.create(properties);
 
-  if (json) {
+  if (instance && json) {
     return instance.toJSON();
   }
 
   return instance;
 }
+
+EmailProviderFactory.findByEmail = async (email, json = true) => {
+  const instance = await EmailProvider.findOne({
+    where: {
+      email,
+    },
+  });
+
+  if (instance && json) {
+    return instance.toJSON();
+  }
+
+  return instance;
+};
 
 module.exports = EmailProviderFactory;
