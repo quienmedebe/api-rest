@@ -3,7 +3,11 @@ const expect = chai.expect;
 const Utils = require('../../../utils');
 const Database = require('../../../../src/database');
 
-describe.only('Database -> getAccountFromId', function () {
+describe('Database -> getAccountFromId', function () {
+  beforeEach(async function () {
+    await Utils.scripts.truncateDB();
+  });
+
   it('should return a success response with the account if it exists', async function () {
     const account = await Utils.factories.AccountFactory();
     const savedAccount = await Database.functions.auth.getAccountFromId(+account.id);
