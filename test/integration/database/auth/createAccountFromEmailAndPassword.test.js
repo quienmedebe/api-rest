@@ -12,10 +12,12 @@ describe('Database -> createAccountFromEmailAndPassword', function () {
   });
 
   it('should create an account from an email and a password', async function () {
-    const account = await createAccountFromEmailAndPassword('test@example.com', 'hashed_password');
+    const email = 'test@example.com';
+    const account = await createAccountFromEmailAndPassword(email, 'hashed_password');
+    const provider = await Utils.factories.EmailProviderFactory.findByEmail(email);
 
-    expect(account).to.have.property('id');
-    expect(account.email_providers[0]).to.have.property('email', 'test@example.com');
+    expect(provider).to.have.property('email', email);
+    expect(provider).to.have.property('account_id', account.id);
   });
 
   it('should return null if the user already exists', async function () {
