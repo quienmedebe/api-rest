@@ -1,46 +1,24 @@
 const chai = require('chai');
 const expect = chai.expect;
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-const chaiAsPromised = require('chai-as-promised');
-const proxyquire = require('proxyquire');
-const {makeMockModels} = require('sequelize-test-helpers');
+const Utils = require('../../../utils');
+const Database = require('../../../../src/database');
 
-chai.use(sinonChai);
-chai.use(chaiAsPromised);
-
-const savedAccount = {
-  id: 1,
-  created_at: new Date(Date.now()).toISOString(),
-  updated_at: new Date(Date.now()).toISOString(),
-  deleted_at: null,
-};
-
-const mockModels = makeMockModels({
-  Account: {
-    findOne: sinon.stub(({where}) => Promise.resolve(where.id === 1 ? savedAccount : null)),
-  },
-});
-
-const getAccountFromId = proxyquire('../../../../src/database/functions/auth/getAccountFromId.js', {
-  '../../models': mockModels,
-});
-
-describe('Database -> getAccountFromId', function () {
+describe.only('Database -> getAccountFromId', function () {
   it('should return a success response with the account if it exists', async function () {
-    const account = await getAccountFromId(1);
+    const account = await Utils.factories.AccountFactory();
+    const savedAccount = await Database.functions.auth.getAccountFromId(+account.id);
 
-    expect(account).to.deep.equal(savedAccount);
+    expect(savedAccount).to.have.property('id', account.id);
   });
 
   it('should return null if the account does not exist', async function () {
-    const account = await getAccountFromId(2);
+    const account = await Database.functions.auth.getAccountFromId(2);
 
     expect(account).to.be.null;
   });
 
   it('should reject if the id is not a number', function () {
-    const result = getAccountFromId('abc');
+    const result = Database.functions.auth.getAccountFromId('abc');
     expect(result).to.be.rejectedWith(Error);
   });
 });
