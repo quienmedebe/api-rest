@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const Utils = require('../../../utils');
-const emailExists = require('../../../../src/database/functions/auth/emailExists');
+const Database = require('../../../../src/database');
 
 describe('Database -> emailExists', function () {
   beforeEach(async function () {
@@ -10,13 +10,13 @@ describe('Database -> emailExists', function () {
 
   it('should return true if the email already exists', async function () {
     const emailProvider = await Utils.factories.EmailProviderFactory();
-    const response = await emailExists(emailProvider.email);
+    const response = await Database.functions.auth.emailExists(emailProvider.email);
 
     expect(response).to.be.true;
   });
 
   it('should return false if the email does not exist', async function () {
-    const response = await emailExists('unique@example.com');
+    const response = await Database.functions.auth.emailExists('unique@example.com');
 
     expect(response).to.be.false;
   });

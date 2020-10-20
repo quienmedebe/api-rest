@@ -3,7 +3,7 @@ const expect = chai.expect;
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const chaiAsPromised = require('chai-as-promised');
-const createRefreshToken = require('../../../../src/database/functions/auth/createRefreshToken');
+const Database = require('../../../../src/database');
 const Utils = require('../../../utils');
 
 chai.use(sinonChai);
@@ -27,7 +27,7 @@ describe('Database -> createRefreshToken', function () {
       expiration_datetime: 1000,
     };
 
-    await createRefreshToken(+account.id, refreshTokenOptions);
+    await Database.functions.auth.createRefreshToken(+account.id, refreshTokenOptions);
     const token = await Utils.factories.RefreshTokenFactory.findByAccountId(account.id);
 
     expect(token).not.to.be.undefined;
@@ -40,7 +40,7 @@ describe('Database -> createRefreshToken', function () {
       expiration_datetime: null,
     };
 
-    await createRefreshToken(+account.id, refreshTokenOptions);
+    await Database.functions.auth.createRefreshToken(+account.id, refreshTokenOptions);
     const token = await Utils.factories.RefreshTokenFactory.findByAccountId(account.id);
 
     expect(token).not.to.be.undefined;
@@ -52,13 +52,13 @@ describe('Database -> createRefreshToken', function () {
       expiration_datetime: 'Not a number',
     };
 
-    const account = createRefreshToken(1, refreshTokenOptions);
+    const account = Database.functions.auth.createRefreshToken(1, refreshTokenOptions);
 
     expect(account).to.be.rejectedWith(Error);
   });
 
   it('should reject if the account id is not a number', function () {
-    const account = createRefreshToken('Not a number', {});
+    const account = Database.functions.auth.createRefreshToken('Not a number', {});
 
     expect(account).to.be.rejectedWith(Error);
   });
