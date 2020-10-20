@@ -2,7 +2,7 @@ const {RefreshToken} = require('../../../src/database/models');
 
 const createProperties = async (props = {}) => {
   return {
-    expiration_datetime: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    expiration_datetime: !props.expiration_datetime ? null : Date.now() + 1000 * 60 * 60 * 24 * 7,
     valid: true,
     issued_tokens: 0,
     ...props,
@@ -19,5 +19,19 @@ async function RefreshTokenFactory(props = {}, json = true) {
 
   return instance;
 }
+
+RefreshTokenFactory.findByAccountId = async (accountId, json = true) => {
+  const instance = await RefreshToken.findOne({
+    where: {
+      account_id: accountId,
+    },
+  });
+
+  if (instance && json) {
+    instance.toJSON();
+  }
+
+  return instance;
+};
 
 module.exports = RefreshTokenFactory;
