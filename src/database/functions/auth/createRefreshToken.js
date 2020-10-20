@@ -10,7 +10,7 @@ async function createRefreshToken(accountId, refreshTokenOptions = {}, options =
     throw new Error(`The expiration datetime must be a number if it is present. Received: ${refreshTokenOptions.expiration_datetime}`);
   }
 
-  const expirationDateTime = refreshTokenOptions.expiration_datetime ? refreshTokenOptions.expiration_datetime : null;
+  const expirationDateTime = refreshTokenOptions.expiration_datetime ? Date.now() + refreshTokenOptions.expiration_datetime : null;
 
   const refreshToken = await RefreshToken.create(
     {
