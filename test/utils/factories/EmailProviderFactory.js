@@ -6,10 +6,10 @@ const Constants = require('../constants');
 const createProperties = async (props = {}) => {
   const {password, ...fields} = props;
   let providerPassword;
-  if (password) {
+  if (!password) {
     providerPassword = await bcrypt.hash(Constants.PASSWORD, Constants.SALT_NUMBER);
   } else {
-    providerPassword = await bcrypt.hash(props.password, Constants.SALT_NUMBER);
+    providerPassword = await bcrypt.hash(password, Constants.SALT_NUMBER);
   }
 
   return {

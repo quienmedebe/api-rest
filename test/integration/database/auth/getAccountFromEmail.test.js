@@ -1,46 +1,30 @@
 const chai = require('chai');
 const expect = chai.expect;
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-const chaiAsPromised = require('chai-as-promised');
-const proxyquire = require('proxyquire');
-const {makeMockModels} = require('sequelize-test-helpers');
-
-chai.use(sinonChai);
-chai.use(chaiAsPromised);
-
-const savedAccount = {
-  id: 1,
-  created_at: new Date(Date.now()).toISOString(),
-  updated_at: new Date(Date.now()).toISOString(),
-  deleted_at: null,
-};
-
-const mockModels = makeMockModels({
-  Account: {
-    findOne: sinon.stub(({include}) => Promise.resolve(include[0].where.email === 'account@example.com' ? savedAccount : null)),
-  },
-});
-
-const getAccountFromEmail = proxyquire('../../../../src/database/functions/auth/getAccountFromEmail.js', {
-  '../../models': mockModels,
-});
+const Utils = require('../../../utils');
+const Database = require('../../../../src/database');
 
 describe('Database -> getAccountFromEmail', function () {
-  it('should return a success response with the account if it exists', async function () {
-    const account = await getAccountFromEmail('account@example.com');
+  beforeEach(async function () {
+    await Utils.scripts.truncateDB();
+  });
 
-    expect(account).to.deep.equal(savedAccount);
+  it('should return a success response with the account if it exists', async function () {
+    const account = await Utils.factories.AccountFactory();
+    const retrievedAccount = await Database.functions.auth.getAccountFromEmail(account.email_providers[0].email);
+    const savedAccount = await Utils.factories.AccountFactory.findById(account.id);
+
+    expect(savedAccount).not.to.be.null;
+    expect(retrievedAccount).to.have.property('id', account.id);
   });
 
   it('should return null if the account does not exist', async function () {
-    const account = await getAccountFromEmail('doesnotexist@example.com');
+    const account = await Database.functions.auth.getAccountFromEmail('doesnotexist@example.com');
 
     expect(account).to.be.null;
   });
 
   it('should reject if the email is not a string', function () {
-    const result = getAccountFromEmail(4);
+    const result = Database.functions.auth.getAccountFromEmail(4);
     expect(result).to.be.rejectedWith(Error);
   });
 });

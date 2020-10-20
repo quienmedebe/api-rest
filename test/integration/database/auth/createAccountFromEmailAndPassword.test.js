@@ -21,9 +21,9 @@ describe('Database -> createAccountFromEmailAndPassword', function () {
   });
 
   it('should return null if the user already exists', async function () {
-    await Utils.factories.AccountFactory({}, false, {withEmail: {email: 'duplicatedEmail@example.com', password: 'hashed_password'}});
-    const account = await createAccountFromEmailAndPassword('duplicatedEmail@example.com', 'hashed_password');
+    const account = await Utils.factories.AccountFactory({}, false, {withEmail: true});
+    const newAccount = await createAccountFromEmailAndPassword(account.email_providers[0].email, 'hashed_password');
 
-    expect(account).to.be.null;
+    expect(newAccount).to.be.null;
   });
 });

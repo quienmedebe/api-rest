@@ -26,4 +26,18 @@ async function AccountFactory(props = {}, json = true, options = {withEmail: tru
   return instance;
 }
 
+AccountFactory.findById = async (id, json = true) => {
+  const instance = await Account.findOne({
+    where: {
+      id,
+    },
+  });
+
+  if (instance && json) {
+    return instance.toJSON();
+  }
+
+  return instance;
+};
+
 module.exports = AccountFactory;
