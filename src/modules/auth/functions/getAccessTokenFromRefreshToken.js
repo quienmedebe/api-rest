@@ -44,4 +44,7 @@ async function getAccessTokenFromRefreshToken(accountId, refreshToken, {logger, 
   }
 }
 
-module.exports = getAccessTokenFromRefreshToken;
+module.exports = function () {
+  return module.exports.getAccessTokenFromRefreshToken.apply(this, arguments);
+};
+module.exports.getAccessTokenFromRefreshToken = getAccessTokenFromRefreshToken;

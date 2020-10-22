@@ -26,4 +26,7 @@ async function createAccessTokenFromAccountId(accountId, config = {}, options = 
   };
 }
 
-module.exports = createAccessTokenFromAccountId;
+module.exports = function () {
+  return module.exports.createAccessTokenFromAccountId.apply(this, arguments);
+};
+module.exports.createAccessTokenFromAccountId = createAccessTokenFromAccountId;

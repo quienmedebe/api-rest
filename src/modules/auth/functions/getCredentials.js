@@ -46,4 +46,7 @@ async function getCredentials(accountId, {logger, accessTokenSecret, accessToken
   };
 }
 
-module.exports = getCredentials;
+module.exports = function () {
+  return module.exports.getCredentials.apply(this, arguments);
+};
+module.exports.getCredentials = getCredentials;
