@@ -63,4 +63,16 @@ describe('/auth/check', function () {
 
     expect(response).to.matchApiSchema();
   });
+
+  it('should return a 401 error if the token is valid but it is not associated to an account @integration @auth @check', async function () {
+    const requester = await getRequester();
+    const token = Utils.Functions.getSignedToken(0)();
+
+    const response = await requester.get('/auth/check').set('Authorization', `Bearer ${token}`);
+
+    expect(response, 'The status code is incorrect').to.have.status(401);
+    expect(response.body, 'The error code is incorrect').to.have.property('error', 'UNAUTHORIZED');
+
+    expect(response).to.matchApiSchema();
+  });
 });

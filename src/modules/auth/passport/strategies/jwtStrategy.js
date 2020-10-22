@@ -14,7 +14,7 @@ const jwtStrategy = secret => {
         const parsedId = parseInt(payload.id, 10);
         const accountResponse = await Database.functions.auth.getAccountFromId(parsedId);
 
-        if (accountResponse.error) {
+        if (!accountResponse) {
           return done(null, false);
         }
 
