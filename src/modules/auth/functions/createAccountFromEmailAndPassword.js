@@ -26,4 +26,7 @@ const createAccountFromEmailAndPassword = async (email, password, accountAttribu
   return response;
 };
 
-module.exports = createAccountFromEmailAndPassword;
+module.exports = function () {
+  return module.exports.createAccountFromEmailAndPassword.apply(this, arguments);
+};
+module.exports.createAccountFromEmailAndPassword = createAccountFromEmailAndPassword;

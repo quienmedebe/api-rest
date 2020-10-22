@@ -28,4 +28,7 @@ function signToken(payload = {}, options = {}, config = {}) {
   return token;
 }
 
-module.exports = signToken;
+module.exports = function () {
+  return module.exports.signToken.apply(this, arguments);
+};
+module.exports.signToken = signToken;
