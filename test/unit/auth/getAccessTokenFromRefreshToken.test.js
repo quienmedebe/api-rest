@@ -5,25 +5,28 @@ const sinon = require('sinon');
 const randToken = require('rand-token');
 const Database = require('../../../src/database');
 const Utils = require('../../utils');
-const Auth = require('../../../src/modules/auth');
+const createAccessTokenFromAccountId = require('../../../src/modules/auth/functions/createAccessTokenFromAccountId');
+const getAccessTokenFromRefreshToken = require('../../../src/modules/auth/functions/getAccessTokenFromRefreshToken');
 
 chai.use(chaiAsPromised);
 
-let databaseMock;
+let databaseMock, createAccessTokenFromAccountIdMock;
 
-describe('Auth -> getAccessTokenFromRefreshToken', function () {
+describe.only('Auth -> getAccessTokenFromRefreshToken', function () {
   beforeEach(function () {
-    databaseMock = sinon.stub(Database.functions.auth, 'getAccountFromId');
+    databaseMock = sinon.stub(Database.functions.auth, 'getRefreshToken');
+    createAccessTokenFromAccountIdMock = sinon.stub(createAccessTokenFromAccountId, 'createAccessTokenFromAccountId');
   });
 
   afterEach(function () {
     databaseMock.restore();
+    createAccessTokenFromAccountIdMock.restore();
   });
 
   it('should return an error if the account id is not valid', function () {
     const accountId = 'not a number';
     const refreshToken = randToken.uid(255);
-    const accessToken = Auth.functions.getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
+    const accessToken = getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
 
     expect(accessToken).to.be.rejected;
   });
@@ -31,7 +34,7 @@ describe('Auth -> getAccessTokenFromRefreshToken', function () {
   it('should return an error if the refresh token is not valid', function () {
     const accountId = 1;
     const refreshToken = null;
-    const accessToken = Auth.functions.getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
+    const accessToken = getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
 
     expect(accessToken).to.be.rejected;
   });
@@ -41,10 +44,19 @@ describe('Auth -> getAccessTokenFromRefreshToken', function () {
 
     const accountId = 1;
     const refreshToken = randToken.uid(255);
-    const accessToken = await Auth.functions.getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
+    const accessToken = await getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
 
     expect(accessToken).to.have.property('error');
   });
 
-  it('should return the access token if there are no problems');
+  it('should return the access token if there are no problems', async function () {
+    databaseMock.resolves({id: 'access_token', save: sinon.stub()});
+    createAccessTokenFromAccountIdMock.resolves({accessToken: 'access_token'});
+
+    const accountId = 1;
+    const refreshToken = randToken.uid(255);
+    const credentials = await getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(credentials).to.have.property('accessToken', 'access_token');
+  });
 });

@@ -1,7 +1,8 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
-const Auth = require('../../../src/modules/auth');
+const getCredentials = require('../../../src/modules/auth/functions/getCredentials');
+const getAccessTokenFromRefreshToken = require('../../../src/modules/auth/functions/getAccessTokenFromRefreshToken');
 const Database = require('../../../src/database');
 const Utils = require('../../utils');
 
@@ -11,11 +12,11 @@ const expect = chai.expect;
 
 let getActiveRefreshTokenFromAccountMock, createRefreshTokenMock, getAccessTokenFromRefreshTokenMock;
 
-describe.only('Auth -> getCredentials', function () {
+describe('Auth -> getCredentials', function () {
   beforeEach(function () {
     getActiveRefreshTokenFromAccountMock = sinon.stub(Database.functions.auth, 'getActiveRefreshTokenFromAccount');
     createRefreshTokenMock = sinon.stub(Database.functions.auth, 'createRefreshToken');
-    getAccessTokenFromRefreshTokenMock = sinon.stub(Auth.functions, 'getAccessTokenFromRefreshToken');
+    getAccessTokenFromRefreshTokenMock = sinon.stub(getAccessTokenFromRefreshToken, 'getAccessTokenFromRefreshToken');
   });
 
   afterEach(function () {
@@ -26,12 +27,37 @@ describe.only('Auth -> getCredentials', function () {
 
   it('should return an error if the account id is not valid', function () {
     const accountId = 'not valid';
-    const credentials = Auth.functions.getCredentials(accountId);
+    const credentials = getCredentials(accountId);
 
     expect(credentials).to.be.rejected;
   });
 
-  it('should return an access token from an old refresh token');
+  it('should return an access token from an old refresh token', async function () {
+    getActiveRefreshTokenFromAccountMock.resolves({id: 'refresh_token'});
+    getAccessTokenFromRefreshTokenMock.resolves({accessToken: 'access_token'});
 
-  it('should return an access token from a new refresh token');
+    const credentials = await getCredentials(1, {accessTokenSecret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(credentials.accessToken).to.equal('access_token');
+    expect(createRefreshTokenMock).not.to.have.been.calledOnce;
+  });
+
+  it('should return the refresh token', async function () {
+    getActiveRefreshTokenFromAccountMock.resolves({id: 'refresh_token'});
+    getAccessTokenFromRefreshTokenMock.resolves({accessToken: 'access_token'});
+
+    const credentials = await getCredentials(1, {accessTokenSecret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(credentials.refreshToken).to.equal('refresh_token');
+  });
+
+  it('should return an access token from a new refresh token', async function () {
+    getActiveRefreshTokenFromAccountMock.resolves(null);
+    createRefreshTokenMock.resolves({id: 'refresh_token'});
+    getAccessTokenFromRefreshTokenMock.resolves({accessToken: 'access_token'});
+
+    await getCredentials(1, {accessTokenSecret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(createRefreshTokenMock).to.have.been.calledOnce;
+  });
 });
