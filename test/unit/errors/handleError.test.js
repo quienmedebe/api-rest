@@ -5,7 +5,7 @@ const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
-const Errors = require('../../../src/modules/errors');
+const handleError = require('../../../src/modules/errors/handleError');
 
 describe('Errors -> handleError', function () {
   it('should call the logger', async function () {
@@ -14,7 +14,7 @@ describe('Errors -> handleError', function () {
       log: sinon.stub(),
     };
 
-    await Errors.handleError(new Error('Some error happened'), {logger});
+    await handleError(new Error('Some error happened'), {logger});
 
     expect(logger.log).to.have.been.calledOnce;
     consoleStub.restore();

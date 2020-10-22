@@ -1,6 +1,6 @@
 const {expect} = require('chai');
 const sinon = require('sinon');
-const Auth = require('../../../src/modules/auth');
+const createAccessTokenFromAccountId = require('../../../src/modules/auth/functions/createAccessTokenFromAccountId');
 const Database = require('../../../src/database');
 
 let databaseMock;
@@ -22,7 +22,7 @@ describe('Auth -> createAccessTokenFromAccountId', function () {
       logger: () => {},
     };
 
-    const accessToken = await Auth.functions.createAccessTokenFromAccountId(1, config);
+    const accessToken = await createAccessTokenFromAccountId(1, config);
 
     expect(accessToken).to.have.property('error');
   });
@@ -37,7 +37,7 @@ describe('Auth -> createAccessTokenFromAccountId', function () {
       logger: () => {},
     };
 
-    const response = await Auth.functions.createAccessTokenFromAccountId(1, config);
+    const response = await createAccessTokenFromAccountId(1, config);
 
     expect(response).to.have.property('accessToken');
   });

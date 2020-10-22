@@ -5,14 +5,14 @@ const sinon = require('sinon');
 const randToken = require('rand-token');
 const Database = require('../../../src/database');
 const Utils = require('../../utils');
-const createAccessTokenFromAccountId = require('../../../src/modules/auth/functions/createAccessTokenFromAccountId');
 const getAccessTokenFromRefreshToken = require('../../../src/modules/auth/functions/getAccessTokenFromRefreshToken');
+const createAccessTokenFromAccountId = require('../../../src/modules/auth/functions/createAccessTokenFromAccountId');
 
 chai.use(chaiAsPromised);
 
 let databaseMock, createAccessTokenFromAccountIdMock;
 
-describe.only('Auth -> getAccessTokenFromRefreshToken', function () {
+describe('Auth -> getAccessTokenFromRefreshToken', function () {
   beforeEach(function () {
     databaseMock = sinon.stub(Database.functions.auth, 'getRefreshToken');
     createAccessTokenFromAccountIdMock = sinon.stub(createAccessTokenFromAccountId, 'createAccessTokenFromAccountId');
