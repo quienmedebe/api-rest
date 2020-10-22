@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const Constants = require('../../constants');
+const Constants = require('../constants');
 
-function _getSignedToken(accountId) {
-  return async (payload = {}, options = {}) => {
+function getSignedToken(accountId) {
+  return (payload = {}, options = {}) => {
     const {secret = Constants.ACCESS_TOKEN_SECRET, expiresIn = 1000 * 60 * 5, ...jwtOptions} = options;
 
     const jwtPayload = {
@@ -21,4 +21,4 @@ function _getSignedToken(accountId) {
   };
 }
 
-module.exports = _getSignedToken;
+module.exports = getSignedToken;

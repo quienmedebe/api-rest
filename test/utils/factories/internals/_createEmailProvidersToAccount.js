@@ -3,7 +3,7 @@ const faker = require('faker');
 const isPlainObject = require('lodash.isplainobject');
 const {EmailProvider} = require('../../../../src/database/models');
 const Constants = require('../../constants');
-const _getSignedToken = require('./_getSignedToken');
+const Functions = require('../../functions');
 
 async function _createEmailProvidersToAccount(emailConfig, accountId) {
   let providers = [
@@ -38,7 +38,7 @@ async function _createEmailProvidersToAccount(emailConfig, accountId) {
       password: await bcrypt.hash(password, Constants.SALT_NUMBER),
     });
 
-    provider.getToken = _getSignedToken(accountId);
+    provider.getToken = Functions.getSignedToken(accountId);
 
     return provider;
   });
