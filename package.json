@@ -55,7 +55,7 @@
     "api-contract-validator": "^2.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "eslint": "^7.10.0",
+    "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
