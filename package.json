@@ -69,6 +69,6 @@
     "pretty-quick": "^3.0.2",
     "redoc-cli": "^0.9.12",
     "sinon": "^9.0.3",
-    "swagger-markdown": "^1.4.2"
+    "swagger-markdown": "^1.4.3"
   }
 }
