@@ -22,6 +22,12 @@ const configuration = {
    * Logger configuration
    */
   DISABLE_CONSOLE: Boolean(+process.env.DISABLE_CONSOLE) || false,
+
+  /***
+   * Mailjet configuration
+   */
+  MAILJET_CLIENT_ID: process.env.MAILJET_CLIENT_ID,
+  MAILJET_SECRET: process.env.MAILJET_SECRET,
 };
 
 module.exports = configuration;
