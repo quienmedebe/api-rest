@@ -104,3 +104,25 @@ Sends an email to change the password when you forget the credentials
 | ---- | ----------- | ------ |
 | 200 | Success | object |
 | 400 | Bad request | object |
+
+### /auth/new-password
+
+#### POST
+##### Description
+
+Changes the password using a token
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| emailProviderId | body | Id of the email requesting the password change | No | string |
+| token | body | Token to change the password | No | string |
+| newPassword | body | New password to associate with the email provider | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |
