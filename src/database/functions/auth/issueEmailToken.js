@@ -1,17 +1,16 @@
 const randToken = require('rand-token');
 const {EmailToken} = require('../../models');
 
-async function createEmailToken(providerId, attributes = {}, options = {}) {
-  const {valid, expiresInMs, usedTimes, ...attr} = attributes;
+async function issueEmailToken(providerId, attributes = {}, options = {}) {
+  const {expiresInMs} = attributes;
 
   const emailToken = await EmailToken.create(
     {
       id: randToken.uid(64),
       email_provider_id: providerId,
-      valid: typeof valid === 'undefined' ? true : valid,
+      valid: true,
       expiration_datetime: Date.now() + expiresInMs,
-      times_used: usedTimes ? usedTimes : 0,
-      ...attr,
+      times_used: 0,
     },
     options
   );
@@ -19,4 +18,4 @@ async function createEmailToken(providerId, attributes = {}, options = {}) {
   return emailToken;
 }
 
-module.exports = createEmailToken;
+module.exports = issueEmailToken;

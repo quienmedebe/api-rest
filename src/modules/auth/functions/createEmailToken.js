@@ -27,12 +27,7 @@ async function createEmailToken(emailProviderId, options = {}) {
 
   const {expiresInMs, ...opts} = options;
 
-  const attributes = {
-    valid: true,
-    expiresInMs: expiresInMs,
-    usedTimes: 0,
-  };
-  const emailToken = await Database.functions.auth.createEmailToken(emailProviderId, attributes, opts);
+  const emailToken = await Database.functions.auth.issueEmailToken(emailProviderId, {expiresInMs}, opts);
 
   return emailToken;
 }

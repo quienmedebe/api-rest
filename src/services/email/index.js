@@ -8,8 +8,12 @@ function Email(strategy = strategies.DefaultStrategy()) {
   return this._strategy;
 }
 
-Email.use = strategy => {
+Email.useStrategy = strategy => {
   this._strategy = strategy;
+};
+
+Email.getClient = () => {
+  return this._strategy;
 };
 
 Email.templates = templates;
