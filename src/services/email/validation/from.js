@@ -1,3 +1,11 @@
 module.exports = {
-  type: 'string',
+  type: 'object',
+  properties: {
+    email: {
+      type: 'string',
+    },
+    name: {
+      type: 'string',
+    },
+  },
 };

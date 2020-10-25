@@ -5,22 +5,30 @@ function sendEmail(client, options = {}) {
 
   return async EmailContent => {
     try {
-      const response = await client.post('send', {version: 'v3.1'}).request({
+      const to = EmailContent.to.map(({email, ...props}) => ({Email: email, ...props}));
+      const from = {
+        Email: EmailContent.from.email,
+        Name: EmailContent.from.name,
+      };
+
+      const requestBody = {
         Messages: [
           {
-            From: EmailContent.from,
-            To: EmailContent.to,
+            From: from,
+            To: to,
             Subject: EmailContent.subject,
             TextPart: EmailContent.text,
             HTMLPart: EmailContent.html,
             CustomID: EmailContent.customId,
           },
         ],
-      });
+      };
+
+      const response = await client.post('send', {version: 'v3.1', perform_api_call: true}).request(requestBody);
 
       return response.Sent.map(({email}) => ({email}));
     } catch (error) {
-      logger.error(error);
+      logger('error', error);
       if (error.statusCode >= 500 && error.statusCode < 600) {
         return _errors.SERVICE_UNAVAILABLE;
       }

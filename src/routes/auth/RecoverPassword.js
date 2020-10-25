@@ -38,7 +38,10 @@ const RecoverPassword = ({logger, config}) =>
 
     const recoverPasswordUrl = `${config.RECOVER_PASSWORD_URL}/${providerId}/${activeToken}`;
     const emailContent = Email.templates.RecoverPassword(recoverPasswordUrl, {
-      from: config.Email.RECOVER_PASSWORD_FROM,
+      from: {
+        email: config.Email.RECOVER_PASSWORD_FROM_EMAIL,
+        name: config.Email.RECOVER_PASSWORD_FROM_NAME,
+      },
       to: [
         {
           email,
@@ -49,7 +52,6 @@ const RecoverPassword = ({logger, config}) =>
     });
     const emailService = Email.getClient();
     const emails = await emailService.sendEmail(emailContent);
-
     const response = {
       result: emails,
     };
