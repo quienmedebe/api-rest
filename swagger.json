@@ -288,7 +288,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "enum": ["BAD_REQUEST"]
+                  "enum": ["BAD_REQUEST", "EMAIL_NOT_FOUND"]
                 },
                 "message": {
                   "type": "string"

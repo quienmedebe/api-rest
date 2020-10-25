@@ -24,7 +24,10 @@ const RecoverPassword = ({logger, config, email: emailService}) =>
     const {email} = req.body;
 
     const emailProviderWithTokens = await Auth.functions.getEmailProviderWithTokensFromEmail(email);
-    const providerId = emailProviderWithTokens.id;
+    if (!emailProviderWithTokens) {
+      return Errors.sendApiError(res, Auth.errors.EMAIL_NOT_FOUND);
+    }
+
     let activeToken = emailProviderWithTokens.tokens && emailProviderWithTokens.tokens[0] && emailProviderWithTokens.tokens[0].id;
     if (!activeToken) {
       const newToken = await Auth.functions.createEmailToken(emailProviderWithTokens.id, {expiresInMs: config.EMAIL_TOKEN_EXPIRATION_MS});
@@ -32,6 +35,7 @@ const RecoverPassword = ({logger, config, email: emailService}) =>
       activeToken = newToken.id;
     }
 
+    const providerId = emailProviderWithTokens.id;
     const recoverPasswordUrl = `${config.RECOVER_PASSWORD_URL}/${providerId}/${activeToken}`;
     const emailContent = Email.templates.RecoverPassword(recoverPasswordUrl, {
       from: config.Email.RECOVER_PASSWORD_FROM,

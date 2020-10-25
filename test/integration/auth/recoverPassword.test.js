@@ -63,11 +63,11 @@ describe.only('/auth/recover-password', function () {
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
 
-  it('should send an email on success', async function () {
+  it('should send an email and create a new valid token', async function () {
     Email.use(emailStrategy);
     const requester = getRequester();
 
-    const emailProvider = await Utils.factories.EmailProviderFactory();
+    const emailProvider = await Utils.factories.EmailProviderFactory({}, false);
     const body = {
       email: emailProvider.email,
     };
@@ -75,10 +75,38 @@ describe.only('/auth/recover-password', function () {
 
     const response = await requester.post('/auth/recover-password').send(body);
 
+    await emailProvider.reload();
+
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body.result).to.be.array();
     expect(response.body.result).to.be.ofSize(1);
     expect(emailStrategy.sendEmail).to.have.been.calledOnce;
+    expect(emailProvider.tokens).to.be.ofSize(1);
+    expect(emailProvider.tokens[0]).to.have.property('valid', true);
+    expect(response, 'Wrong API documentation').to.matchApiSchema();
+  });
+
+  it('should not create a new token if there is one already valid', async function () {
+    Email.use(emailStrategy);
+    const requester = getRequester();
+
+    const emailProvider = await Utils.factories.EmailProviderFactory({}, false);
+    const token = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id});
+    const body = {
+      email: emailProvider.email,
+    };
+    emailStrategy.sendEmail.resolves(console.log('Faked email') || [{email: emailProvider.email}]);
+
+    const response = await requester.post('/auth/recover-password').send(body);
+
+    await emailProvider.reload();
+
+    expect(response, 'Invalid status code').to.have.status(200);
+    expect(response.body.result).to.be.array();
+    expect(response.body.result).to.be.ofSize(1);
+    expect(emailStrategy.sendEmail).to.have.been.calledOnce;
+    expect(emailProvider.tokens).to.be.ofSize(1);
+    expect(emailProvider.tokens.id).to.equal(token.id);
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
 });
