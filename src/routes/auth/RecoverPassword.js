@@ -3,7 +3,7 @@ const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
 const Email = require('../../services/email');
 
-const RecoverPassword = ({logger, config, email: emailService}) =>
+const RecoverPassword = ({logger, config}) =>
   async function RecoverPassword(req, res) {
     const ajv = new Ajv({allErrors: true});
     const areValidArguments = ajv.validate(
@@ -27,15 +27,15 @@ const RecoverPassword = ({logger, config, email: emailService}) =>
     if (!emailProviderWithTokens) {
       return Errors.sendApiError(res, Auth.errors.EMAIL_NOT_FOUND);
     }
+    const providerId = +emailProviderWithTokens.id;
 
     let activeToken = emailProviderWithTokens.tokens && emailProviderWithTokens.tokens[0] && emailProviderWithTokens.tokens[0].id;
     if (!activeToken) {
-      const newToken = await Auth.functions.createEmailToken(emailProviderWithTokens.id, {expiresInMs: config.EMAIL_TOKEN_EXPIRATION_MS});
+      const newToken = await Auth.functions.createEmailToken(providerId, {expiresInMs: config.EMAIL_TOKEN_EXPIRATION_MS});
 
       activeToken = newToken.id;
     }
 
-    const providerId = emailProviderWithTokens.id;
     const recoverPasswordUrl = `${config.RECOVER_PASSWORD_URL}/${providerId}/${activeToken}`;
     const emailContent = Email.templates.RecoverPassword(recoverPasswordUrl, {
       from: config.Email.RECOVER_PASSWORD_FROM,
@@ -47,6 +47,7 @@ const RecoverPassword = ({logger, config, email: emailService}) =>
       subject: config.Email.RECOVER_PASSWORD_SUBJECT,
       customId: config.Email.RECOVER_PASSWORD_ID,
     });
+    const emailService = Email.getClient();
     const emails = await emailService.sendEmail(emailContent);
 
     const response = {

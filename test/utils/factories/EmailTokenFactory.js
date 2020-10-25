@@ -37,4 +37,16 @@ EmailTokenFactory.findById = async (id, json = true) => {
   return instance;
 };
 
+EmailTokenFactory.findAll = async (query = {}, json = true) => {
+  const results = await EmailToken.findAll({
+    ...query,
+  });
+
+  if (json) {
+    return results.map(instance => instance.toJSON());
+  }
+
+  return results;
+};
+
 module.exports = EmailTokenFactory;
