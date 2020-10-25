@@ -15,13 +15,19 @@ describe('Email -> templates -> recoverPassword', function () {
       });
     const templateWithoutTo = () =>
       Email.templates.RecoverPassword('http://example.com', {
-        from: 'example@example.com',
+        from: {
+          email: 'example@example.com',
+          name: 'From name',
+        },
         subject: 'Example',
         customId: '1234',
       });
     const templateWithoutSubject = () =>
       Email.templates.RecoverPassword('http://example.com', {
-        from: 'example@example.com',
+        from: {
+          email: 'example@example.com',
+          name: 'From name',
+        },
         to: [
           {
             email: 'example2@example.com',
@@ -31,7 +37,10 @@ describe('Email -> templates -> recoverPassword', function () {
       });
     const templateWithoutCustomId = () =>
       Email.templates.RecoverPassword('http://example.com', {
-        from: 'example@example.com',
+        from: {
+          email: 'example@example.com',
+          name: 'From name',
+        },
         to: [
           {
             email: 'example2@example.com',
@@ -50,7 +59,10 @@ describe('Email -> templates -> recoverPassword', function () {
 
   it('should return the correct fields', function () {
     const response = Email.templates.RecoverPassword('http://example.com', {
-      from: 'example@example.com',
+      from: {
+        email: 'example@example.com',
+        name: 'From name',
+      },
       to: [
         {
           email: 'example2@example.com',
