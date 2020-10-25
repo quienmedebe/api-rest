@@ -2,7 +2,8 @@
  * Email configuration
  */
 
-exports.RECOVER_PASSWORD_FROM = 'No-reply';
+exports.RECOVER_PASSWORD_FROM_EMAIL = 'contacto@quienmedebe.com';
+exports.RECOVER_PASSWORD_FROM_NAME = 'Quien Me Debe';
 exports.RECOVER_PASSWORD_SUBJECT = 'Recupera tu contraseña';
 exports.RECOVER_PASSWORD_ID = 'RecoverPassword';
 
