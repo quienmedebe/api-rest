@@ -16,7 +16,7 @@ const Refresh = ({logger, config}) =>
 
     const options = {
       secret: config.ACCESS_TOKEN_SECRET,
-      expiresIn: config.ACCESS_TOKEN_EXPIRATION_MS,
+      expiresIn: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
       logger: logger,
     };
 

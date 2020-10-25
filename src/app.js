@@ -9,6 +9,7 @@ const apiSpec = require('../swagger.json');
 
 const Config = require('./config');
 const Logger = require('./services/logger');
+const Email = require('./services/email');
 
 const Middlewares = require('./middlewares');
 
@@ -39,6 +40,9 @@ const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.
   },
 });
 
+const emailStrategy = Email.strategies.DefaultStrategy();
+const emailService = Email(emailStrategy);
+
 /***
  * PASSPORT
  */
@@ -49,7 +53,7 @@ Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKE
  * ROUTES
  */
 app.use('/', Routes.main({logger}));
-app.use('/auth', Routes.auth({logger, config: Config}));
+app.use('/auth', Routes.auth({logger, config: Config, email: emailService}));
 
 if (app.get('env') === 'development') {
   app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));

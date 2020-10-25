@@ -11,7 +11,7 @@ const Login = ({logger, config}) =>
       const credentialOptions = {
         logger,
         accessTokenSecret: config.ACCESS_TOKEN_SECRET,
-        accessTokenExpirationTime: config.ACCESS_TOKEN_EXPIRATION_MS,
+        accessTokenExpirationTime: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
         refreshTokenExpirationTime: config.REFRESH_TOKEN_EXPIRATION_MS,
       };
 

@@ -5,5 +5,7 @@ exports.emailExists = require('./emailExists');
 exports.getRefreshToken = require('./getRefreshToken');
 exports.getActiveRefreshTokenFromAccount = require('./getActiveRefreshTokenFromAccount');
 exports.createRefreshToken = require('./createRefreshToken');
+exports.getEmailProviderWithValidTokensFromEmail = require('./getEmailProviderWithValidTokensFromEmail');
+exports.createEmailToken = require('./createEmailToken');
 
 module.exports = exports;
