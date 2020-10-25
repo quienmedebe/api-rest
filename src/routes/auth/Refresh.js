@@ -4,15 +4,24 @@ const Errors = require('../../modules/errors');
 
 const Refresh = ({logger, config}) =>
   async function Refresh(req, res) {
-    const {accountId, refreshToken} = req.body;
-
     const ajv = new Ajv({logger});
-    const isValidAccountId = ajv.validate(Auth.validation.accountIdSchema, accountId);
-    const isValidRefreshToken = ajv.validate(Auth.validation.refreshTokenSchema, refreshToken);
+    const areValidParameters = ajv.validate(
+      {
+        type: 'object',
+        required: ['accountId', 'refreshToken'],
+        properties: {
+          accountId: Auth.validation.accountIdSchema,
+          refreshToken: Auth.validation.refreshTokenSchema,
+        },
+      },
+      req.body
+    );
 
-    if (!isValidAccountId || !isValidRefreshToken) {
+    if (!areValidParameters) {
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
+
+    const {accountId, refreshToken} = req.body;
 
     const options = {
       secret: config.ACCESS_TOKEN_SECRET,
