@@ -48,7 +48,8 @@ module.exports = {
         {transaction}
       );
 
-      await queryInterface.addIndex('email_providers', ['account_id', 'email'], {transaction});
+      await queryInterface.addIndex('email_providers', ['email'], {transaction});
+
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
