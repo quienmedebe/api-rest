@@ -84,3 +84,23 @@ Returns a new access token
 | 200 | Success | object |
 | 400 | Bad request | object |
 | 401 | Unauthorized | object |
+
+### /auth/recover-password
+
+#### POST
+##### Description
+
+Sends an email to change the password when you forget the credentials
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | body | Email to recover the password from | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |

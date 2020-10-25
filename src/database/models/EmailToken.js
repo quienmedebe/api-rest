@@ -2,55 +2,53 @@
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class EmailProvider extends Model {
+  class EmailToken extends Model {
     static associate(models) {
-      EmailProvider.belongsTo(models.Account, {
-        foreignKey: 'account_id',
-        as: 'account',
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-      });
-
-      EmailProvider.hasMany(models.EmailToken, {
+      EmailToken.belongsTo(models.EmailProvider, {
         foreignKey: 'email_provider_id',
-        as: 'tokens',
+        as: 'email_providers',
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       });
     }
   }
-  EmailProvider.init(
+  EmailToken.init(
     {
       id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING(255),
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
         unique: true,
       },
-      account_id: {
+      email_provider_id: {
         type: DataTypes.BIGINT,
         references: {
-          model: 'accounts',
+          model: 'email_providers',
           key: 'id',
         },
         allowNull: true,
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      email: {
-        type: DataTypes.STRING,
+      valid: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        unique: true,
+        defaultValue: true,
       },
-      password: {
-        type: DataTypes.STRING,
+      expiration_datetime: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+      },
+      times_used: {
+        type: DataTypes.BIGINT,
         allowNull: false,
+        defaultValue: 0,
       },
     },
     {
       sequelize,
-      modelName: 'EmailProvider',
+      modelName: 'EmailToken',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -59,5 +57,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  return EmailProvider;
+  return EmailToken;
 };
