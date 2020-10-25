@@ -6,6 +6,7 @@ const Login = require('./Login');
 const Check = require('./Check');
 const Refresh = require('./Refresh');
 const RecoverPassword = require('./RecoverPassword');
+const NewPassword = require('./NewPassword');
 
 function AuthRouter({logger, config}) {
   const Router = express.Router();
@@ -16,6 +17,7 @@ function AuthRouter({logger, config}) {
   Router.get('/check', Middleware.JWT.requireAccessToken, wrapAsync(Check()));
   Router.post('/refresh', wrapAsync(Refresh({logger, config})));
   Router.post('/recover-password', wrapAsync(RecoverPassword({logger, config})));
+  Router.post('/new-password', wrapAsync(NewPassword({logger, config})));
 
   return Router;
 }

@@ -11,6 +11,10 @@ exports.AUTH = {
     maxLength: 255,
     minLength: 255,
   },
+  emailToken: {
+    maxLength: 64,
+    minLength: 64,
+  },
 };
 
 exports.ACCOUNT = {
