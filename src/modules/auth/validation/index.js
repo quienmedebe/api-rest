@@ -5,5 +5,6 @@ exports.refreshTokenSchema = require('./refreshTokenSchema');
 exports.emailProviderIdSchema = require('./emailProviderIdSchema');
 exports.expiresInMsSchema = require('./expiresInMsSchema');
 exports.emailTokenSchema = require('./emailTokenSchema');
+exports.saltSchema = require('./saltSchema');
 
 module.exports = exports;

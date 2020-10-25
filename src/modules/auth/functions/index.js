@@ -5,5 +5,6 @@ exports.getCredentials = require('./getCredentials');
 exports.createAccessTokenFromAccountId = require('./createAccessTokenFromAccountId');
 exports.getEmailProviderWithTokensFromEmail = require('./getEmailProviderWithTokensFromEmail');
 exports.createEmailToken = require('./createEmailToken');
+exports.changePassword = require('./changePassword');
 
 module.exports = exports;

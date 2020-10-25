@@ -1,9 +1,8 @@
 const Ajv = require('ajv');
 const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
-const Email = require('../../services/email');
 
-const NewPassword = ({logger, config}) =>
+const NewPassword = ({config}) =>
   async function NewPassword(req, res) {
     const ajv = new Ajv({allErrors: true});
     const areValidArguments = ajv.validate(
@@ -25,7 +24,16 @@ const NewPassword = ({logger, config}) =>
 
     const {emailProviderId, token, newPassword} = req.body;
 
-    return res.status(200).json({emailProviderId, token, newPassword});
+    const changePasswordResponse = await Auth.functions.changePassword(emailProviderId, token, newPassword, {salt: config.SALT_NUMBER});
+    if (changePasswordResponse.error) {
+      return Errors.sendApiError(res, changePasswordResponse);
+    }
+
+    const response = {
+      result: changePasswordResponse,
+    };
+
+    return res.status(200).json(response);
   };
 
 module.exports = NewPassword;

@@ -16,16 +16,16 @@ chai.use(sinonChai);
 chai.use(chaiArrays);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
-let emailStrategy;
-
-describe.only('/auth/new-password', function () {
+describe('/auth/new-password', function () {
   beforeEach(async function () {
+    Utils.Stubs.Config.SALT_NUMBER(4);
+    sinon.stub(Date, 'now').returns(1000);
     // eslint-disable-next-line mocha/no-nested-tests
     await setup();
   });
 
   afterEach(function () {
-    sinon.reset();
+    sinon.restore();
     tearDown();
   });
 
@@ -62,9 +62,9 @@ describe.only('/auth/new-password', function () {
 
     const account = await Utils.factories.AccountFactory();
     const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id, password: oldPassword});
-    const emailToken = await Utils.factories.EmailProviderFactory({email_provider_id: emailProvider.id});
+    const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id});
     const body = {
-      emailProviderId: emailProvider.id,
+      emailProviderId: +emailProvider.id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -95,9 +95,9 @@ describe.only('/auth/new-password', function () {
 
     const account = await Utils.factories.AccountFactory();
     const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id});
-    const emailToken = await Utils.factories.EmailProviderFactory({email_provider_id: emailProvider.id}, false);
+    const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id}, false);
     const body = {
-      emailProviderId: emailProvider.id,
+      emailProviderId: +emailProvider.id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -110,5 +110,45 @@ describe.only('/auth/new-password', function () {
     expect(responseSuccess).to.have.status(200);
     expect(responseFail).to.have.status(400);
     expect(emailToken.valid).to.be.false;
+  });
+
+  it('should return an error if the token is valid but it is owned by another provider', async function () {
+    const requester = getRequester();
+    const newPassword = '0987654321';
+
+    const accountA = await Utils.factories.AccountFactory();
+    const accountB = await Utils.factories.AccountFactory();
+    const emailProviderA = await Utils.factories.EmailProviderFactory({account_id: accountA.id});
+    const emailProviderB = await Utils.factories.EmailProviderFactory({account_id: accountB.id});
+    const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProviderA.id}, false);
+    const body = {
+      emailProviderId: +emailProviderB.id,
+      token: emailToken.id,
+      newPassword: newPassword,
+    };
+
+    const response = await requester.post('/auth/new-password').send(body);
+
+    expect(response).to.have.status(400);
+    expect(response).to.have.property('error');
+  });
+
+  it('should return an error if the token is expired', async function () {
+    const requester = getRequester();
+    const newPassword = '0987654321';
+
+    const account = await Utils.factories.AccountFactory();
+    const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id});
+    const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id, expiration_datetime: 900}, false);
+    const body = {
+      emailProviderId: +emailProvider.id,
+      token: emailToken.id,
+      newPassword: newPassword,
+    };
+
+    const response = await requester.post('/auth/new-password').send(body);
+
+    expect(response).to.have.status(400);
+    expect(response).to.have.property('error');
   });
 });

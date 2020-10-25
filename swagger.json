@@ -298,6 +298,62 @@
           }
         }
       }
+    },
+    "/auth/new-password": {
+      "post": {
+        "description": "Changes the password using a token",
+        "tags": ["Auth", "New Password"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "emailProviderId",
+            "description": "Id of the email requesting the password change",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "token",
+            "description": "Token to change the password",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "newPassword",
+            "description": "New password to associate with the email provider",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["BAD_REQUEST", "INVALID_EMAIL_TOKEN"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

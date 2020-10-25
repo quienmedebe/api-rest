@@ -31,7 +31,7 @@ describe('/auth/recover-password', function () {
   });
 
   afterEach(function () {
-    sinon.reset();
+    sinon.restore();
     tearDown();
   });
 
