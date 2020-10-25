@@ -27,10 +27,9 @@ const configuration = {
   DISABLE_CONSOLE: Boolean(+process.env.DISABLE_CONSOLE) || false,
 
   /***
-   * Mailjet configuration
+   * Email configuration
    */
-  MAILJET_CLIENT_ID: process.env.MAILJET_CLIENT_ID,
-  MAILJET_SECRET: process.env.MAILJET_SECRET,
+  EMAIL_STRATEGY: process.env.EMAIL_STRATEGY,
 
   /***
    * Modules

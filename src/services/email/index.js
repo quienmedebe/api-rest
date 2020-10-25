@@ -16,6 +16,15 @@ Email.getClient = () => {
   return this._strategy;
 };
 
+Email.getStrategyByName = (strategyName, emailConfig) => {
+  switch (strategyName) {
+    case 'mailjet':
+      return strategies.MailJetStrategy(emailConfig.MAILJET_CLIENT_ID, emailConfig.MAILJET_SECRET);
+    default:
+      return strategies.DefaultStrategy();
+  }
+};
+
 Email.templates = templates;
 Email.strategies = strategies;
 Email.validation = validation;

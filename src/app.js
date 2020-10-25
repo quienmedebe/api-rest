@@ -40,7 +40,7 @@ const logger = Logger.Presets.defaultLogger(Middlewares.HttpContext.httpContext.
   },
 });
 
-const emailStrategy = Email.strategies.MailJetStrategy(Config.MAILJET_CLIENT_ID, Config.MAILJET_SECRET);
+const emailStrategy = Email.getStrategyByName(Config.EMAIL_STRATEGY, Config.Email);
 Email.useStrategy(emailStrategy);
 
 /***
