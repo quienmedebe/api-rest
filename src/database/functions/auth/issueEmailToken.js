@@ -9,7 +9,7 @@ async function issueEmailToken(providerId, attributes = {}, options = {}) {
       id: randToken.uid(64),
       email_provider_id: providerId,
       valid: true,
-      expiration_datetime: Date.now() + expiresInMs,
+      expiration_datetime: expiresInMs !== null ? Date.now() + expiresInMs : null,
       times_used: 0,
     },
     options
