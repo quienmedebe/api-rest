@@ -9,5 +9,9 @@ exports.ACCESS_TOKEN_SECRET = secret => {
   const sandbox = sinon.createSandbox();
   return sandbox.stub(Config, 'ACCESS_TOKEN_SECRET').value(secret);
 };
+exports.NODE_ENV = environment => {
+  const sandbox = sinon.createSandbox();
+  return sandbox.stub(Config, 'NODE_ENV').value(environment);
+};
 
 module.exports = exports;

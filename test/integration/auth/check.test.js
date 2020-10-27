@@ -5,7 +5,7 @@ const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const Utils = require('../../utils');
 
-const {setup, tearDown, getRequester} = Utils.integration;
+const {prepare, tearDown, getRequester} = Utils.integration;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -17,7 +17,7 @@ describe('/auth/check', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     // eslint-disable-next-line mocha/no-nested-tests
-    await setup();
+    await prepare();
   });
   afterEach(function () {
     ACCESS_TOKEN_SECRET.restore();

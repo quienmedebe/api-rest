@@ -9,7 +9,7 @@ const apiSpec = path.join(__dirname, '../../../swagger.json');
 const Utils = require('../../utils');
 const Email = require('../../../src/services/email');
 
-const {setup, tearDown, getRequester} = Utils.integration;
+const {prepare, tearDown, getRequester} = Utils.integration;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -22,7 +22,7 @@ let emailStrategy;
 describe('/auth/recover-password', function () {
   beforeEach(async function () {
     // eslint-disable-next-line mocha/no-nested-tests
-    await setup();
+    await prepare();
 
     emailStrategy = {
       sendEmail: sinon.stub(),

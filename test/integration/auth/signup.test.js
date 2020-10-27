@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 const matchApiSchema = require('api-contract-validator').chaiPlugin;
 const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
-const {setup, tearDown, getRequester} = require('../../utils/integration');
+const {prepare, tearDown, getRequester} = require('../../utils/integration');
 const Utils = require('../../utils');
 
 const expect = chai.expect;
@@ -16,7 +16,7 @@ describe('/auth/signup', function () {
   beforeEach(async function () {
     SALT_NUMBER = Utils.Stubs.Config.SALT_NUMBER(Utils.constants.SALT_NUMBER);
     // eslint-disable-next-line mocha/no-nested-tests
-    await setup();
+    await prepare();
   });
   afterEach(function () {
     SALT_NUMBER.restore();

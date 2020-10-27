@@ -5,7 +5,7 @@ const path = require('path');
 const apiSpec = path.join(__dirname, '../../swagger.json');
 const Utils = require('../utils');
 
-const setup = Utils.integration.setup;
+const prepare = Utils.integration.prepare;
 const tearDown = Utils.integration.tearDown;
 const getRequester = Utils.integration.getRequester;
 
@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 describe('Headers test suite', function () {
-  beforeEach(setup);
+  beforeEach(prepare);
   afterEach(tearDown);
 
   it('should return the Access-Control-Allow-Origin header @integration @headers', async function () {

@@ -5,7 +5,7 @@ const truncateDB = require('./scripts/truncateDB');
 chai.use(chaiHttp);
 let server, requester;
 
-const setup = async () => {
+const prepare = async () => {
   server = require('../../src/app');
   requester = chai.request.agent(server);
   await truncateDB();
@@ -22,6 +22,6 @@ const getRequester = () => {
 
 exports.server = server;
 exports.getRequester = getRequester;
-exports.setup = setup;
+exports.prepare = prepare;
 exports.tearDown = tearDown;
 module.exports = exports;
