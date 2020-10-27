@@ -5,7 +5,7 @@ const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const Utils = require('../../utils');
 
-const {setup, tearDown, getRequester} = Utils.integration;
+const {prepare, tearDown, getRequester} = Utils.integration;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -14,7 +14,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 describe('/auth/login', function () {
   beforeEach(async function () {
     // eslint-disable-next-line mocha/no-nested-tests
-    await setup();
+    await prepare();
   });
   afterEach(function () {
     tearDown();

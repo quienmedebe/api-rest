@@ -8,7 +8,7 @@ const path = require('path');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const Utils = require('../../utils');
 
-const {setup, tearDown, getRequester} = Utils.integration;
+const {prepare, tearDown, getRequester} = Utils.integration;
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -21,7 +21,7 @@ describe('/auth/new-password', function () {
     Utils.Stubs.Config.SALT_NUMBER(4);
     sinon.stub(Date, 'now').returns(1000);
     // eslint-disable-next-line mocha/no-nested-tests
-    await setup();
+    await prepare();
   });
 
   afterEach(function () {

@@ -55,7 +55,8 @@ Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKE
 app.use('/', Routes.main({logger}));
 app.use('/auth', Routes.auth({logger, config: Config}));
 
-if (app.get('env') === 'development') {
+console.log(Config.NODE_ENV);
+if (Config.NODE_ENV === 'development') {
   app.use('/docs', apiUI.serve, apiUI.setup(apiSpec));
 }
 
