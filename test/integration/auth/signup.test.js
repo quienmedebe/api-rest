@@ -35,7 +35,7 @@ describe('/auth/signup', function () {
 
     expect(response, 'Wrong status code').to.have.status(200);
     expect(response.body, 'access_token property not found').to.have.property('access_token');
-    // expect(response.body, 'refresh_token property not found').to.have.property('refresh_token');
+    expect(response.body, 'refresh_token property not found').to.have.property('refresh_token');
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
