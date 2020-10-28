@@ -60,4 +60,20 @@ describe('Auth -> getCredentials', function () {
 
     expect(createRefreshTokenMock).to.have.been.calledOnce;
   });
+
+  it('should be rejected if the account id is not valid', async function () {
+    const response = getCredentials('1', {accessTokenSecret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(response).to.have.rejected;
+  });
+
+  it('should return an error if getting the access token from a refresh token has failed', async function () {
+    getActiveRefreshTokenFromAccountMock.resolves(null);
+    createRefreshTokenMock.resolves({id: 'refresh_token'});
+    getAccessTokenFromRefreshTokenMock.resolves({error: 'REFRESH_TOKEN_NOT_FOUND', message: 'Refresh token not found', status: 400});
+
+    const response = await getCredentials(1, {accessTokenSecret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(response).to.have.property('error', 'REFRESH_TOKEN_NOT_FOUND');
+  });
 });

@@ -59,4 +59,16 @@ describe('Auth -> getAccessTokenFromRefreshToken', function () {
 
     expect(credentials).to.have.property('accessToken', 'access_token');
   });
+
+  it('should throw an error if the creation of the access token from the account id has returned an error', async function () {
+    const error = {error: 'ACCOUNT_NOT_FOUND', message: 'Account not found', status: 400};
+    databaseMock.resolves({id: 'access_token', save: sinon.stub()});
+    createAccessTokenFromAccountIdMock.resolves(error);
+
+    const accountId = 1;
+    const refreshToken = randToken.uid(255);
+    const response = await getAccessTokenFromRefreshToken(accountId, refreshToken, {secret: Utils.constants.ACCESS_TOKEN_SECRET});
+
+    expect(response).to.have.property('error', 'ACCOUNT_NOT_FOUND');
+  });
 });
