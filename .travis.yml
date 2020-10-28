@@ -6,7 +6,10 @@ node_js:
   - 14
 services:
   - redis
+  - postgresql
 install: npm install
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 script: npm test
 deploy:
   provider: heroku
