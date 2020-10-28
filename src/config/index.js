@@ -29,7 +29,7 @@ const configuration = {
   /***
    * Email configuration
    */
-  EMAIL_STRATEGY: process.env.EMAIL_STRATEGY,
+  EMAIL_STRATEGY: process.env.EMAIL_STRATEGY || 'default',
 
   /***
    * Modules

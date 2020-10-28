@@ -5,11 +5,11 @@ if: (type = push AND branch IN (master)) OR (type = pull_request AND NOT branch 
 node_js:
   - 14
 services:
-  - redis
   - postgresql
 install: npm install
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
+  - npm run test:db:migrate
 script: npm test
 deploy:
   provider: heroku
