@@ -11,6 +11,9 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - npm run test:db:migrate
 script: npm test
+after_success:
+  - npm run test:coverage:lcov
+  - npm run test:coveralls
 deploy:
   provider: heroku
   api_key:
