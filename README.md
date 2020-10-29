@@ -52,7 +52,13 @@ Some tests require the documentation to be up-to-date with the API. The details 
 The code is formatted automatically after each commit according to `.prettierrc.js` file
 
 ### Lint
-The code linter is ESLint.
+The code linter is ESLint and its rules are in the `.eslintrc.js` file
+
+### Configuration
+You can set environment variables inside the `.env` but if you want to use them inside the app, please use the files inside the `src/config` folder.
+
+### Emails
+There are different strategies supported to send emails. You can control which one to use with the `EMAIL_STRATEGY` environment variable. The next strategies are supported: `mailjet`, `default`. The default strategy throws an error when trying to send an email.
 
 ## CI\/CD configuration
 After each Pull Request is created a build is triggered and the command `npm run test` is executed. If a test fails, the entire build will fail.
