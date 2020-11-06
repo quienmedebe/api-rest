@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Email = require('./email');
+const Logger = require('./logger');
 
 const configuration = {
   ...process.env,
@@ -10,6 +11,10 @@ const configuration = {
   PORT: process.env.PORT || '5000',
   NODE_ENV: process.env.NODE_ENV || 'development',
   COOKIES_SESSION_SECRET: process.env.COOKIES_SESSION_SECRET || 'cookie_secret',
+
+  /***
+   * Auth configuration
+   */
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'access_token_secret',
   SALT_NUMBER: +process.env.SALT_NUMBER || 16,
   ACCESS_TOKEN_EXPIRATION_SECONDS: +process.env.ACCESS_TOKEN_EXPIRATION_SECONDS || 15 * 60,
@@ -22,19 +27,10 @@ const configuration = {
   DB_URL: (['test'].includes(process.env.NODE_ENV) ? process.env.DB_URL_TEST : process.env.DB_URL) || 'postgresql://root@localhost:5432/db_dev',
 
   /***
-   * Logger configuration
-   */
-  DISABLE_CONSOLE: Boolean(+process.env.DISABLE_CONSOLE) || false,
-
-  /***
-   * Email configuration
-   */
-  EMAIL_STRATEGY: process.env.EMAIL_STRATEGY || 'default',
-
-  /***
    * Modules
    */
   Email,
+  Logger,
 };
 
 module.exports = configuration;
