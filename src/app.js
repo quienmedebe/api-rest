@@ -4,7 +4,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const winston = require('winston');
-const SentryTransport = require('winston-sentry');
+const SentryTransport = require('winston-sentry-log');
 const {Loggly: LogglyTransport} = require('winston-loggly-bulk');
 
 const apiUI = require('swagger-ui-express');
@@ -43,7 +43,9 @@ const consoleTransport = new winston.transports.Console({
   silent: Config.Logger.DISABLE_CONSOLE || (['test'].includes(Config.NODE_ENV) && !Config.Logger.ACTIVE_TEST_CONSOLE),
 });
 const sentryTransport = new SentryTransport({
-  timestamp: true,
+  config: {
+    dsn: Config.Logger.SENTRY_DSN,
+  },
   silent: !Config.Logger.LOGGER_USE_SENTRY,
 });
 
