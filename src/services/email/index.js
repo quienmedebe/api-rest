@@ -16,10 +16,10 @@ Email.getClient = () => {
   return this._strategy;
 };
 
-Email.getStrategyByName = (strategyName, emailConfig) => {
+Email.getStrategyByName = (strategyName, emailConfig, {logger, makeApiCall} = {}) => {
   switch (strategyName) {
     case 'mailjet':
-      return strategies.MailJetStrategy(emailConfig.MAILJET_CLIENT_ID, emailConfig.MAILJET_SECRET);
+      return strategies.MailJetStrategy(emailConfig.MAILJET_CLIENT_ID, emailConfig.MAILJET_SECRET, {logger, makeApiCall});
     default:
       return strategies.DefaultStrategy();
   }

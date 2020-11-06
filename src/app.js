@@ -66,7 +66,7 @@ const logger = winston.createLogger({
 /***
  * Email
  */
-const emailStrategy = Email.getStrategyByName(Config.Email.EMAIL_STRATEGY, Config.Email);
+const emailStrategy = Email.getStrategyByName(Config.Email.EMAIL_STRATEGY, Config.Email, {logger});
 Email.useStrategy(emailStrategy);
 
 /***

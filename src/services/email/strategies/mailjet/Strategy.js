@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
 const mailjet = require('node-mailjet');
-const _sendEmail = require('./internals/_sendEmail');
+const noopLogger = require('noop-logger');
+const functions = require('./functions');
 
-function MailJetStrategy(clientId, secret) {
+function MailJetStrategy(clientId, secret, {logger = noopLogger, makeApiCall} = {}) {
   const ajv = new Ajv({allErrors: true});
   const areValidCredentials = ajv.validate(
     {
@@ -27,7 +28,7 @@ function MailJetStrategy(clientId, secret) {
   const client = mailjet.connect(clientId, secret);
 
   return {
-    sendEmail: _sendEmail(client),
+    sendEmail: functions.sendEmail(client, {logger, makeApiCall}),
   };
 }
 

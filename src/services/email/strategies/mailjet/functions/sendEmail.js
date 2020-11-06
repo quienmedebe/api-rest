@@ -1,8 +1,6 @@
-const _errors = require('./_errors');
+const ERRORS = require('./errors');
 
-function sendEmail(client, options = {}) {
-  const logger = options.logger || (() => {});
-
+function sendEmail(client, {logger, makeApiCall = true} = {}) {
   return async EmailContent => {
     try {
       const to = EmailContent.to.map(({email, ...props}) => ({Email: email, ...props}));
@@ -24,19 +22,19 @@ function sendEmail(client, options = {}) {
         ],
       };
 
-      const response = await client.post('send', {version: 'v3.1', perform_api_call: true}).request(requestBody);
+      const response = await client.post('send', {version: 'v3.1', perform_api_call: makeApiCall}).request(requestBody);
 
       return response.Sent.map(({email}) => ({email}));
     } catch (error) {
-      logger('error', error);
+      logger.error('Error sending the email', error);
       if (error.statusCode >= 500 && error.statusCode < 600) {
-        return _errors.SERVICE_UNAVAILABLE;
+        return ERRORS.SERVICE_UNAVAILABLE;
       }
 
-      const errorsPool = Object.values(_errors);
+      const errorsPool = Object.values(ERRORS);
       const errorToSend = errorsPool.find(({status}) => status === error.statusCode);
       if (!errorToSend) {
-        return _errors.SERVICE_UNAVAILABLE;
+        return ERRORS.SERVICE_UNAVAILABLE;
       }
 
       return errorToSend;
