@@ -4,16 +4,25 @@ const Errors = require('../../modules/errors');
 
 const Signup = ({logger, config}) =>
   async function Signup(req, res) {
-    const {email, password} = req.body;
-
     const ajv = new Ajv({logger});
-    const isValidEmail = ajv.validate(Auth.validation.emailSchema, email);
-    const isValidPassword = ajv.validate(Auth.validation.passwordSchema, password);
+    const areValidArguments = ajv.validate(
+      {
+        type: 'object',
+        required: ['email', 'password'],
+        properties: {
+          email: Auth.validation.emailSchema,
+          password: Auth.validation.passwordSchema,
+        },
+      },
+      req.body
+    );
 
-    if (!isValidEmail || !isValidPassword) {
+    if (!areValidArguments) {
+      logger.info('Invalid signup arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
+    const {email, password} = req.body;
     const signupOptions = {
       salt: config.SALT_NUMBER,
     };

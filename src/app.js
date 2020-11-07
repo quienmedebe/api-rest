@@ -38,29 +38,36 @@ app.use(Middlewares.HttpContext.requestIdMiddleware);
  */
 const reqId = Middlewares.HttpContext.httpContext.get('reqId');
 const loggerFormat = winston.format.combine(Logger.Formats.withRequestId(reqId)(), winston.format.timestamp(), winston.format.json());
+const isTestEnv = Config.Helpers.isTestEnv;
+const isProdEnv = Config.Helpers.isProductionEnv;
+
+const activeConsole = (isTestEnv && Config.Logger.ACTIVE_TEST_CONSOLE) || (!isTestEnv && !Config.Logger.DISABLE_CONSOLE);
 const consoleTransport = new winston.transports.Console({
   timestamp: true,
-  silent: Config.Logger.DISABLE_CONSOLE || (['test'].includes(Config.NODE_ENV) && !Config.Logger.ACTIVE_TEST_CONSOLE),
+  silent: !activeConsole,
 });
+
+const sentryActive = isProdEnv && Config.Logger.LOGGER_USE_SENTRY;
 const sentryTransport = new SentryTransport({
   config: {
     dsn: Config.Logger.SENTRY_DSN,
   },
-  silent: !Config.Logger.LOGGER_USE_SENTRY,
+  silent: !sentryActive,
 });
 
+const logglyActive = isProdEnv && Config.Logger.LOGGER_USE_LOGGLY;
 const logglyTransport = new LogglyTransport({
   token: Config.Logger.LOGGLY_TOKEN,
   subdomain: Config.Logger.LOGGLY_SUBDOMAIN,
   tags: ['QMD'],
   json: true,
   timestamp: true,
-  silent: !Config.Logger.LOGGER_USE_LOGGLY,
+  silent: !logglyActive,
 });
 
 const logger = winston.createLogger({
   format: loggerFormat,
-  transports: [consoleTransport, logglyTransport, sentryTransport],
+  transports: [activeConsole ? consoleTransport : null, sentryActive ? sentryTransport : null, logglyActive ? logglyTransport : null].filter(Boolean),
 });
 
 /***
