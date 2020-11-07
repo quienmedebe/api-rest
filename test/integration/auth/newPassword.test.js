@@ -20,7 +20,6 @@ describe('/auth/new-password', function () {
   beforeEach(async function () {
     Utils.Stubs.Config.SALT_NUMBER(4);
     sinon.stub(Date, 'now').returns(1000);
-    // eslint-disable-next-line mocha/no-nested-tests
     await prepare();
   });
 

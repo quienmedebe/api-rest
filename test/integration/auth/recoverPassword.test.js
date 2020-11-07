@@ -21,7 +21,6 @@ let emailStrategy;
 
 describe('/auth/recover-password', function () {
   beforeEach(async function () {
-    // eslint-disable-next-line mocha/no-nested-tests
     await prepare();
 
     emailStrategy = {
