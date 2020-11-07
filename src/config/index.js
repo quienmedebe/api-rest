@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const Email = require('./email');
 const Logger = require('./logger');
+const Helpers = require('./helpers');
 
 const configuration = {
   ...process.env,
@@ -31,6 +32,7 @@ const configuration = {
    */
   Email,
   Logger,
+  Helpers,
 };
 
 module.exports = configuration;
