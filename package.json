@@ -58,10 +58,12 @@
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
     "express-jwt": "^6.0.0",
+    "express-winston": "^4.0.5",
     "helmet": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "lodash.isplainobject": "^4.0.6",
     "node-mailjet": "^3.3.1",
+    "noop-logger": "^0.1.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -74,7 +76,9 @@
     "stoppable": "^1.1.0",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.1",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-loggly-bulk": "^3.1.1",
+    "winston-sentry-log": "^1.0.19"
   },
   "devDependencies": {
     "api-contract-validator": "^2.1.0",

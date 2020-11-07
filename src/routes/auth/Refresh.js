@@ -18,6 +18,7 @@ const Refresh = ({logger, config}) =>
     );
 
     if (!areValidParameters) {
+      logger.info('Invalid refresh arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
