@@ -18,7 +18,7 @@ const Signup = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.log('info', 'Invalid arguments', {args: '[SECRET]'});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
