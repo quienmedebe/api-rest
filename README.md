@@ -7,7 +7,7 @@ Quién Me Debe is a web application to record all personal debts. Have you ever 
 
 This repository is the API REST of the application. The intention is to keep the responsibilities isolated. With this API REST you can create your own client code and/or extend the original features.
 
-[Click here to access to the API](https://quienmedebe.herokuapp.com/)
+[Base URL of the production API](https://quienmedebe.herokuapp.com/)
 
 ## Table of contents
 
@@ -59,6 +59,14 @@ You can set environment variables inside the `.env` but if you want to use them 
 
 ### Emails
 There are different strategies supported to send emails. You can control which one to use with the `EMAIL_STRATEGY` environment variable. The next strategies are supported: `mailjet`, `default`. The default strategy throws an error when trying to send an email.
+
+### Logging
+Each request performed against the API is logged with a unique request id.
+By default, there are three transports available to use: console, Sentry and Loggly.
+- The console transport is available in all environments. To active or disable it you set two different environment variables to 1 or 0: `DISABLE_CONSOLE` to disable this transport and `ACTIVE_TEST_CONSOLE` to log info on the test environment (By default in this environment the logging is silent).
+The other transports are enabled only on production environments:
+- Sentry: Enable or disable it with `LOGGER_USE_SENTRY`. You must set the `SENTRY_DSN` variable if this transport is active.
+- Loggly: Enable or disable it with `LOGGER_USE_LOGGLY`. You must set `LOGGLY_TOKEN` and `LOGGLY_SUBDOMAIN` if the transport is enabled.
 
 ## CI\/CD configuration
 After each Pull Request is created a build is triggered and the command `npm run test` is executed. If a test fails, the entire build will fail.
