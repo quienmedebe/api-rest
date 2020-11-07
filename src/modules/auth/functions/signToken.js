@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const noop = () => {};
+const noopLogger = require('noop-logger');
 
 function signToken(payload = {}, options = {}, config = {}) {
-  const logger = config.logger || noop;
+  const logger = config.logger || noopLogger;
   const secret = config.secret;
 
   const {id, ...jwtFields} = payload;
