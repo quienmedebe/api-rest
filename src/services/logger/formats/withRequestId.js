@@ -1,8 +1,8 @@
 const winston = require('winston');
 
-function withRequestId(reqId) {
+function withRequestId(getRequestId) {
   return winston.format(info => {
-    info.requestId = reqId;
+    info.requestId = getRequestId();
 
     return info;
   });

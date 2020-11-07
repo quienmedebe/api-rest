@@ -25,30 +25,30 @@ const app = express();
 
 app.use(helmet());
 app.use(compression());
+app.use(Middlewares.HttpContext.httpContext.middleware);
+app.use(Middlewares.HttpContext.requestIdMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser(Config.COOKIES_SESSION_SECRET));
 app.use(cors());
 app.use(Auth.passport.client.initialize());
 
-app.use(Middlewares.HttpContext.httpContext.middleware);
-app.use(Middlewares.HttpContext.requestIdMiddleware);
-
 /***
  * Logging
  */
-const reqId = Middlewares.HttpContext.httpContext.get('reqId');
-const loggerFormat = winston.format.combine(Logger.Formats.withRequestId(reqId)(), winston.format.timestamp(), winston.format.json());
+const loggerFormat = winston.format.combine(
+  Logger.Formats.withRequestId(() => Middlewares.HttpContext.httpContext.get('reqId'))(),
+  winston.format.timestamp(),
+  winston.format.json()
+);
 const isTestEnv = Config.Helpers.isTestEnv;
 const isProdEnv = Config.Helpers.isProductionEnv;
 
 const activeConsole = (isTestEnv && Config.Logger.ACTIVE_TEST_CONSOLE) || (!isTestEnv && !Config.Logger.DISABLE_CONSOLE);
-const consoleTransport = activeConsole
-  ? new winston.transports.Console({
-      timestamp: true,
-      silent: !activeConsole,
-    })
-  : null;
+const consoleTransport = new winston.transports.Console({
+  timestamp: true,
+  silent: !activeConsole,
+});
 
 const sentryActive = isProdEnv && Config.Logger.LOGGER_USE_SENTRY;
 const sentryTransport = sentryActive
