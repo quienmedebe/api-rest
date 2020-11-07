@@ -4,6 +4,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const winston = require('winston');
+const expressWinston = require('express-winston');
 const SentryTransport = require('winston-sentry-log');
 const {Loggly: LogglyTransport} = require('winston-loggly-bulk');
 
@@ -42,33 +43,46 @@ const isTestEnv = Config.Helpers.isTestEnv;
 const isProdEnv = Config.Helpers.isProductionEnv;
 
 const activeConsole = (isTestEnv && Config.Logger.ACTIVE_TEST_CONSOLE) || (!isTestEnv && !Config.Logger.DISABLE_CONSOLE);
-const consoleTransport = new winston.transports.Console({
-  timestamp: true,
-  silent: !activeConsole,
-});
+const consoleTransport = activeConsole
+  ? new winston.transports.Console({
+      timestamp: true,
+      silent: !activeConsole,
+    })
+  : null;
 
 const sentryActive = isProdEnv && Config.Logger.LOGGER_USE_SENTRY;
-const sentryTransport = new SentryTransport({
-  config: {
-    dsn: Config.Logger.SENTRY_DSN,
-  },
-  silent: !sentryActive,
-});
+const sentryTransport = sentryActive
+  ? new SentryTransport({
+      config: {
+        dsn: Config.Logger.SENTRY_DSN,
+      },
+      silent: !sentryActive,
+    })
+  : null;
 
 const logglyActive = isProdEnv && Config.Logger.LOGGER_USE_LOGGLY;
-const logglyTransport = new LogglyTransport({
-  token: Config.Logger.LOGGLY_TOKEN,
-  subdomain: Config.Logger.LOGGLY_SUBDOMAIN,
-  tags: [Config.Logger.LOGGLY_TAG],
-  json: true,
-  timestamp: true,
-  silent: !logglyActive,
-});
+const logglyTransport = logglyActive
+  ? new LogglyTransport({
+      token: Config.Logger.LOGGLY_TOKEN,
+      subdomain: Config.Logger.LOGGLY_SUBDOMAIN,
+      tags: [Config.Logger.LOGGLY_TAG],
+      json: true,
+      timestamp: true,
+      silent: !logglyActive,
+    })
+  : null;
 
 const logger = winston.createLogger({
   format: loggerFormat,
-  transports: [activeConsole ? consoleTransport : null, sentryActive ? sentryTransport : null, logglyActive ? logglyTransport : null].filter(Boolean),
+  transports: [consoleTransport, sentryTransport, logglyTransport].filter(Boolean),
 });
+
+const expressLogger = expressWinston.logger({
+  format: loggerFormat,
+  transports: [consoleTransport, sentryTransport, logglyTransport].filter(Boolean),
+});
+
+app.use(expressLogger);
 
 /***
  * Email
