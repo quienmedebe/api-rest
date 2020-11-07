@@ -35,4 +35,33 @@ DebtFactory.findAllByAccountId = async (accountId, json = true) => {
   return debts;
 };
 
+DebtFactory.findByPublicId = async (publicDebtId, json = true) => {
+  const instance = await Debt.findOne({
+    where: {
+      public_id: publicDebtId,
+    },
+  });
+
+  if (instance && json) {
+    return instance.toJSON();
+  }
+
+  return instance;
+};
+
+DebtFactory.findByPublicIdParanoid = async (publicDebtId, json = true) => {
+  const instance = await Debt.findOne({
+    where: {
+      public_id: publicDebtId,
+    },
+    paranoid: false,
+  });
+
+  if (instance && json) {
+    return instance.toJSON();
+  }
+
+  return instance;
+};
+
 module.exports = DebtFactory;

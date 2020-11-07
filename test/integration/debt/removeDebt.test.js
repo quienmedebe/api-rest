@@ -77,10 +77,30 @@ describe.only('/debt/:id DELETE', function () {
 
     const response = await requester.delete(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 
+    const removedDate = await Utils.factories.DebtFactory.findByPublicId(debt.public_id);
+
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
     expect(response.body.result, 'id of the deleted debt must be its public id').to.have.property('id', debt.public_id);
-    expect(response.body.result, 'id of the deleted debt must be an uuid').to.have.lengthOf(36);
+    expect(response.body.result.id, 'id of the deleted debt must be an uuid').to.have.lengthOf(36);
+    expect(removedDate, 'The debt should be deleted').to.be.null;
+    expect(response).to.matchApiSchema();
+  });
+
+  it('should be a soft delete', async function () {
+    const requester = getRequester();
+
+    const user = await Utils.factories.AccountFactory();
+    const debt = await Utils.factories.DebtFactory({account_id: user.id});
+
+    const access_token = await user.email_providers[0].getToken({id: user.id});
+
+    const response = await requester.delete(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
+
+    const removedDate = await Utils.factories.DebtFactory.findByPublicIdParanoid(debt.public_id);
+
+    expect(response, 'Invalid status code').to.have.status(200);
+    expect(removedDate, 'The debt should be deleted').not.to.be.null;
     expect(response).to.matchApiSchema();
   });
 });
