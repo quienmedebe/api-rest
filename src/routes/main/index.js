@@ -4,7 +4,7 @@ const Error = require('../../modules/errors');
 function MainRouter() {
   const Router = express.Router();
 
-  Router.get('/unauthorized', (_, res) => {
+  Router.get('/unauthorized', (req, res) => {
     return Error.sendApiError(res, Error.API.UNAUTHORIZED);
   });
 
