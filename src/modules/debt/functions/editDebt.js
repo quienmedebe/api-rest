@@ -26,7 +26,7 @@ async function editDebt({accountId, debtId, amount, type} = {}) {
     throw new Error('Some arguments are invalid');
   }
 
-  const numberOfUpdatedRows = await Database.functions.debt.editDebt({
+  const [numberOfUpdatedRows] = await Database.functions.debt.editDebt({
     accountId,
     debtId,
     amount,
