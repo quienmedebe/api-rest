@@ -126,3 +126,25 @@ Changes the password using a token
 | ---- | ----------- | ------ |
 | 200 | Success | object |
 | 400 | Bad request | object |
+
+### /debt
+
+#### POST
+##### Description
+
+Creates a new Debt
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| amount | body | Debt amount | No | number |
+| type | body | id it a debt or a credit | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |
+| 401 | Unauthorized | object |

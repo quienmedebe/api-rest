@@ -101,6 +101,7 @@ Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKE
  */
 app.use('/', Routes.main({logger}));
 app.use('/auth', Routes.auth({logger, config: Config}));
+app.use('/debt', Routes.debt({logger, config: Config}));
 
 /***
  * DOCUMENTATION

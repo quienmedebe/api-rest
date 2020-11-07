@@ -354,6 +354,75 @@
           }
         }
       }
+    },
+    "/debt": {
+      "post": {
+        "description": "Creates a new Debt",
+        "tags": ["Debt"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "amount",
+            "description": "Debt amount",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "body",
+            "name": "type",
+            "description": "id it a debt or a credit",
+            "schema": {
+              "type": "string",
+              "enum": ["DEBT", "CREDIT"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["BAD_REQUEST"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
