@@ -5,6 +5,7 @@ const Login = ({logger, config}) =>
   async function Login(req, res) {
     return await Auth.passport.client.authenticate('local', {session: false}, async (err, account) => {
       if (err || !account) {
+        logger.log('error', err);
         return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
       }
 
@@ -17,6 +18,7 @@ const Login = ({logger, config}) =>
 
       const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
       if (credentials.error) {
+        logger.log('info', 'Invalid credentials');
         return Errors.sendApiError(res, credentials);
       }
 
