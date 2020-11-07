@@ -148,3 +148,18 @@ Creates a new Debt
 | 200 | Success | object |
 | 400 | Bad request | object |
 | 401 | Unauthorized | object |
+
+### /debt/:id
+
+#### DELETE
+##### Description
+
+Removes an existing date
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |
+| 401 | Unauthorized | object |

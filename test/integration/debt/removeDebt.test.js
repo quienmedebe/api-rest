@@ -51,7 +51,7 @@ describe.only('/debt/:id DELETE', function () {
     expect(response).to.matchApiSchema();
   });
 
-  it('should return a 400 error if the debt exists but is not owner by that account', async function () {
+  it('should return a 400 error if the debt exists but is not owned by that account', async function () {
     const requester = getRequester();
 
     const userA = await Utils.factories.AccountFactory();
