@@ -22,17 +22,17 @@ async function DebtFactory(props = {}, json = true) {
 }
 
 DebtFactory.findAllByAccountId = async (accountId, json = true) => {
-  const instance = await Debt.findAll({
+  const debts = await Debt.findAll({
     where: {
       account_id: accountId,
     },
   });
 
-  if (instance && json) {
-    return instance.toJSON();
+  if (debts && json) {
+    return debts.map(debt => debt.toJSON());
   }
 
-  return instance;
+  return debts;
 };
 
 module.exports = DebtFactory;
