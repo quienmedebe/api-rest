@@ -21,6 +21,10 @@ const AddDebt = ({logger}) =>
       logger.log('info', 'Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
+
+    return res.status(200).json({
+      result: true,
+    });
   };
 
 module.exports = AddDebt;

@@ -13,7 +13,6 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 describe('/auth/refresh', function () {
   beforeEach(async function () {
-    // eslint-disable-next-line mocha/no-nested-tests
     await prepare();
   });
 

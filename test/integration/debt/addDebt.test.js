@@ -11,11 +11,15 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
+let ACCESS_TOKEN_SECRET;
+
 describe.only('/debt POST', function () {
   beforeEach(async function () {
+    ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
   });
   afterEach(function () {
+    ACCESS_TOKEN_SECRET.restore();
     tearDown();
   });
 
@@ -27,7 +31,7 @@ describe.only('/debt POST', function () {
       type: 'DEBT',
     };
 
-    const response = await requester.post('/debt', body);
+    const response = await requester.post('/debt').send(body);
 
     expect(response, 'Invalid status code').to.have.status(401);
     expect(response.body, 'error property not found').to.have.property('error');
@@ -46,7 +50,7 @@ describe.only('/debt POST', function () {
       type: 'DEBT',
     };
 
-    const response = await requester.post('/debt', body).set('Authorization', `Bearer ${access_token}`);
+    const response = await requester.post('/debt').set('Authorization', `Bearer ${access_token}`).send(body);
 
     expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'error property not found').to.have.property('error');
@@ -65,7 +69,7 @@ describe.only('/debt POST', function () {
       type: 'Not a valid type',
     };
 
-    const response = await requester.post('/debt', body).set('Authorization', `Bearer ${access_token}`);
+    const response = await requester.post('/debt').set('Authorization', `Bearer ${access_token}`).send(body);
 
     expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'error property not found').to.have.property('error');
@@ -84,7 +88,7 @@ describe.only('/debt POST', function () {
       type: 'DEBT',
     };
 
-    const response = await requester.post('/debt', body).set('Authorization', `Bearer ${access_token}`);
+    const response = await requester.post('/debt').set('Authorization', `Bearer ${access_token}`).send(body);
 
     const [debt] = await Utils.factories.DebtFactory.findAllByAccountId(user.id);
 
@@ -107,7 +111,7 @@ describe.only('/debt POST', function () {
       type: 'CREDIT',
     };
 
-    const response = await requester.post('/debt', body).set('Authorization', `Bearer ${access_token}`);
+    const response = await requester.post('/debt').set('Authorization', `Bearer ${access_token}`).send(body);
 
     const [debt] = await Utils.factories.DebtFactory.findAllByAccountId(user.id);
 

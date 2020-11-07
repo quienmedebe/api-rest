@@ -15,7 +15,6 @@ chai.use(chaiArrays);
 describe('/docs', function () {
   beforeEach(async function () {
     sinon.stub(Date, 'now').returns(1000);
-    // eslint-disable-next-line mocha/no-nested-tests
   });
 
   afterEach(function () {

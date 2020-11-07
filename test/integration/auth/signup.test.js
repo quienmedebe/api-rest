@@ -15,7 +15,6 @@ let SALT_NUMBER;
 describe('/auth/signup', function () {
   beforeEach(async function () {
     SALT_NUMBER = Utils.Stubs.Config.SALT_NUMBER(Utils.constants.SALT_NUMBER);
-    // eslint-disable-next-line mocha/no-nested-tests
     await prepare();
   });
   afterEach(function () {

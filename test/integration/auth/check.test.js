@@ -16,7 +16,6 @@ let ACCESS_TOKEN_SECRET;
 describe('/auth/check', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
-    // eslint-disable-next-line mocha/no-nested-tests
     await prepare();
   });
   afterEach(function () {
