@@ -87,7 +87,7 @@ app.use(expressLogger);
 /***
  * Email
  */
-const emailStrategy = Email.getStrategyByName(Config.Email.EMAIL_STRATEGY, Config.Email, {logger});
+const emailStrategy = Email.getStrategyByName(Config.Email.EMAIL_STRATEGY, Config.Email, {logger, makeApiCall: Config.Email.SEND_REAL_EMAILS});
 Email.useStrategy(emailStrategy);
 
 /***
