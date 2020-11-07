@@ -211,4 +211,21 @@ describe.only('/debt/:id PATCH', function () {
     expect(debt.type, 'The debt type should be edited').to.equal(body.type);
     expect(response).to.matchApiSchema();
   });
+
+  it('should return a 400 response if neither the amount nor the type are set', async function () {
+    const requester = getRequester();
+
+    const user = await Utils.factories.AccountFactory();
+    const debt = await Utils.factories.DebtFactory({account_id: user.id});
+
+    const access_token = await user.email_providers[0].getToken({id: user.id});
+
+    const body = {};
+
+    const response = await requester.patch(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`).send(body);
+
+    expect(response, 'Invalid status code').to.have.status(400);
+    expect(response.body, 'error property not found').to.have.property('error');
+    expect(response).to.matchApiSchema();
+  });
 });

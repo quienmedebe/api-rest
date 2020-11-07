@@ -154,7 +154,20 @@ Creates a new Debt
 #### DELETE
 ##### Description
 
-Removes an existing date
+Removes an existing debt
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |
+| 401 | Unauthorized | object |
+
+#### PATCH
+##### Description
+
+Updates (partially) an existing debt
 
 ##### Responses
 
