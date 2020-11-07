@@ -4,7 +4,7 @@ const Database = require('../../../database');
 const ERRORS = require('../errors');
 
 async function editDebt({accountId, debtId, amount, type} = {}) {
-  const ajv = new Ajv();
+  const ajv = new Ajv({allErrors: true});
   const areParametersCorrect = ajv.validate(
     {
       type: 'object',
@@ -20,7 +20,7 @@ async function editDebt({accountId, debtId, amount, type} = {}) {
   );
 
   const isAmountUndefined = typeof amount === 'undefined';
-  const isTypeUndefined = typeof amount === 'undefined';
+  const isTypeUndefined = typeof type === 'undefined';
 
   if (!areParametersCorrect || (isAmountUndefined && isTypeUndefined)) {
     throw new Error('Some arguments are invalid');

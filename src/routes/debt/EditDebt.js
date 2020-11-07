@@ -4,14 +4,14 @@ const Debt = require('../../modules/debt');
 
 const EditDebt = ({logger}) =>
   async function EditDebt(req, res) {
-    const ajv = new Ajv({logger});
+    const ajv = new Ajv({logger, allErrors: true});
     const {id: debtId} = req.params;
     const {amount, type} = req.body;
 
     const areValidArguments = ajv.validate(
       {
         type: 'object',
-        required: ['id'],
+        required: ['debtId'],
         properties: {
           debtId: Debt.validation.publicIdSchema,
           amount: Debt.validation.amountSchema,
@@ -21,10 +21,10 @@ const EditDebt = ({logger}) =>
       {debtId, amount, type}
     );
 
-    const isAmountDefined = typeof amount === 'undefined';
-    const isTypeDefined = typeof type === 'undefined';
+    const isAmountUndefined = typeof amount === 'undefined';
+    const isTypeUndefined = typeof type === 'undefined';
 
-    if (!areValidArguments || (isAmountDefined && isTypeDefined)) {
+    if (!areValidArguments || (isAmountUndefined && isTypeUndefined)) {
       logger.log('info', 'Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
