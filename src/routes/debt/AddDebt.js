@@ -22,8 +22,17 @@ const AddDebt = ({logger}) =>
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
+    const {amount, type} = req.body;
+    const {id} = req.user;
+
+    const newDebt = await Debt.functions.addDebt({
+      accountId: id,
+      amount,
+      type,
+    });
+
     return res.status(200).json({
-      result: true,
+      result: newDebt,
     });
   };
 

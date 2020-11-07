@@ -54,12 +54,6 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
       timestamps: true,
       paranoid: true,
-      defaultScope: {
-        attributes: {
-          exclude: ['id'],
-          include: [['public_id', 'id']],
-        },
-      },
     }
   );
   return Debt;
