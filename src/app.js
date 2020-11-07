@@ -59,7 +59,7 @@ const logglyActive = isProdEnv && Config.Logger.LOGGER_USE_LOGGLY;
 const logglyTransport = new LogglyTransport({
   token: Config.Logger.LOGGLY_TOKEN,
   subdomain: Config.Logger.LOGGLY_SUBDOMAIN,
-  tags: ['QMD'],
+  tags: [Config.Logger.LOGGLY_TAG],
   json: true,
   timestamp: true,
   silent: !logglyActive,

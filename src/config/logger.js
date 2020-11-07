@@ -16,5 +16,6 @@ exports.SENTRY_DSN = process.env.SENTRY_DSN;
 exports.LOGGER_USE_LOGGLY = Boolean(+process.env.LOGGER_USE_LOGGLY) || false;
 exports.LOGGLY_TOKEN = process.env.LOGGLY_TOKEN;
 exports.LOGGLY_SUBDOMAIN = process.env.LOGGLY_SUBDOMAIN;
+exports.LOGGLY_TAG = 'QMD';
 
 module.exports = exports;
