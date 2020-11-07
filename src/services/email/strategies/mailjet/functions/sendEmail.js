@@ -26,7 +26,7 @@ function sendEmail(client, {logger, makeApiCall = true} = {}) {
 
       return response.Sent.map(({email}) => ({email}));
     } catch (error) {
-      logger.error('Error sending the email', error);
+      logger.log('error', 'Error sending the email', error);
       if (error.statusCode >= 500 && error.statusCode < 600) {
         return ERRORS.SERVICE_UNAVAILABLE;
       }

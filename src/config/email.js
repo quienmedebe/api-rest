@@ -2,6 +2,7 @@
  * Email configuration
  */
 exports.EMAIL_STRATEGY = process.env.EMAIL_STRATEGY || 'default';
+exports.SEND_REAL_EMAILS = Boolean(+process.env.SEND_REAL_EMAILS) || true;
 
 exports.RECOVER_PASSWORD_FROM_EMAIL = 'contacto@quienmedebe.com';
 exports.RECOVER_PASSWORD_FROM_NAME = 'Quien Me Debe';
