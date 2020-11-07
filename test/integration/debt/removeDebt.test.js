@@ -13,7 +13,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 let ACCESS_TOKEN_SECRET;
 
-describe.only('/debt/:id DELETE', function () {
+describe('/debt/:id DELETE', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
