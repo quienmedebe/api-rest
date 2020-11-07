@@ -18,6 +18,7 @@ const RecoverPassword = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
+      logger.log('info', 'Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -25,6 +26,7 @@ const RecoverPassword = ({logger, config}) =>
 
     const emailProviderWithTokens = await Auth.functions.getEmailProviderWithTokensFromEmail(email);
     if (!emailProviderWithTokens) {
+      logger.log('info', Auth.errors.EMAIL_NOT_FOUND);
       return Errors.sendApiError(res, Auth.errors.EMAIL_NOT_FOUND);
     }
     const providerId = +emailProviderWithTokens.id;

@@ -18,7 +18,7 @@ const Signup = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.info('Invalid signup arguments', {args: req.body});
+      logger.log('info', 'Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -30,6 +30,7 @@ const Signup = ({logger, config}) =>
     const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
 
     if (account.error) {
+      logger.log('info', account.error);
       return Errors.sendApiError(res, account);
     }
 
@@ -42,6 +43,7 @@ const Signup = ({logger, config}) =>
     const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
 
     if (credentials.error) {
+      logger.log('info', credentials.error);
       return Errors.sendApiError(res, credentials);
     }
 
