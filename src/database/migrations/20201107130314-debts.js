@@ -14,7 +14,7 @@ module.exports = {
             primaryKey: true,
             autoIncrement: true,
           },
-          publicId: {
+          public_id: {
             type: Sequelize.UUID,
             allowNull: false,
             unique: true,

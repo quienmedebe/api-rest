@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      publicId: {
+      public_id: {
         type: DataTypes.UUID,
         allowNull: false,
         unique: true,
@@ -54,6 +54,12 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
       timestamps: true,
       paranoid: true,
+      defaultScope: {
+        attributes: {
+          exclude: ['id'],
+          include: [['public_id', 'id']],
+        },
+      },
     }
   );
   return Debt;
