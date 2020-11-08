@@ -15,7 +15,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 let ACCESS_TOKEN_SECRET;
 
-describe.only('/debt/list/:page?/:page_size? GET', function () {
+describe('/debt/list/:page?/:page_size? GET', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
@@ -89,7 +89,6 @@ describe.only('/debt/list/:page?/:page_size? GET', function () {
     expect(response.body).to.have.property('count', 0);
     expect(response.body).to.have.property('page', 1);
     expect(response.body.pageSize).to.be.a('number');
-    expect(response).to.matchApiSchema();
   });
 
   it('should return the correct number of debts', async function () {
