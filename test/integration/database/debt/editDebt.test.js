@@ -10,7 +10,7 @@ chai.use(sinonChai);
 chai.use(chaiAsPromised);
 chai.use(chaiArrays);
 
-describe('Database -> Debt -> createDebt', function () {
+describe('Database -> Debt -> editDebt', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
   });
