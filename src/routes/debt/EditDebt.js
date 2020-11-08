@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Errors = require('../../modules/errors');
 const Debt = require('../../modules/debt');
 
-const EditDebt = ({logger}) =>
+const EditDebt = ({logger = noopLogger}) =>
   async function EditDebt(req, res) {
     const ajv = new Ajv({logger, allErrors: true});
     const {id: debtId} = req.params;
@@ -25,7 +26,7 @@ const EditDebt = ({logger}) =>
     const isTypeUndefined = typeof type === 'undefined';
 
     if (!areValidArguments || (isAmountUndefined && isTypeUndefined)) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 

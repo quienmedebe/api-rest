@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
 
-const Signup = ({logger, config}) =>
+const Signup = ({logger = noopLogger, config}) =>
   async function Signup(req, res) {
     const ajv = new Ajv({logger});
     const areValidArguments = ajv.validate(
@@ -18,7 +19,7 @@ const Signup = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.log('info', 'Invalid arguments', {args: '[SECRET]'});
+      logger.info('Invalid arguments', {args: '[SECRET]'});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -30,7 +31,7 @@ const Signup = ({logger, config}) =>
     const account = await Auth.functions.createAccountFromEmailAndPassword(email, password, {}, signupOptions);
 
     if (account.error) {
-      logger.log('info', account.error);
+      logger.info(account.error);
       return Errors.sendApiError(res, account);
     }
 
@@ -43,7 +44,7 @@ const Signup = ({logger, config}) =>
     const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
 
     if (credentials.error) {
-      logger.log('info', credentials.error);
+      logger.info(credentials.error);
       return Errors.sendApiError(res, credentials);
     }
 

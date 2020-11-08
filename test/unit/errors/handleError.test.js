@@ -9,14 +9,14 @@ const handleError = require('../../../src/modules/errors/handleError');
 
 describe('Errors -> handleError', function () {
   it('should call the logger', async function () {
-    const consoleStub = sinon.stub(console, 'log').callsFake();
+    const consoleStub = sinon.stub(console, 'error').callsFake();
     const logger = {
-      log: sinon.stub(),
+      error: sinon.stub(),
     };
 
     await handleError(new Error('Some error happened'), {logger});
 
-    expect(logger.log).to.have.been.calledOnce;
+    expect(logger.error).to.have.been.calledOnce;
     consoleStub.restore();
   });
 });

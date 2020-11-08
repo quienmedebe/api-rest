@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
 
-const NewPassword = ({logger, config}) =>
+const NewPassword = ({logger = noopLogger, config}) =>
   async function NewPassword(req, res) {
     const ajv = new Ajv({allErrors: true});
     const areValidArguments = ajv.validate(
@@ -19,7 +20,7 @@ const NewPassword = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -27,7 +28,7 @@ const NewPassword = ({logger, config}) =>
 
     const changePasswordResponse = await Auth.functions.changePassword(emailProviderId, token, newPassword, {salt: config.SALT_NUMBER});
     if (changePasswordResponse.error) {
-      logger.log('info', changePasswordResponse.error);
+      logger.info(changePasswordResponse.error);
       return Errors.sendApiError(res, changePasswordResponse);
     }
 
