@@ -1,6 +1,7 @@
+const noopLogger = require('noop-logger');
 const ERRORS = require('./errors');
 
-function sendEmail(client, {logger, makeApiCall = true} = {}) {
+function sendEmail(client, {logger = noopLogger, makeApiCall = true} = {}) {
   return async EmailContent => {
     try {
       const to = EmailContent.to.map(({email, ...props}) => ({Email: email, ...props}));
@@ -26,7 +27,7 @@ function sendEmail(client, {logger, makeApiCall = true} = {}) {
 
       return response.Sent.map(({email}) => ({email}));
     } catch (error) {
-      logger.log('error', 'Error sending the email', error);
+      logger.error('Error sending the email', error);
       if (error.statusCode >= 500 && error.statusCode < 600) {
         return ERRORS.SERVICE_UNAVAILABLE;
       }

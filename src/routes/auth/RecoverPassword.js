@@ -1,9 +1,10 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
 const Email = require('../../services/email');
 
-const RecoverPassword = ({logger, config}) =>
+const RecoverPassword = ({logger = noopLogger, config}) =>
   async function RecoverPassword(req, res) {
     const ajv = new Ajv({allErrors: true});
     const areValidArguments = ajv.validate(
@@ -18,7 +19,7 @@ const RecoverPassword = ({logger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -26,7 +27,7 @@ const RecoverPassword = ({logger, config}) =>
 
     const emailProviderWithTokens = await Auth.functions.getEmailProviderWithTokensFromEmail(email);
     if (!emailProviderWithTokens) {
-      logger.log('info', Auth.errors.EMAIL_NOT_FOUND);
+      logger.info(Auth.errors.EMAIL_NOT_FOUND);
       return Errors.sendApiError(res, Auth.errors.EMAIL_NOT_FOUND);
     }
     const providerId = +emailProviderWithTokens.id;

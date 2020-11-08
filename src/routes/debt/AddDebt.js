@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Errors = require('../../modules/errors');
 const Debt = require('../../modules/debt');
 
-const AddDebt = ({logger}) =>
+const AddDebt = ({logger = noopLogger}) =>
   async function AddDebt(req, res) {
     const ajv = new Ajv({logger});
     const areValidArguments = ajv.validate(
@@ -18,7 +19,7 @@ const AddDebt = ({logger}) =>
     );
 
     if (!areValidArguments) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 

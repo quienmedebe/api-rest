@@ -1,8 +1,9 @@
 const Ajv = require('ajv');
+const noopLogger = require('noop-logger');
 const Auth = require('../../modules/auth');
 const Errors = require('../../modules/errors');
 
-const Refresh = ({logger, config}) =>
+const Refresh = ({logger = noopLogger, config}) =>
   async function Refresh(req, res) {
     const ajv = new Ajv({logger});
     const areValidParameters = ajv.validate(
@@ -18,7 +19,7 @@ const Refresh = ({logger, config}) =>
     );
 
     if (!areValidParameters) {
-      logger.log('info', 'Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
@@ -33,7 +34,7 @@ const Refresh = ({logger, config}) =>
     const response = await Auth.functions.getAccessTokenFromRefreshToken(accountId, refreshToken, options);
 
     if (response.error) {
-      logger.log('info', response.error);
+      logger.info(response.error);
       return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
     }
 
