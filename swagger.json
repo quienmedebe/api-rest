@@ -424,6 +424,99 @@
         }
       }
     },
+    "/debt/balance": {
+      "get": {
+        "description": "Returns the current balance of the account",
+        "tags": ["Debt", "Balance"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/debt/list/:page/:page_size": {
+      "get": {
+        "description": "Returns the list of created debts",
+        "tags": ["Debt", "List"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "number",
+            "in": "path",
+            "name": "page",
+            "description": "Page to return results"
+          },
+          {
+            "type": "number",
+            "in": "path",
+            "name": "page_size",
+            "description": "Size of each page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array"
+                },
+                "count": {
+                  "type": "number"
+                },
+                "page": {
+                  "type": "number"
+                },
+                "pageSize": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "enum": ["UNAUTHORIZED"]
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/debt/:id": {
       "delete": {
         "description": "Removes an existing debt",
@@ -500,63 +593,6 @@
                 },
                 "message": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "enum": ["UNAUTHORIZED"]
-                },
-                "message": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/debt/list/{page}/{pageSize}": {
-      "get": {
-        "description": "Returns the list of created debts",
-        "tags": ["Debt"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "page",
-            "description": "Page to return results"
-          },
-          {
-            "type": "number",
-            "in": "path",
-            "name": "page",
-            "description": "Page to return results"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "result": {
-                  "type": "array"
-                },
-                "count": {
-                  "type": "number"
-                },
-                "page": {
-                  "type": "number"
-                },
-                "pageSize": {
-                  "type": "number"
                 }
               }
             }

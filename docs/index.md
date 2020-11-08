@@ -149,6 +149,41 @@ Creates a new Debt
 | 400 | Bad request | object |
 | 401 | Unauthorized | object |
 
+### /debt/balance
+
+#### GET
+##### Description
+
+Returns the current balance of the account
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 401 | Unauthorized | object |
+
+### /debt/list/:page/:page_size
+
+#### GET
+##### Description
+
+Returns the list of created debts
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| page | path | Page to return results | No | number |
+| page_size | path | Size of each page | No | number |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 401 | Unauthorized | object |
+
 ### /debt/:id
 
 #### DELETE
@@ -175,25 +210,4 @@ Updates (partially) an existing debt
 | ---- | ----------- | ------ |
 | 200 | Success | object |
 | 400 | Bad request | object |
-| 401 | Unauthorized | object |
-
-### /debt/list/{page}/{pageSize}
-
-#### GET
-##### Description
-
-Returns the list of created debts
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| page | path | Page to return results | No |  |
-| page | path | Page to return results | No | number |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Success | object |
 | 401 | Unauthorized | object |
