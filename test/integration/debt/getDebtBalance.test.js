@@ -15,7 +15,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 let ACCESS_TOKEN_SECRET;
 
-describe.only('/debt/balance GET', function () {
+describe('/debt/balance GET', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
@@ -45,7 +45,7 @@ describe.only('/debt/balance GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(+response.body.result).to.equal(0);
+    expect(response.body.result).to.equal(0);
     expect(response).to.matchApiSchema();
   });
 
@@ -60,7 +60,7 @@ describe.only('/debt/balance GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(+response.body.result).to.equal(-5);
+    expect(response.body.result).to.equal(-5);
     expect(response).to.matchApiSchema();
   });
 
@@ -75,7 +75,7 @@ describe.only('/debt/balance GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(+response.body.result).to.equal(5);
+    expect(response.body.result).to.equal(5);
     expect(response).to.matchApiSchema();
   });
 
@@ -91,7 +91,7 @@ describe.only('/debt/balance GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(+response.body.result).to.equal(4.9);
+    expect(response.body.result).to.equal(4.9);
     expect(response).to.matchApiSchema();
   });
 
@@ -108,7 +108,7 @@ describe.only('/debt/balance GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(+response.body.result).to.equal(0);
+    expect(response.body.result).to.equal(0);
     expect(response).to.matchApiSchema();
   });
 });
