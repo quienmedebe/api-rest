@@ -7,7 +7,7 @@ async function addDebt({accountId, amount, type} = {}) {
   const areParametersCorrect = ajv.validate(
     {
       type: 'object',
-      required: ['amount', 'type'],
+      required: ['accountId', 'amount', 'type'],
       properties: {
         accountId: validation.accountIdSchema,
         amount: validation.amountSchema,
