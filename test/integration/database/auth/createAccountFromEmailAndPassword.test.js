@@ -6,7 +6,7 @@ const Utils = require('../../../utils');
 
 chai.use(sinonChai);
 
-describe('Database -> createAccountFromEmailAndPassword', function () {
+describe('Database -> Auth -> createAccountFromEmailAndPassword', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
   });

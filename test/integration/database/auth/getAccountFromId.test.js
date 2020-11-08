@@ -3,7 +3,7 @@ const expect = chai.expect;
 const Utils = require('../../../utils');
 const Database = require('../../../../src/database');
 
-describe('Database -> getAccountFromId', function () {
+describe('Database -> Auth -> getAccountFromId', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
   });
