@@ -9,7 +9,7 @@ const Utils = require('../../../utils');
 chai.use(sinonChai);
 chai.use(chaiArrays);
 
-describe('Database -> getEmailProviderWithValidTokensFromEmail', function () {
+describe('Database -> Auth -> getEmailProviderWithValidTokensFromEmail', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
     sinon.stub(Date, 'now').returns(1000);

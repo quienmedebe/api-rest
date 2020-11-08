@@ -6,7 +6,7 @@ const Database = require('../../../../src/database');
 
 let mockDate;
 
-describe('Database -> getActiveRefreshTokenFromAccount', function () {
+describe('Database -> Auth -> getActiveRefreshTokenFromAccount', function () {
   beforeEach(async function () {
     mockDate = sinon.stub(Date, 'now').returns(1000);
     await Utils.scripts.truncateDB();

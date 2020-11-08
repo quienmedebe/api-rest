@@ -11,7 +11,7 @@ chai.use(sinonChai);
 chai.use(chaiArrays);
 chai.use(chaiAsPromised);
 
-describe('Database -> issueEmailToken', function () {
+describe('Database -> Auth -> issueEmailToken', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
     sinon.stub(Date, 'now').returns(1000);

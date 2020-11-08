@@ -8,7 +8,7 @@ const Utils = require('../../../utils');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-describe('Database -> changeEmailProviderPassword', function () {
+describe('Database -> Auth -> changeEmailProviderPassword', function () {
   beforeEach(async function () {
     await Utils.scripts.truncateDB();
   });

@@ -11,7 +11,7 @@ chai.use(chaiAsPromised);
 
 let mockDate;
 
-describe('Database -> createRefreshToken', function () {
+describe('Database -> Auth -> createRefreshToken', function () {
   beforeEach(async function () {
     mockDate = sinon.stub(Date, 'now').returns(1000);
     await Utils.scripts.truncateDB();
