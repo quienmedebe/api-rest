@@ -8,6 +8,7 @@ async function getAccountBalance({accountId} = {}, config = {}) {
     attributes: ['amount', 'type'],
     where: {
       account_id: accountId,
+      status: 'PENDING',
     },
     group: ['amount', 'type'],
     raw: true,

@@ -101,7 +101,7 @@ describe('/debt/balance GET', function () {
     const accountA = await Utils.factories.AccountFactory();
     const accountB = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: accountA.id, amount: 5, type: 'CREDIT'});
-    await Utils.factories.DebtFactory({account_id: accountA.id, amount: -0.1, type: 'DEBT'});
+    await Utils.factories.DebtFactory({account_id: accountA.id, amount: 0.1, type: 'DEBT'});
     const access_token = await accountB.email_providers[0].getToken({id: accountB.id});
 
     const response = await requester.get(`/debt/balance`).set('Authorization', `Bearer ${access_token}`);
@@ -109,6 +109,23 @@ describe('/debt/balance GET', function () {
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
     expect(response.body.result).to.equal(0);
+    expect(response).to.matchApiSchema();
+  });
+
+  it('should take into account only pending debts', async function () {
+    const requester = getRequester();
+
+    const account = await Utils.factories.AccountFactory();
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 5, type: 'CREDIT'});
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 15, type: 'DEBT'});
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 3, type: 'CREDIT', status: 'PAID'});
+    const access_token = await account.email_providers[0].getToken({id: account.id});
+
+    const response = await requester.get(`/debt/balance`).set('Authorization', `Bearer ${access_token}`);
+
+    expect(response, 'Invalid status code').to.have.status(200);
+    expect(response.body, 'result property not found').to.have.property('result');
+    expect(response.body.result).to.equal(-10);
     expect(response).to.matchApiSchema();
   });
 });
