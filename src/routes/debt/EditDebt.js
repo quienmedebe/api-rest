@@ -7,7 +7,7 @@ const EditDebt = ({logger = noopLogger}) =>
   async function EditDebt(req, res) {
     const ajv = new Ajv({logger, allErrors: true});
     const {id: debtId} = req.params;
-    const {amount, type} = req.body;
+    const {amount, type, status} = req.body;
 
     const areValidArguments = ajv.validate(
       {
@@ -17,15 +17,17 @@ const EditDebt = ({logger = noopLogger}) =>
           debtId: Debt.validation.publicIdSchema,
           amount: Debt.validation.amountSchema,
           type: Debt.validation.typeSchema,
+          status: Debt.validation.statusSchema,
         },
       },
-      {debtId, amount, type}
+      {debtId, amount, type, status}
     );
 
     const isAmountUndefined = typeof amount === 'undefined';
     const isTypeUndefined = typeof type === 'undefined';
+    const isStatusUndefined = typeof status === 'undefined';
 
-    if (!areValidArguments || (isAmountUndefined && isTypeUndefined)) {
+    if (!areValidArguments || (isAmountUndefined && isTypeUndefined && isStatusUndefined)) {
       logger.info('Invalid arguments', {args: req.body});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
@@ -37,6 +39,7 @@ const EditDebt = ({logger = noopLogger}) =>
       debtId: debtId,
       amount,
       type,
+      status,
     });
 
     if (editedDate.error) {
