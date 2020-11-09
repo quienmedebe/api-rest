@@ -13,7 +13,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 let ACCESS_TOKEN_SECRET;
 
-describe('/debt/:id PATCH', function () {
+describe.only('/debt/:id PATCH', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
@@ -226,6 +226,49 @@ describe('/debt/:id PATCH', function () {
 
     expect(response, 'Invalid status code').to.have.status(400);
     expect(response.body, 'error property not found').to.have.property('error');
+    expect(response).to.matchApiSchema();
+  });
+
+  it('should return a 400 response if the new status is not valid', async function () {
+    const requester = getRequester();
+
+    const user = await Utils.factories.AccountFactory();
+    const debt = await Utils.factories.DebtFactory({account_id: user.id});
+
+    const access_token = await user.email_providers[0].getToken({id: user.id});
+
+    const body = {
+      status: 'Not a valid one',
+    };
+
+    const response = await requester.patch(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`).send(body);
+
+    expect(response, 'Invalid status code').to.have.status(400);
+    expect(response.body, 'error property not found').to.have.property('error');
+    expect(response).to.matchApiSchema();
+  });
+
+  it('should change the status of the debt', async function () {
+    const requester = getRequester();
+
+    const user = await Utils.factories.AccountFactory();
+    const debt = await Utils.factories.DebtFactory({account_id: user.id, status: 'PENDING'}, false);
+
+    const access_token = await user.email_providers[0].getToken({id: user.id});
+
+    const body = {
+      status: 'PAID',
+    };
+
+    const response = await requester.patch(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`).send(body);
+
+    await debt.reload();
+
+    expect(response, 'Invalid status code').to.have.status(200);
+    expect(response.body, 'result property not found').to.have.property('result');
+    expect(response.body.result, 'id of the edited debt must be its public id').to.have.property('id', debt.public_id);
+    expect(response.body.result.id, 'id of the edited debt must be an uuid').to.have.lengthOf(36);
+    expect(debt.status, 'The debt status should be edited').to.equal(body.status);
     expect(response).to.matchApiSchema();
   });
 });

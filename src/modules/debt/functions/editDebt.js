@@ -3,7 +3,7 @@ const validation = require('../validation');
 const Database = require('../../../database');
 const ERRORS = require('../errors');
 
-async function editDebt({accountId, debtId, amount, type} = {}) {
+async function editDebt({accountId, debtId, amount, type, status} = {}) {
   const ajv = new Ajv({allErrors: true});
   const areParametersCorrect = ajv.validate(
     {
@@ -14,15 +14,17 @@ async function editDebt({accountId, debtId, amount, type} = {}) {
         debtId: validation.publicIdSchema,
         amount: validation.amountSchema,
         type: validation.typeSchema,
+        status: validation.statusSchema,
       },
     },
-    {accountId, debtId, amount, type}
+    {accountId, debtId, amount, type, status}
   );
 
   const isAmountUndefined = typeof amount === 'undefined';
   const isTypeUndefined = typeof type === 'undefined';
+  const isStatusUndefined = typeof status === 'undefined';
 
-  if (!areParametersCorrect || (isAmountUndefined && isTypeUndefined)) {
+  if (!areParametersCorrect || (isAmountUndefined && isTypeUndefined && isStatusUndefined)) {
     throw new Error('Some arguments are invalid');
   }
 
@@ -31,6 +33,7 @@ async function editDebt({accountId, debtId, amount, type} = {}) {
     debtId,
     amount,
     type,
+    status,
   });
 
   if (!numberOfUpdatedRows) {
