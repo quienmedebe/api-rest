@@ -6,6 +6,7 @@ const RemoveDebt = require('./RemoveDebt');
 const EditDebt = require('./EditDebt');
 const ListDebts = require('./ListDebts');
 const DebtsBalance = require('./DebtsBalance');
+const GetDebtByPublicId = require('./GetDebtByPublicId');
 
 function DebtRouter({logger, config}) {
   const Router = express.Router();
@@ -15,6 +16,7 @@ function DebtRouter({logger, config}) {
   Router.get('/balance', Middleware.JWT.requireAccessToken, wrapAsync(DebtsBalance({logger, config})));
 
   Router.post('/', Middleware.JWT.requireAccessToken, wrapAsync(AddDebt({logger, config})));
+  Router.get('/:id', Middleware.JWT.requireAccessToken, wrapAsync(GetDebtByPublicId({logger, config})));
   Router.delete('/:id', Middleware.JWT.requireAccessToken, wrapAsync(RemoveDebt({logger, config})));
   Router.patch('/:id', Middleware.JWT.requireAccessToken, wrapAsync(EditDebt({logger, config})));
 

@@ -61,8 +61,8 @@ describe.only('/debt/:id GET', function () {
 
     expect(response, 'Invalid status code').to.have.status(200);
     expect(response.body, 'result property not found').to.have.property('result');
-    expect(response.body.result).to.have.property('id', debt.id);
-    expect(+response.body.result).to.have.property('amount', +debt.amount);
+    expect(response.body.result).to.have.property('id', debt.public_id);
+    expect(response.body.result).to.have.property('amount', debt.amount);
     expect(response.body.result).to.have.property('type', debt.type);
     expect(response.body.result).to.have.property('status', debt.status);
     expect(response).to.matchApiSchema();
