@@ -186,6 +186,19 @@ Returns the list of created debts
 
 ### /debt/:id
 
+#### GET
+##### Description
+
+Returns an existing debt
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Success | object |
+| 400 | Bad request | object |
+| 401 | Unauthorized | object |
+
 #### DELETE
 ##### Description
 

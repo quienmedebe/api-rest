@@ -15,7 +15,7 @@ chai.use(matchApiSchema({apiDefinitionsPath: apiSpec}));
 
 let ACCESS_TOKEN_SECRET;
 
-describe.only('/debt/:id GET', function () {
+describe('/debt/:id GET', function () {
   beforeEach(async function () {
     ACCESS_TOKEN_SECRET = Utils.Stubs.Config.ACCESS_TOKEN_SECRET(Utils.constants.ACCESS_TOKEN_SECRET);
     await prepare();
