@@ -115,7 +115,7 @@ describe('/auth/refresh', function () {
     const account = await Utils.factories.AccountFactory();
 
     const body = {
-      accountId: +account.id,
+      accountId: account.public_id,
       refreshToken: '1'.repeat(255),
     };
 
