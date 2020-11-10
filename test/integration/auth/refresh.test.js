@@ -27,7 +27,7 @@ describe('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id}, false);
 
     const body = {
-      accountId: +account.id,
+      accountId: account.public_id,
       refreshToken: refreshToken.id,
     };
 
@@ -50,7 +50,7 @@ describe('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: accountA.id}, false);
 
     const body = {
-      accountId: +accountB.id,
+      accountId: accountB.public_id,
       refreshToken: refreshToken.id,
     };
 
@@ -72,7 +72,7 @@ describe('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id, valid: false}, false);
 
     const body = {
-      accountId: +account.id,
+      accountId: account.public_id,
       refreshToken: refreshToken.id,
     };
 
@@ -94,7 +94,7 @@ describe('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id, expiration_datetime: Date.now() - 1000 * 30}, false);
 
     const body = {
-      accountId: +account.id,
+      accountId: account.public_id,
       refreshToken: refreshToken.id,
     };
 
@@ -155,7 +155,7 @@ describe('/auth/refresh', function () {
     const refreshToken = await Utils.factories.RefreshTokenFactory({account_id: account.id}, false);
 
     const body = {
-      accountId: +account.id,
+      accountId: account.public_id,
     };
 
     await refreshToken.reload();
