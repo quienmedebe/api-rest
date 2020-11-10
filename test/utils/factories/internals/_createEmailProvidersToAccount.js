@@ -5,7 +5,7 @@ const {EmailProvider} = require('../../../../src/database/models');
 const Constants = require('../../constants');
 const Functions = require('../../functions');
 
-async function _createEmailProvidersToAccount(emailConfig, accountId) {
+async function _createEmailProvidersToAccount(emailConfig, accountId, accountPublicId) {
   let providers = [
     {
       email: faker.internet.email(),
@@ -38,7 +38,7 @@ async function _createEmailProvidersToAccount(emailConfig, accountId) {
       password: await bcrypt.hash(password, Constants.SALT_NUMBER),
     });
 
-    provider.getToken = Functions.getSignedToken(accountId);
+    provider.getToken = Functions.getSignedToken(accountPublicId);
 
     return provider;
   });
