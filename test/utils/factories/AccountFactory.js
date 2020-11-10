@@ -13,7 +13,7 @@ async function AccountFactory(props = {}, json = true, options = {withEmail: tru
 
   let emailProviders;
   if (options.withEmail) {
-    emailProviders = await _createEmailProvidersToAccount(options.withEmail, instance.id);
+    emailProviders = await _createEmailProvidersToAccount(options.withEmail, instance.id, instance.public_id);
   }
 
   if (json) {
