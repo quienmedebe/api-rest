@@ -11,7 +11,7 @@ const Refresh = ({logger = noopLogger, config}) =>
         type: 'object',
         required: ['accountId', 'refreshToken'],
         properties: {
-          accountId: Auth.validation.accountIdSchema,
+          accountId: Auth.validation.accountPublicIdSchema,
           refreshToken: Auth.validation.refreshTokenSchema,
         },
       },
@@ -31,7 +31,13 @@ const Refresh = ({logger = noopLogger, config}) =>
       logger: logger,
     };
 
-    const response = await Auth.functions.getAccessTokenFromRefreshToken(accountId, refreshToken, options);
+    const accountPrivateId = await Auth.functions.getAccountPrivateIdFromPublicId(accountId);
+
+    if (!accountPrivateId) {
+      return Errors.sendApiError(res, Auth.errors.ACCOUNT_NOT_FOUND);
+    }
+
+    const response = await Auth.functions.getAccessTokenFromRefreshToken(accountPrivateId, refreshToken, options);
 
     if (response.error) {
       logger.info(response.error);
