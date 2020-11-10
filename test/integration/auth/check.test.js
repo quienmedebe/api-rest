@@ -33,7 +33,7 @@ describe('/auth/check', function () {
     const response = await requester.get('/auth/check').set('Authorization', `Bearer ${access_token}`);
 
     expect(response, 'The status code is incorrect').to.have.status(200);
-    expect(response.body, 'The account id is incorrect').to.have.property('id', parseInt(user.id, 10));
+    expect(response.body, 'The account id is incorrect').to.have.property('id', user.public_id);
 
     expect(response).to.matchApiSchema();
   });
@@ -58,7 +58,7 @@ describe('/auth/check', function () {
     const response = await requester.get('/auth/check').set('Authorization', `Bearer ${access_token}`);
 
     expect(response, 'The status code is incorrect').to.have.status(200);
-    expect(response.body, 'The account id is incorrect').to.have.property('id', parseInt(user.id, 10));
+    expect(response.body, 'The account id is incorrect').to.have.property('id', user.public_id);
 
     expect(response).to.matchApiSchema();
   });
