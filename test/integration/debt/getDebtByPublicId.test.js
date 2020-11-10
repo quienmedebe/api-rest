@@ -27,7 +27,7 @@ describe('/debt/:id GET', function () {
 
   it('should return 401 if the user is not authenticated', async function () {
     const requester = getRequester();
-    const id = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const id = Utils.constants.PUBLIC_ID;
 
     const response = await requester.get(`/debt/${id}`);
 
@@ -38,7 +38,7 @@ describe('/debt/:id GET', function () {
 
   it('should return 400 if the debt does not exist', async function () {
     const requester = getRequester();
-    const id = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const id = Utils.constants.PUBLIC_ID;
 
     const account = await Utils.factories.AccountFactory();
     const access_token = await account.email_providers[0].getToken({id: account.id});
