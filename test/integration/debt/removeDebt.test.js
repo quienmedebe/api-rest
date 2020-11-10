@@ -26,7 +26,7 @@ describe('/debt/:id DELETE', function () {
   it('should return a 401 error if the user is not authenticated', async function () {
     const requester = getRequester();
 
-    const debtId = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const debtId = Utils.constants.PUBLIC_ID;
 
     const response = await requester.delete(`/debt/${debtId}`);
 
@@ -42,7 +42,7 @@ describe('/debt/:id DELETE', function () {
 
     const access_token = await user.email_providers[0].getToken({id: user.id});
 
-    const debtId = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const debtId = Utils.constants.PUBLIC_ID;
 
     const response = await requester.delete(`/debt/${debtId}`).set('Authorization', `Bearer ${access_token}`);
 

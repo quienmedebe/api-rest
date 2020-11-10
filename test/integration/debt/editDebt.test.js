@@ -26,7 +26,7 @@ describe('/debt/:id PATCH', function () {
   it('should return a 401 error if the user is not authenticated', async function () {
     const requester = getRequester();
 
-    const debtId = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const debtId = Utils.constants.PUBLIC_ID;
 
     const body = {
       amount: 15,
@@ -47,7 +47,7 @@ describe('/debt/:id PATCH', function () {
 
     const access_token = await user.email_providers[0].getToken({id: user.id});
 
-    const debtId = 'xxxxxx-xxxxxx-xxxx-xxxx';
+    const debtId = Utils.constants.PUBLIC_ID;
 
     const body = {
       amount: 15,
