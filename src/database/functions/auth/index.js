@@ -1,5 +1,6 @@
 exports.getAccountFromEmail = require('./getAccountFromEmail');
 exports.getAccountFromId = require('./getAccountFromId');
+exports.getAccountFromPublicId = require('./getAccountFromPublicId');
 exports.createAccountFromEmailAndPassword = require('./createAccountFromEmailAndPassword');
 exports.emailExists = require('./emailExists');
 exports.getRefreshToken = require('./getRefreshToken');
