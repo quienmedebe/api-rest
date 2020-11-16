@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const matchApiSchema = require('api-contract-validator').chaiPlugin;
 const path = require('path');
+const jwt = require('jsonwebtoken');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const Utils = require('../../utils');
 
@@ -50,5 +51,23 @@ describe('/auth/login', function () {
     expect(loginResponse, 'The status code is incorrect').to.have.status(401);
 
     expect(loginResponse, 'Wrong API documentation').to.matchApiSchema();
+  });
+
+  it('should contain the public id as id inside the token', async function () {
+    const requester = getRequester();
+    const user = await Utils.factories.AccountFactory();
+
+    const body = {
+      email: user.email_providers[0].email,
+      password: Utils.constants.PASSWORD,
+    };
+
+    const loginResponse = await requester.post('/auth/login').send(body);
+
+    const accessToken = loginResponse.body.access_token;
+
+    const decodedToken = jwt.decode(accessToken);
+
+    expect(decodedToken).to.have.property('id', user.public_id);
   });
 });

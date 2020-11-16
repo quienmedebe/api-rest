@@ -14,7 +14,7 @@ function signToken(payload = {}, options = {}, config = {}) {
   }
 
   const jwtPayload = {
-    id: +id,
+    id,
     ...jwtFields,
   };
 

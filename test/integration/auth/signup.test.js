@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const matchApiSchema = require('api-contract-validator').chaiPlugin;
 const path = require('path');
+const jwt = require('jsonwebtoken');
 const apiSpec = path.join(__dirname, '../../../swagger.json');
 const {prepare, tearDown, getRequester} = require('../../utils/integration');
 const Utils = require('../../utils');
@@ -93,5 +94,23 @@ describe('/auth/signup', function () {
     expect(response.body, 'Invalid error code').to.have.property('error', 'DUPLICATE_EMAIL');
 
     expect(response, 'Wrong API documentation').to.matchApiSchema();
+  });
+
+  it('should contain the public id as id inside the token', async function () {
+    const requester = getRequester();
+
+    const signupBody = {
+      email: 'test@example.com',
+      password: 'P4ssW0rD!',
+    };
+    const response = await requester.post('/auth/signup').send(signupBody);
+
+    const accessToken = response.body.access_token;
+
+    const decodedToken = jwt.decode(accessToken);
+
+    expect(decodedToken).to.have.property('id');
+    expect(decodedToken.id).to.be.a('string');
+    expect(decodedToken.id).to.have.lengthOf(36);
   });
 });
