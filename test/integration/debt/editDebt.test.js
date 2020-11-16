@@ -45,7 +45,7 @@ describe('/debt/:id PATCH', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const debtId = Utils.constants.PUBLIC_ID;
 
@@ -66,9 +66,9 @@ describe('/debt/:id PATCH', function () {
 
     const userA = await Utils.factories.AccountFactory();
     const userB = await Utils.factories.AccountFactory();
-    const debt = await Utils.factories.DebtFactory({account_id: userB.id});
+    const debt = await Utils.factories.DebtFactory({account_id: userB.public_id});
 
-    const access_token = await userA.email_providers[0].getToken({id: userA.id});
+    const access_token = await userA.email_providers[0].getToken({id: userA.public_id});
 
     const body = {
       amount: 15,
@@ -88,7 +88,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 'Not a number',
@@ -113,7 +113,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 15,
@@ -138,7 +138,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id, amount: 3}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 15,
@@ -164,7 +164,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id, amount: 3}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 25,
@@ -191,7 +191,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id, type: 'CREDIT', amount: 3}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       type: 'DEBT',
@@ -218,7 +218,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id});
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {};
 
@@ -235,7 +235,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id});
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       status: 'Not a valid one',
@@ -254,7 +254,7 @@ describe('/debt/:id PATCH', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id, status: 'PENDING'}, false);
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       status: 'PAID',

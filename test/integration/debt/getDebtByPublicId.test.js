@@ -41,7 +41,7 @@ describe('/debt/:id GET', function () {
     const id = Utils.constants.PUBLIC_ID;
 
     const account = await Utils.factories.AccountFactory();
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/${id}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -55,7 +55,7 @@ describe('/debt/:id GET', function () {
 
     const account = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: account.id});
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 

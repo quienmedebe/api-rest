@@ -151,7 +151,7 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "number"
+                  "type": "string"
                 }
               }
             }
@@ -372,7 +372,7 @@
           {
             "in": "body",
             "name": "type",
-            "description": "id it a debt or a credit",
+            "description": "is it a debt or a credit",
             "schema": {
               "type": "string",
               "enum": ["DEBT", "CREDIT"]

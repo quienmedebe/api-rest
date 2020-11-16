@@ -139,7 +139,7 @@ Creates a new Debt
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | amount | body | Debt amount | No | number |
-| type | body | id it a debt or a credit | No | string |
+| type | body | is it a debt or a credit | No | string |
 
 ##### Responses
 

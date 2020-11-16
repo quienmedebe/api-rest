@@ -43,7 +43,7 @@ describe('/debt POST', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 'Not a number',
@@ -62,7 +62,7 @@ describe('/debt POST', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 15.65,
@@ -81,7 +81,7 @@ describe('/debt POST', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 15.65,
@@ -104,7 +104,7 @@ describe('/debt POST', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const body = {
       amount: 3.25,
