@@ -74,7 +74,7 @@ describe('/debt/:id GET', function () {
     const accountA = await Utils.factories.AccountFactory();
     const accountB = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: accountB.id});
-    const access_token = await accountA.email_providers[0].getToken({id: accountA.id});
+    const access_token = await accountA.email_providers[0].getToken({id: accountA.public_id});
 
     const response = await requester.get(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 

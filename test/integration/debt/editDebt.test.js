@@ -66,7 +66,7 @@ describe('/debt/:id PATCH', function () {
 
     const userA = await Utils.factories.AccountFactory();
     const userB = await Utils.factories.AccountFactory();
-    const debt = await Utils.factories.DebtFactory({account_id: userB.public_id});
+    const debt = await Utils.factories.DebtFactory({account_id: userB.id});
 
     const access_token = await userA.email_providers[0].getToken({id: userA.public_id});
 

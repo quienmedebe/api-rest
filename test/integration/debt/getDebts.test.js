@@ -166,7 +166,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     await Utils.factories.DebtFactory({account_id: accountA.id});
     await Utils.factories.DebtFactory({account_id: accountB.id});
     await Utils.factories.DebtFactory({account_id: accountB.id});
-    const access_token = await accountB.email_providers[0].getToken({id: accountB.id});
+    const access_token = await accountB.email_providers[0].getToken({id: accountB.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
