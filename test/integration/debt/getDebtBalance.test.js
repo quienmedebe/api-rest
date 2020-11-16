@@ -102,7 +102,7 @@ describe('/debt/balance GET', function () {
     const accountB = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: accountA.id, amount: 5, type: 'CREDIT'});
     await Utils.factories.DebtFactory({account_id: accountA.id, amount: 0.1, type: 'DEBT'});
-    const access_token = await accountB.email_providers[0].getToken({id: accountB.id});
+    const access_token = await accountB.email_providers[0].getToken({id: accountB.public_id});
 
     const response = await requester.get(`/debt/balance`).set('Authorization', `Bearer ${access_token}`);
 
