@@ -82,4 +82,16 @@ describe('/debt/:id GET', function () {
     expect(response.body, 'error property not found').to.have.property('error');
     expect(response).to.matchApiSchema();
   });
+
+  it('should not return the private account id', async function () {
+    const requester = getRequester();
+
+    const account = await Utils.factories.AccountFactory();
+    const debt = await Utils.factories.DebtFactory({account_id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
+
+    const response = await requester.get(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.body.result).not.to.have.property('account_id');
+  });
 });
