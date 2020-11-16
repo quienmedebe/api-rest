@@ -201,4 +201,20 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     expect(response.body.result[0].id).to.be.a('string');
     expect(response).to.matchApiSchema();
   });
+
+  it('should never return the private account id', async function () {
+    const requester = getRequester();
+
+    const page = 1;
+    const pageSize = 25;
+
+    const account = await Utils.factories.AccountFactory();
+    await Utils.factories.DebtFactory({account_id: account.id});
+    await Utils.factories.DebtFactory({account_id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
+
+    const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.body.result.some(({account_id}) => account_id)).to.be.false;
+  });
 });
