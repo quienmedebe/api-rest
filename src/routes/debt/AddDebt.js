@@ -32,6 +32,8 @@ const AddDebt = ({logger = noopLogger}) =>
       type,
     });
 
+    delete newDebt.account_id;
+
     return res.status(200).json({
       result: newDebt,
     });
