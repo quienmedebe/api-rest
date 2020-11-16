@@ -43,7 +43,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     const pageSize = 25;
 
     const account = await Utils.factories.AccountFactory();
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -62,7 +62,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     const pageSize = {};
 
     const account = await Utils.factories.AccountFactory();
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -79,7 +79,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     const requester = getRequester();
 
     const account = await Utils.factories.AccountFactory();
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list`).set('Authorization', `Bearer ${access_token}`);
 
@@ -99,7 +99,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
 
     const account = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: account.id});
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -120,7 +120,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
 
     const account = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: account.id});
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -142,7 +142,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
     const account = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: account.id});
     await Utils.factories.DebtFactory({account_id: account.id});
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -187,7 +187,7 @@ describe('/debt/list/:page?/:page_size? GET', function () {
 
     const account = await Utils.factories.AccountFactory();
     await Utils.factories.DebtFactory({account_id: account.id});
-    const access_token = await account.email_providers[0].getToken({id: account.id});
+    const access_token = await account.email_providers[0].getToken({id: account.public_id});
 
     const response = await requester.get(`/debt/list/${page}/${pageSize}`).set('Authorization', `Bearer ${access_token}`);
 

@@ -40,7 +40,7 @@ describe('/debt/:id DELETE', function () {
 
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const debtId = Utils.constants.PUBLIC_ID;
 
@@ -56,9 +56,9 @@ describe('/debt/:id DELETE', function () {
 
     const userA = await Utils.factories.AccountFactory();
     const userB = await Utils.factories.AccountFactory();
-    const debt = await Utils.factories.DebtFactory({account_id: userB.id});
+    const debt = await Utils.factories.DebtFactory({account_id: userB.public_id});
 
-    const access_token = await userA.email_providers[0].getToken({id: userA.id});
+    const access_token = await userA.email_providers[0].getToken({id: userA.public_id});
 
     const response = await requester.delete(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -73,7 +73,7 @@ describe('/debt/:id DELETE', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id});
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const response = await requester.delete(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 
@@ -93,7 +93,7 @@ describe('/debt/:id DELETE', function () {
     const user = await Utils.factories.AccountFactory();
     const debt = await Utils.factories.DebtFactory({account_id: user.id});
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const response = await requester.delete(`/debt/${debt.public_id}`).set('Authorization', `Bearer ${access_token}`);
 

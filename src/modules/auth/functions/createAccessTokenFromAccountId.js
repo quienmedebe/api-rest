@@ -10,7 +10,7 @@ async function createAccessTokenFromAccountId(accountId, config = {}, options = 
   }
 
   const JWTPayload = {
-    id: +account.id,
+    id: account.public_id,
   };
 
   const {secret, logger, ...JWTOptions} = config;

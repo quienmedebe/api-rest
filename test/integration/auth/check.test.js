@@ -28,7 +28,7 @@ describe('/auth/check', function () {
     const requester = getRequester();
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken({id: user.id});
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
 
     const response = await requester.get('/auth/check').set('Authorization', `Bearer ${access_token}`);
 
@@ -49,23 +49,25 @@ describe('/auth/check', function () {
     expect(response).to.matchApiSchema();
   });
 
-  it('should return a 401 error if the token has expired @integration @auth @check', async function () {
+  it('should return 200 if the token has not expired @integration @auth @check', async function () {
     const requester = getRequester();
     const user = await Utils.factories.AccountFactory();
 
-    const access_token = await user.email_providers[0].getToken(null, {expiresIn: 1000 * 60 * 5});
+    const access_token = await user.email_providers[0].getToken({}, {expiresIn: 1000 * 60 * 5});
 
     const response = await requester.get('/auth/check').set('Authorization', `Bearer ${access_token}`);
 
     expect(response, 'The status code is incorrect').to.have.status(200);
-    expect(response.body, 'The account id is incorrect').to.have.property('id', user.public_id);
+    expect(response.body, 'The account id is incorrect').to.have.property('id');
+    expect(response.body.id, 'The account id should be the public id').to.be.a('string');
+    expect(response.body.id, 'The account id should have an uuid structure').to.have.lengthOf(36);
 
     expect(response).to.matchApiSchema();
   });
 
   it('should return a 401 error if the token is valid but it is not associated to an account @integration @auth @check', async function () {
     const requester = await getRequester();
-    const token = Utils.Functions.getSignedToken(0)();
+    const token = Utils.Functions.getSignedToken(Utils.constants.PUBLIC_ID)();
 
     const response = await requester.get('/auth/check').set('Authorization', `Bearer ${token}`);
 
