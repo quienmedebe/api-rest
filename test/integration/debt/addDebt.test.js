@@ -121,4 +121,21 @@ describe('/debt POST', function () {
     expect(response.body.result, 'The amounts do not match').to.have.property('amount', debt.amount);
     expect(response).to.matchApiSchema();
   });
+
+  it('should not return the private account id', async function () {
+    const requester = getRequester();
+
+    const user = await Utils.factories.AccountFactory();
+
+    const access_token = await user.email_providers[0].getToken({id: user.public_id});
+
+    const body = {
+      amount: 15.65,
+      type: 'DEBT',
+    };
+
+    const response = await requester.post('/debt').set('Authorization', `Bearer ${access_token}`).send(body);
+
+    expect(response.body.result).not.to.have.property('account_id');
+  });
 });
