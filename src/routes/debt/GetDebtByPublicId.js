@@ -32,6 +32,8 @@ const GetDebtByPublicId = () =>
       return Errors.sendApiError(res, Debt.ERRORS.DEBT_NOT_FOUND);
     }
 
+    delete debt.account_id;
+
     return res.status(200).json({
       result: debt,
     });
