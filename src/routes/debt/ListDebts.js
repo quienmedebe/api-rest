@@ -15,11 +15,17 @@ const ListDebts = () =>
       pageSize,
     });
 
+    const parsedRows = debtList.rows.map(debt => {
+      delete debt.account_id;
+
+      return debt;
+    });
+
     return res.status(200).json({
       count: debtList.count,
       page,
       pageSize,
-      result: debtList.rows,
+      result: parsedRows,
     });
   };
 
