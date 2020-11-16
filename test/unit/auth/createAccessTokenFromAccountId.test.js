@@ -2,6 +2,7 @@ const {expect} = require('chai');
 const sinon = require('sinon');
 const createAccessTokenFromAccountId = require('../../../src/modules/auth/functions/createAccessTokenFromAccountId');
 const Database = require('../../../src/database');
+const Utils = require('../../utils');
 
 let databaseMock;
 
@@ -29,7 +30,8 @@ describe('Auth -> createAccessTokenFromAccountId', function () {
 
   it('should return the access token after creation', async function () {
     databaseMock.returns({
-      id: '1',
+      id: 1,
+      public_id: Utils.constants.PUBLIC_ID,
     });
 
     const config = {
