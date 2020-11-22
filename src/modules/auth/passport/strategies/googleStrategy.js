@@ -14,8 +14,8 @@ const googleStrategy = ({clientId, clientSecret, callbackUrl} = {}) => {
         const accountResponse = await Database.functions.auth.getAccountFromGoogleId(profile.id);
 
         if (!accountResponse) {
-          // Create account using google id and return the account
-          return done(null, false);
+          const account = await Database.functions.auth.createAccountFromGoogleId(profile.id);
+          return done(null, account.toJSON());
         }
 
         return done(null, accountResponse.toJSON());
