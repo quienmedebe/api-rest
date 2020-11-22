@@ -5,31 +5,23 @@ const Errors = require('../../modules/errors');
 const GoogleLogin = ({logger = noopLogger, config}) =>
   async function GoogleLogin(req, res) {
     return await Auth.passport.client.authenticate('google', {session: false}, async (err, account) => {
-      console.log(err, account);
-      // if (err || !account) {
-      //   logger.error(err);
-      //   return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
-      // }
+      if (err || !account) {
+        logger.error(err);
+        return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
+      }
 
-      // const credentialOptions = {
-      //   logger,
-      //   accessTokenSecret: config.ACCESS_TOKEN_SECRET,
-      //   accessTokenExpirationTime: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
-      //   refreshTokenExpirationTime: config.REFRESH_TOKEN_EXPIRATION_MS,
-      // };
+      const response = await Auth.functions.getAccessAndRefreshTokenFromAccountId(+account.id, {
+        logger,
+        accessTokenSecret: config.ACCESS_TOKEN_SECRET,
+        accessTokenExpirationTimeSeconds: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
+        refreshTokenExpirationTimeMs: config.REFRESH_TOKEN_EXPIRATION_MS,
+      });
 
-      // const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
-      // if (credentials.error) {
-      //   logger.info('Invalid credentials');
-      //   return Errors.sendApiError(res, credentials);
-      // }
+      if (response.error) {
+        return Errors.sendApiError(res, response);
+      }
 
-      // const response = {
-      //   access_token: credentials.accessToken,
-      //   refresh_token: credentials.refreshToken,
-      // };
-
-      return res.status(200).json(account);
+      return res.status(200).json(response);
     })(req, res);
   };
 

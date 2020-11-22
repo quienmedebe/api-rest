@@ -7,5 +7,6 @@ exports.getEmailProviderWithTokensFromEmail = require('./getEmailProviderWithTok
 exports.createEmailToken = require('./createEmailToken');
 exports.changePassword = require('./changePassword');
 exports.getAccountPrivateIdFromPublicId = require('./getAccountPrivateIdFromPublicId');
+exports.getAccessAndRefreshTokenFromAccountId = require('./getAccessAndRefreshTokenFromAccountId');
 
 module.exports = exports;

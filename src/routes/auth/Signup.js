@@ -35,23 +35,16 @@ const Signup = ({logger = noopLogger, config}) =>
       return Errors.sendApiError(res, account);
     }
 
-    const credentialOptions = {
+    const response = await Auth.functions.getAccessAndRefreshTokenFromAccountId(+account.id, {
       logger,
       accessTokenSecret: config.ACCESS_TOKEN_SECRET,
-      accessTokenExpirationTime: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
-      refreshTokenExpirationTime: config.REFRESH_TOKEN_EXPIRATION_MS,
-    };
-    const credentials = await Auth.functions.getCredentials(+account.id, credentialOptions);
+      accessTokenExpirationTimeSeconds: config.ACCESS_TOKEN_EXPIRATION_SECONDS,
+      refreshTokenExpirationTimeMs: config.REFRESH_TOKEN_EXPIRATION_MS,
+    });
 
-    if (credentials.error) {
-      logger.info(credentials.error);
-      return Errors.sendApiError(res, credentials);
+    if (response.error) {
+      return Errors.sendApiError(res, response);
     }
-
-    const response = {
-      access_token: credentials.accessToken,
-      refresh_token: credentials.refreshToken,
-    };
 
     return res.status(200).json(response);
   };
