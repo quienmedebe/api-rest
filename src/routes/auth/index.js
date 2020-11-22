@@ -7,8 +7,9 @@ const Check = require('./Check');
 const Refresh = require('./Refresh');
 const RecoverPassword = require('./RecoverPassword');
 const NewPassword = require('./NewPassword');
+const GoogleLogin = require('./GoogleLogin');
 
-function AuthRouter({logger, config}) {
+function AuthRouter({logger, config, passport}) {
   const Router = express.Router();
   const wrapAsync = Shared.wrapAsync;
 
@@ -18,6 +19,9 @@ function AuthRouter({logger, config}) {
   Router.post('/refresh', wrapAsync(Refresh({logger, config})));
   Router.post('/recover-password', wrapAsync(RecoverPassword({logger, config})));
   Router.post('/new-password', wrapAsync(NewPassword({logger, config})));
+
+  Router.get('/google', passport.authenticate('google', {scope: ['openid']}));
+  Router.get('/google/callback', wrapAsync(GoogleLogin({logger, config})));
 
   return Router;
 }
