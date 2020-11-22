@@ -94,6 +94,13 @@ Email.useStrategy(emailStrategy);
  * PASSPORT
  */
 Auth.passport.client.use(Auth.passport.Strategies.LocalStrategy());
+Auth.passport.client.use(
+  Auth.passport.Strategies.GoogleStrategy({
+    clientId: Config.Auth.GOOGLE_CLIENT_ID,
+    clientSecret: Config.Auth.GOOGLE_CLIENT_SECRET,
+    callbackUrl: Config.Auth.GOOGLE_CALLBACK_URL,
+  })
+);
 Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKEN_SECRET));
 
 /***
