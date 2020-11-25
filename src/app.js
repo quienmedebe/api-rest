@@ -101,6 +101,15 @@ Auth.passport.client.use(
     callbackUrl: Config.Auth.GOOGLE_CALLBACK_URL,
   })
 );
+Auth.passport.client.use(
+  Auth.passport.Strategies.AppleStrategy({
+    clientId: Config.Auth.APPLE_CLIENT_ID,
+    teamId: Config.Auth.APPLE_TEAM_ID,
+    keyId: Config.Auth.APPLE_KEY_ID,
+    privateKeyLocation: Config.Auth.APPLE_PRIVATE_KEY_LOCATION,
+    callbackUrl: Config.Auth.APPLE_CALLBACK_URL,
+  })
+);
 Auth.passport.client.use(Auth.passport.Strategies.JWTStrategy(Config.ACCESS_TOKEN_SECRET));
 
 /***
