@@ -13,19 +13,11 @@ const appleStrategy = ({clientId, teamId, callbackUrl, keyId, privateKeyLocation
     },
     async function (accessToken, refreshToken, decodedIdToken, profile, done) {
       try {
-        console.log('-'.repeat(10));
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(decodedIdToken);
-        console.log(profile);
-        console.log('-'.repeat(10));
-        // Here, check if the decodedIdToken.sub exists in your database!
-        // decodedIdToken should contains email too if user authorized it but will not contain the name
-        // `profile` parameter is REQUIRED for the sake of passport implementation
-        // it should be profile in the future but apple hasn't implemented passing data
-        // in access token yet https://developer.apple.com/documentation/sign_in_with_apple/tokenresponse
+        // https://developer.apple.com/documentation/sign_in_with_apple/tokenresponse
+        // https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple
+        const account = await Database.functions.auth.createOrGetWithUpdateAccountFromAppleId(decodedIdToken.sub, decodedIdToken.email);
 
-        return done(null, false);
+        return done(null, account.toJSON());
       } catch (err) {
         return done(err, false);
       }
