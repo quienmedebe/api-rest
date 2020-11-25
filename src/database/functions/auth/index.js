@@ -4,6 +4,7 @@ exports.getAccountFromId = require('./getAccountFromId');
 exports.getAccountFromPublicId = require('./getAccountFromPublicId');
 exports.createAccountFromEmailAndPassword = require('./createAccountFromEmailAndPassword');
 exports.createAccountFromGoogleId = require('./createAccountFromGoogleId');
+exports.createOrGetWithUpdateAccountFromAppleId = require('./createOrGetWithUpdateAccountFromAppleId');
 exports.emailExists = require('./emailExists');
 exports.getRefreshToken = require('./getRefreshToken');
 exports.getActiveRefreshTokenFromAccount = require('./getActiveRefreshTokenFromAccount');
