@@ -8,6 +8,7 @@ const Refresh = require('./Refresh');
 const RecoverPassword = require('./RecoverPassword');
 const NewPassword = require('./NewPassword');
 const GoogleLogin = require('./GoogleLogin');
+const AppleLogin = require('./AppleLogin');
 
 function AuthRouter({logger, config, passport}) {
   const Router = express.Router();
@@ -22,6 +23,9 @@ function AuthRouter({logger, config, passport}) {
 
   Router.get('/google', passport.authenticate('google', {scope: ['openid']}));
   Router.get('/google/callback', wrapAsync(GoogleLogin({logger, config})));
+
+  Router.get('/apple', passport.authenticate('apple'));
+  Router.get('/apple/callback', wrapAsync(AppleLogin({logger, config})));
 
   return Router;
 }

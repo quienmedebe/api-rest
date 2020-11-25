@@ -114,3 +114,6 @@ dump.rdb
 
 # Add generated files on commit
 .commit
+
+# Apple Sign In
+src/certificates/*.p8
