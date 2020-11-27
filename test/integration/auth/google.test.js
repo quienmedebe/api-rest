@@ -24,7 +24,7 @@ describe('Google Sign in', function () {
     tearDown();
   });
 
-  it('should create the the Google provider and the account', async function () {
+  it('should create the Google provider and the account', async function () {
     const providerId = randToken.uid(21);
     const next = sinon.stub();
 
