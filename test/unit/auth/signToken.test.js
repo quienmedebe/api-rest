@@ -27,4 +27,10 @@ describe('Auth -> signToken', function () {
 
     jwtStub.restore();
   });
+
+  it('should throw an error if no arguments are passed', function () {
+    const response = () => signToken();
+
+    expect(response).to.throw(Error);
+  });
 });
