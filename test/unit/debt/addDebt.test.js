@@ -6,6 +6,12 @@ const addDebt = require('../../../src/modules/debt/functions/addDebt');
 chai.use(chaiAsPromised);
 
 describe('Debt -> addDebt', function () {
+  it('should return a rejected promise if no parameters are passed', function () {
+    const invalidParameters = addDebt();
+
+    expect(invalidParameters).to.be.rejected;
+  });
+
   it('should throw an error if the parameters are not correct', function () {
     const invalidAccountId = addDebt({
       accountId: 'Not a valid id',

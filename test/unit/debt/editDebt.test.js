@@ -6,6 +6,12 @@ const editDebt = require('../../../src/modules/debt/functions/editDebt');
 chai.use(chaiAsPromised);
 
 describe('Debt -> editDebt', function () {
+  it('should return a rejected promise if no parameters are passed', function () {
+    const invalidParameters = editDebt();
+
+    expect(invalidParameters).to.be.rejected;
+  });
+
   it('should throw an error if the account id, the debt id or both the amount and type are not defined', function () {
     const invalidAccountId = editDebt({
       accountId: 'Not a valid id',
