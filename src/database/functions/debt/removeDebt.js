@@ -1,6 +1,6 @@
 const {Debt} = require('../../models');
 
-async function removeDebt({accountId, debtId} = {}, config = {}) {
+async function removeDebt({accountId, debtId}, config = {}) {
   const {...options} = config;
 
   const destroyedRows = await Debt.destroy({

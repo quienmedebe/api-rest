@@ -62,4 +62,14 @@ describe('Database -> Auth -> createRefreshToken', function () {
 
     expect(account).to.be.rejectedWith(Error);
   });
+
+  it('should returna new refresh token if only the account number is set', async function () {
+    const account = await Utils.factories.AccountFactory();
+
+    await Database.functions.auth.createRefreshToken(+account.id);
+    const token = await Utils.factories.RefreshTokenFactory.findByAccountId(account.id);
+
+    expect(token).not.to.be.undefined;
+    expect(token).to.have.property('expiration_datetime', null);
+  });
 });

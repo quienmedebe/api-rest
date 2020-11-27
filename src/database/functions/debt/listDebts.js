@@ -1,6 +1,6 @@
 const {Debt} = require('../../models');
 
-async function listDebts({accountId, page = 1, pageSize = 25} = {}, config = {}) {
+async function listDebts({accountId, page = 1, pageSize = 25}, config = {}) {
   const {...options} = config;
 
   const offset = (page - 1) * pageSize;
