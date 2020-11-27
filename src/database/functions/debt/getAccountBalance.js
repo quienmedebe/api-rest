@@ -1,7 +1,7 @@
 const math = require('exact-math');
 const {Debt} = require('../../models');
 
-async function getAccountBalance({accountId} = {}, config = {}) {
+async function getAccountBalance({accountId}, config = {}) {
   const {...options} = config;
 
   const balances = await Debt.findAll({

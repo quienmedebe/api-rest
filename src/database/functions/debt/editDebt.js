@@ -1,6 +1,6 @@
 const {Debt} = require('../../models');
 
-async function editDebt({accountId, debtId, amount, type, status} = {}, config = {}) {
+async function editDebt({accountId, debtId, amount, type, status}, config = {}) {
   const {...options} = config;
 
   const updateAmount = typeof amount !== 'undefined' ? {amount} : {};

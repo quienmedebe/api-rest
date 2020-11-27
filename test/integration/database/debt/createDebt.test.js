@@ -13,6 +13,12 @@ describe('Database -> Debt -> createDebt', function () {
     await Utils.scripts.truncateDB();
   });
 
+  it('should throw an error if no parameters are passed to the function', async function () {
+    const response = Database.functions.debt.createDebt();
+
+    expect(response).to.be.rejectedWith(Error);
+  });
+
   it('should create a debt', async function () {
     const account = await Utils.factories.AccountFactory();
     const debt = await Database.functions.debt.createDebt({

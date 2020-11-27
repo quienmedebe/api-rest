@@ -1,6 +1,6 @@
 const {EmailToken, Sequelize} = require('../../models');
 
-async function getValidEmailToken(tokenId, attributes = {}, options = {}) {
+async function getValidEmailToken(tokenId, attributes, options = {}) {
   const {emailProviderId} = attributes;
 
   const response = await EmailToken.findOne({

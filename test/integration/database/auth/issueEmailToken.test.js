@@ -57,4 +57,11 @@ describe('Database -> Auth -> issueEmailToken', function () {
 
     expect(savedToken.expiration_datetime).to.be.null;
   });
+
+  it('should return a rejected promise if only the first parameter is set', async function () {
+    const provider = await Utils.factories.EmailProviderFactory();
+    const response = Database.functions.auth.issueEmailToken(+provider.id);
+
+    expect(response).to.be.rejectedWith(Error);
+  });
 });

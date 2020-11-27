@@ -1,6 +1,6 @@
 const {Debt} = require('../../models');
 
-async function getDebtByPublicId({accountId, debtId} = {}, config = {}) {
+async function getDebtByPublicId({accountId, debtId}, config = {}) {
   const {...options} = config;
 
   const debt = await Debt.findOne({

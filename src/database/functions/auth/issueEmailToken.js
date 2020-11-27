@@ -1,7 +1,7 @@
 const randToken = require('rand-token');
 const {EmailToken} = require('../../models');
 
-async function issueEmailToken(providerId, attributes = {}, options = {}) {
+async function issueEmailToken(providerId, attributes, options = {}) {
   const {expiresInMs} = attributes;
 
   const emailToken = await EmailToken.create(

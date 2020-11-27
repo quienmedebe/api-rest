@@ -66,4 +66,41 @@ describe('Database -> Debt -> listDebts', function () {
     expect(response.rows).to.be.ofSize(0);
     expect(response.count).to.equal(1);
   });
+
+  it('should return a rejected promise if no parameters are passed', async function () {
+    const response = Database.functions.debt.listDebts();
+
+    expect(response).to.be.rejectedWith(Error);
+  });
+
+  it('should be able to add or override options using the config parameter', async function () {
+    const account = await Utils.factories.AccountFactory();
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 5, type: 'DEBT'});
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 1, type: 'CREDIT'});
+
+    const response = await Database.functions.debt.listDebts(
+      {
+        accountId: account.id,
+        page: 1,
+        pageSize: 2,
+      },
+      {
+        limit: 1,
+      }
+    );
+
+    expect(response.rows).to.be.ofSize(1);
+  });
+
+  it('should return default values for page and page size if they are not provided', async function () {
+    const account = await Utils.factories.AccountFactory();
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 5, type: 'DEBT'});
+    await Utils.factories.DebtFactory({account_id: account.id, amount: 1, type: 'CREDIT'});
+
+    const response = await Database.functions.debt.listDebts({
+      accountId: account.id,
+    });
+
+    expect(response.rows).to.be.ofSize(2);
+  });
 });

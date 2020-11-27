@@ -1,6 +1,6 @@
 const {Debt} = require('../../models');
 
-async function createDebt({accountId, amount, type, ...attributes} = {}, config = {}) {
+async function createDebt({accountId, amount, type, ...attributes}, config = {}) {
   const {...options} = config;
 
   const newDebt = await Debt.create(
