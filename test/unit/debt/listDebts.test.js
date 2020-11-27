@@ -6,6 +6,12 @@ const listDebts = require('../../../src/modules/debt/functions/listDebts');
 chai.use(chaiAsPromised);
 
 describe('Debt -> listDebts', function () {
+  it('should return a rejected promise if no parameters are passed', function () {
+    const invalidParameters = listDebts();
+
+    expect(invalidParameters).to.be.rejected;
+  });
+
   it('should throw an error if the account id, the debt id or both the amount and type are not defined', function () {
     const invalidAccountId = listDebts({
       accountId: 'Not a valid id',
