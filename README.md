@@ -48,14 +48,53 @@ Some tests require the documentation to be up-to-date with the API. The details 
 
 ## Development
 
+### Configuration
+You can set environment variables inside the `.env` but if you want to use them inside the app, please use the files inside the `src/config` folder.
+
 ### Code format
 The code is formatted automatically after each commit according to `.prettierrc.js` file
 
-### Lint
-The code linter is ESLint and its rules are in the `.eslintrc.js` file
+### Social providers
+By default, Google and Apple Sign In providers are activated, so you have to provide the right credentials for the application to work.
 
-### Configuration
-You can set environment variables inside the `.env` but if you want to use them inside the app, please use the files inside the `src/config` folder.
+#### Disable social providers
+To disable a social provider, you will have to modify the `src/app.js` file and the `src/routes/auth/index.js`.
+For example, if you want to disable the Google provider, you will have to comment or remove the next line in `src/app.js`:
+```js
+Auth.passport.client.use(
+  Auth.passport.Strategies.GoogleStrategy({
+    clientId: Config.Auth.GOOGLE_CLIENT_ID,
+    clientSecret: Config.Auth.GOOGLE_CLIENT_SECRET,
+    callbackUrl: Config.Auth.GOOGLE_CALLBACK_URL,
+  })
+);
+```
+and the following ones on `src/routes/auth/index.js`:
+```js
+Router.get('/google', passport.authenticate('google', {scope: ['openid']}));
+Router.get('/google/callback', wrapAsync(GoogleLogin({logger, config})));
+```
+The same principle applies to Apple Sign In and every other social provider that uses oAuth 2.0.
+We are thinking about making this process more developer friendly in the issue [#93](https://github.com/quienmedebe/api-rest/issues/93)
+
+#### Get credentials for Google Sign In
+You need to set three environment variables to make the application work: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL`.
+The easiest one of them is the `GOOGLE_CALLBACK_URL`. This is the url Google will redirect to after press the Sign In with Google link. With the default routes this value must be: `[YOUR SERVER URL]/auth/google/callback`. E.g: `http://localhost:5000/auth/google/callback`
+To get the another two values, you must follow the following steps:
+1. Go to the [Google Developer Console](https://console.developers.google.com/apis/dashboard)
+2. Create a new project pressing the selector on the top bar.
+3. Go to the Credentials tab in the left menu
+4. Press the create credentials button and select OAuth Client Id.
+5. Fill the form and select the newly OAuth Client Id. Your credentials are at the right: Client ID and Client secret
+
+#### Get credentials for Apple Sign In
+You can view this guide as a reference [https://github.com/ananay/apple-auth/blob/master/SETUP.md](https://github.com/ananay/apple-auth/blob/master/SETUP.md).
+The environment variables you have to provide are: `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY_NAME`, `APPLE_CALLBACK_URL`. To set the `APPLE_CALLBACK_URL` variable, see the explanation above for the Google one. On the link above, the value you would use to configure the variable is the same value you have to provide to a specific environment value:
+- `client_id` is `APPLE_CLIENT_ID`
+- `team_id` is `APPLE_TEAM_ID`
+- `redirect_uri` is `APPLE_CALLBACK_URL`
+- `key_id` is `APPLE_KEY_ID`
+The `APPLE_PRIVATE_KEY_NAME` is the name of the .p8 file you download from Apple and it should be located in `src/certificates`. E.g: `AuthKey_XXXXXXXXXX`. All .p8 files inside that folder are ignored by git.
 
 ### Emails
 There are different strategies supported to send emails. You can control which one to use with the `EMAIL_STRATEGY` environment variable. The next strategies are supported: `mailjet`, `default`. The default strategy throws an error when trying to send an email.
