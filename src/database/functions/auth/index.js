@@ -10,6 +10,7 @@ exports.getRefreshToken = require('./getRefreshToken');
 exports.getActiveRefreshTokenFromAccount = require('./getActiveRefreshTokenFromAccount');
 exports.createRefreshToken = require('./createRefreshToken');
 exports.getEmailProviderWithValidTokensFromEmail = require('./getEmailProviderWithValidTokensFromEmail');
+exports.getEmailProviderByPublicId = require('./getEmailProviderByPublicId');
 exports.issueEmailToken = require('./issueEmailToken');
 exports.getValidEmailToken = require('./getValidEmailToken');
 exports.changeEmailProviderPassword = require('./changeEmailProviderPassword');

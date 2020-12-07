@@ -4,6 +4,7 @@ exports.getAccessTokenFromRefreshToken = require('./getAccessTokenFromRefreshTok
 exports.getCredentials = require('./getCredentials');
 exports.createAccessTokenFromAccountId = require('./createAccessTokenFromAccountId');
 exports.getEmailProviderWithTokensFromEmail = require('./getEmailProviderWithTokensFromEmail');
+exports.getEmailProviderFromPublicId = require('./getEmailProviderFromPublicId');
 exports.createEmailToken = require('./createEmailToken');
 exports.changePassword = require('./changePassword');
 exports.getAccountPrivateIdFromPublicId = require('./getAccountPrivateIdFromPublicId');
