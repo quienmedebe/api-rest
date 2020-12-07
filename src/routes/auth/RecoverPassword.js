@@ -31,6 +31,7 @@ const RecoverPassword = ({logger = noopLogger, config}) =>
       return Errors.sendApiError(res, Auth.errors.EMAIL_NOT_FOUND);
     }
     const providerId = +emailProviderWithTokens.id;
+    const providerPublicId = emailProviderWithTokens.public_id;
 
     let activeToken = emailProviderWithTokens.tokens && emailProviderWithTokens.tokens[0] && emailProviderWithTokens.tokens[0].id;
     if (!activeToken) {
@@ -39,7 +40,7 @@ const RecoverPassword = ({logger = noopLogger, config}) =>
       activeToken = newToken.id;
     }
 
-    const recoverPasswordUrl = `${config.RECOVER_PASSWORD_URL}/${providerId}/${activeToken}`;
+    const recoverPasswordUrl = `${config.RECOVER_PASSWORD_URL}/${providerPublicId}/${activeToken}`;
     const emailContent = Email.templates.RecoverPassword(recoverPasswordUrl, {
       from: {
         email: config.Email.RECOVER_PASSWORD_FROM_EMAIL,
