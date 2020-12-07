@@ -11,7 +11,7 @@ const NewPassword = ({logger = noopLogger, config}) =>
         type: 'object',
         required: ['emailProviderId', 'token', 'newPassword'],
         properties: {
-          emailProviderId: Auth.validation.emailProviderIdSchema,
+          emailProviderId: Auth.validation.emailProviderPublicIdSchema,
           token: Auth.validation.emailTokenSchema,
           newPassword: Auth.validation.passwordSchema,
         },
@@ -26,7 +26,13 @@ const NewPassword = ({logger = noopLogger, config}) =>
 
     const {emailProviderId, token, newPassword} = req.body;
 
-    const changePasswordResponse = await Auth.functions.changePassword(emailProviderId, token, newPassword, {salt: config.SALT_NUMBER});
+    const emailProvider = await Auth.functions.getEmailProviderFromPublicId(emailProviderId);
+
+    if (!emailProvider) {
+      return Errors.sendApiError(res, Auth.errors.INVALID_EMAIL_TOKEN);
+    }
+
+    const changePasswordResponse = await Auth.functions.changePassword(+emailProvider.id, token, newPassword, {salt: config.SALT_NUMBER});
     if (changePasswordResponse.error) {
       logger.info(changePasswordResponse.error);
       return Errors.sendApiError(res, changePasswordResponse);
