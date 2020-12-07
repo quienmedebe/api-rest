@@ -25,7 +25,7 @@ function sendEmail(client, {logger = noopLogger, makeApiCall = true} = {}) {
 
       const response = await client.post('send', {version: 'v3.1', perform_api_call: makeApiCall}).request(requestBody);
 
-      return response.Sent.map(({email}) => ({email}));
+      return response.body;
     } catch (error) {
       logger.error('Error sending the email', error);
       if (error.statusCode >= 500 && error.statusCode < 600) {
