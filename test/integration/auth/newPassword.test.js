@@ -63,7 +63,7 @@ describe('/auth/new-password', function () {
     const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id, password: oldPassword});
     const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id});
     const body = {
-      emailProviderId: +emailProvider.id,
+      emailProviderId: emailProvider.public_id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -96,7 +96,7 @@ describe('/auth/new-password', function () {
     const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id});
     const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id}, false);
     const body = {
-      emailProviderId: +emailProvider.id,
+      emailProviderId: emailProvider.public_id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -121,7 +121,7 @@ describe('/auth/new-password', function () {
     const emailProviderB = await Utils.factories.EmailProviderFactory({account_id: accountB.id});
     const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProviderA.id}, false);
     const body = {
-      emailProviderId: +emailProviderB.id,
+      emailProviderId: emailProviderB.public_id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -132,7 +132,7 @@ describe('/auth/new-password', function () {
     expect(response).to.have.property('error');
   });
 
-  it('should return an error if the token is expired', async function () {
+  it('should return an error if the token has expired', async function () {
     const requester = getRequester();
     const newPassword = '0987654321';
 
@@ -140,7 +140,7 @@ describe('/auth/new-password', function () {
     const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id});
     const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id, expiration_datetime: 900}, false);
     const body = {
-      emailProviderId: +emailProvider.id,
+      emailProviderId: emailProvider.public_id,
       token: emailToken.id,
       newPassword: newPassword,
     };
@@ -149,5 +149,26 @@ describe('/auth/new-password', function () {
 
     expect(response).to.have.status(400);
     expect(response).to.have.property('error');
+  });
+
+  it('should return an error if the email provider id is the private one', async function () {
+    const requester = getRequester();
+    const newPassword = '0987654321';
+
+    const account = await Utils.factories.AccountFactory();
+    const emailProvider = await Utils.factories.EmailProviderFactory({account_id: account.id});
+    const emailToken = await Utils.factories.EmailTokenFactory({email_provider_id: emailProvider.id, expiration_datetime: 900}, false);
+
+    const body = {
+      emailProviderId: +emailProvider.id,
+      token: emailToken.id,
+      newPassword: newPassword,
+    };
+
+    const response = await requester.post('/auth/new-password').send(body);
+
+    expect(response, 'Invalid status code').to.have.status(400);
+    expect(response.body).to.have.property('error');
+    expect(response, 'Wrong API documentation').to.matchApiSchema();
   });
 });
