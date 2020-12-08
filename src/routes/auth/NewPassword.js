@@ -20,7 +20,7 @@ const NewPassword = ({logger = noopLogger, config}) =>
     );
 
     if (!areValidArguments) {
-      logger.info('Invalid arguments', {args: req.body});
+      logger.info('Invalid arguments', {args: {emailProviderId: req.body.emailProviderId, token: req.body.token}});
       return Errors.sendApiError(res, Errors.API.BAD_REQUEST);
     }
 
