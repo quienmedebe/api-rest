@@ -1,0 +1,28 @@
+doctype html
+html(lang="es" translate="no")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width")
+    meta(name="application-name" content="Quién Me Debe")
+    meta(name="description" content="Quién Me Debe")
+    meta(name="google" content="notranslate")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    link(rel="icon" href="/favicon.ico")
+    link(rel="stylesheet" type="text/css" href="/styles/styles.css")
+    title Quién Me Debe
+  body
+    main
+      section
+        h1 Sesión iniciada con éxito
+        p Ya puedes cerrar esta página si no se cierra automáticamente
+    script(type="text/javascript" nonce=`${nonce}`).
+      window.addEventListener('load', function(){
+        window.opener.postMessage({
+          access_token: `#{access_token}`, 
+          refresh_token: `#{refresh_token}`
+        }, `#{source}`);
+
+        setTimeout(() => {
+          window.close();
+        }, 2000);
+      });

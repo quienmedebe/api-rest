@@ -13,6 +13,7 @@ const configuration = {
   PORT: process.env.PORT || '5000',
   NODE_ENV: process.env.NODE_ENV || 'development',
   COOKIES_SESSION_SECRET: process.env.COOKIES_SESSION_SECRET || 'cookie_secret',
+  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:3000',
 
   /***
    * Auth configuration

@@ -6,6 +6,7 @@ const cors = require('cors');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const SentryTransport = require('winston-sentry-log');
+const crypto = require('crypto');
 const {Loggly: LogglyTransport} = require('winston-loggly-bulk');
 
 const apiUI = require('swagger-ui-express');
@@ -23,8 +24,24 @@ const Routes = require('./routes');
 
 const app = express();
 
-app.use(helmet());
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
+  next();
+});
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'script-src': ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+      },
+    },
+  })
+);
 app.use(compression());
+app.use(express.static(`${__dirname}/public`));
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
 app.use(Middlewares.HttpContext.httpContext.middleware);
 app.use(Middlewares.HttpContext.requestIdMiddleware);
 app.use(express.json());
