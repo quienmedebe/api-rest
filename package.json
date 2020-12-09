@@ -72,6 +72,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "pug": "^3.0.0",
     "rand-token": "^1.0.1",
     "rate-limiter-flexible": "^2.1.13",
     "redis": "^3.0.2",

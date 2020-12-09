@@ -21,7 +21,12 @@ const GoogleLogin = ({logger = noopLogger, config}) =>
         return Errors.sendApiError(res, response);
       }
 
-      return res.status(200).json(response);
+      return res.render('social-auth', {
+        access_token: response.access_token,
+        refresh_token: response.refresh_token,
+        nonce: res.locals.cspNonce,
+        source: config.CLIENT_URL,
+      });
     })(req, res);
   };
 
