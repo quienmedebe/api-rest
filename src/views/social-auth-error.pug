@@ -1,0 +1,27 @@
+doctype html
+html(lang="es" translate="no")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width")
+    meta(name="application-name" content="Quién Me Debe")
+    meta(name="description" content="Quién Me Debe")
+    meta(name="google" content="notranslate")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    link(rel="icon" href="/favicon.ico")
+    link(rel="stylesheet" type="text/css" href="/styles/styles.css")
+    title Quién Me Debe
+  body
+    main.container
+      section.card
+        h1.title Ha habido un error iniciando sesión
+        p.message Prueba otro método para iniciar sesión
+        button.button(id="btnClosePage")
+          span Cerrar página
+    script(type="text/javascript" nonce=`${nonce}`).
+      window.addEventListener('load', function(){
+        function closePage(){
+          window.close();
+        }
+
+        btnClosePage.addEventListener('click', closePage);
+      });
