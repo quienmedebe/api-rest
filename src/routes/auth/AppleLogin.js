@@ -1,6 +1,5 @@
 const noopLogger = require('noop-logger');
 const Auth = require('../../modules/auth');
-const Errors = require('../../modules/errors');
 
 const AppleLogin = ({logger = noopLogger, config}) =>
   async function AppleLogin(req, res) {
@@ -8,13 +7,19 @@ const AppleLogin = ({logger = noopLogger, config}) =>
       if (err || !account) {
         logger.error(err);
         if (err === Auth.errors.APPLE_SIGN_IN.AuthorizationError.error) {
-          return Errors.sendApiError(res, Auth.errors.APPLE_SIGN_IN.AuthorizationError);
+          return res.render('social-auth-error', {
+            nonce: res.locals.cspNonce,
+          });
         }
         if (err === Auth.errors.APPLE_SIGN_IN.TokenError.error) {
-          return Errors.sendApiError(res, Auth.errors.APPLE_SIGN_IN.TokenError);
+          return res.render('social-auth-error', {
+            nonce: res.locals.cspNonce,
+          });
         }
 
-        return Errors.sendApiError(res, Errors.API.UNAUTHORIZED);
+        return res.render('social-auth-error', {
+          nonce: res.locals.cspNonce,
+        });
       }
 
       const response = await Auth.functions.getAccessAndRefreshTokenFromAccountId(+account.id, {
@@ -25,7 +30,9 @@ const AppleLogin = ({logger = noopLogger, config}) =>
       });
 
       if (response.error) {
-        return Errors.sendApiError(res, response);
+        return res.render('social-auth-error', {
+          nonce: res.locals.cspNonce,
+        });
       }
 
       return res.render('social-auth', {
