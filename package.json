@@ -74,7 +74,7 @@
     "pg-hstore": "^2.3.3",
     "pug": "^3.0.0",
     "rand-token": "^1.0.1",
-    "rate-limiter-flexible": "^2.1.13",
+    "rate-limiter-flexible": "^2.2.1",
     "redis": "^3.0.2",
     "sequelize": "^6.3.5",
     "stoppable": "^1.1.0",
