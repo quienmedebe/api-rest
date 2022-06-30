@@ -65,7 +65,7 @@
     "lodash.isplainobject": "^4.0.6",
     "node-mailjet": "^3.3.1",
     "noop-logger": "^0.1.1",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-apple": "^1.1.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
