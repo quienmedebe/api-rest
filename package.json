@@ -76,7 +76,7 @@
     "rand-token": "^1.0.1",
     "rate-limiter-flexible": "^2.1.13",
     "redis": "^3.0.2",
-    "sequelize": "^6.3.5",
+    "sequelize": "^6.6.5",
     "stoppable": "^1.1.0",
     "swagger-ui-express": "^4.1.5",
     "uuid": "^8.3.2",
